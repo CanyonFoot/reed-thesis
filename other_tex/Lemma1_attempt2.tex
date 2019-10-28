@@ -33,7 +33,7 @@
 \begin{document}
 \maketitle
 
-For binary random variables $X,Y,S$, we wish to show that for the two causal graphs, $G_1$, $G_2 = G_1 \backslash \{Y \rightarrow S\}$ we can construct corresponding probability functions $P_1$, $P_2$ such that $P_1(Y = y | X = x | S = 1) = P_2(Y = y | X = x | S = 1)$ for all $x, y \in \{0, 1\}$ but $P(Y = y | X = x) \neq P(Y = y | X = x)$ for some $x,y \in \{0,1\}$. This is exactly the condition that s-recoverability requires, so this example proves that $G_1$ is not s-recoverable.
+For binary random variables $X,Y,S$, we wish to show that for the two causal graphs, $G_1$, $G_2 = G_1 \backslash \{Y \rightarrow S\}$ we can construct corresponding probability functions $P_1$, $P_2$ such that $P_1(Y = y , X = x | S = 1) = P_2(Y = y , X = x | S = 1)$ for all $x, y \in \{0, 1\}$ but $P(Y = y | X = x) \neq P(Y = y | X = x)$ for some $x,y \in \{0,1\}$. This is exactly the condition that s-recoverability requires, so this example proves that $G_1$ is not s-recoverable.
 
 \begin{tikzpicture}
 \node[] (X) at (2,1) {$G_1$};
