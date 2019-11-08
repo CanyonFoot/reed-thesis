@@ -45,9 +45,9 @@ The idea of cause and effect has been studied and discussed in philosophy for ce
 \subsection{Directed Acylcic Graphs}
 \theoremstyle{definition}
 \begin{definition}
-A $\mathbf{graph}$ $G$ is an ordered pair $G = (V, E)$ where $V$ denotes a set of nodes (sometimes called vertices) and $E \subseteq \{(i,j) | i,j \in V\}$ denotes a set of edges between nodes.
+A $\mathbf{graph}$ $G$ is a pair $G = (V, E)$ where $V$ denotes a set of nodes (sometimes called vertices) and $E \subseteq \{(i,j) | i,j \in V\}$ denotes a set of edges between nodes.
 \end{definition}
-Conventions differ, but for our purposes, an edge $(i,j) \in E$ is considered to be a \emph{directed edge},  read as 'an edge from node $i$ to node $j$'.  For easy reading, we write $i \rightarrow j$ whenever $(i,j) \in E$. If  $(i,j) \in E$ and $(j,i) \in E$ we say an \emph{undirected edge} exists between nodes $i$ and $j$.  In the figures that frequently accompany graphs, an edge is depicted as a line between nodes, with directed edges displayed as lines with arrows.  If a graph  contains only directed edges, (i.e. $(i,j) \in E \implies (j,i) \notin E$) we call the graph a $\mathbf{directed \ graph}$.  Figure 1 gives an example of a directed and undirected graph. 
+Conventions differ, but for our purposes, an edge $(i,j) \in E$ is considered to be a \emph{directed edge},  read as "an edge from node $i$ to node $j$".  For easy reading, we write $i \rightarrow j$ whenever $(i,j) \in E$. If  $(i,j) \in E$ and $(j,i) \in E$ we say an \emph{undirected edge} exists between nodes $i$ and $j$.  In the figures that frequently accompany graphs, an edge is depicted as a line between nodes, with directed edges displayed as lines with arrows.  If a graph  contains only directed edges, (i.e. $(i,j) \in E \implies (j,i) \notin E$) we call the graph a $\mathbf{directed \ graph}$.  Figure 1 gives an example of a directed and undirected graph. 
 
 \begin{figure}
 \centering
@@ -79,8 +79,11 @@ Conventions differ, but for our purposes, an edge $(i,j) \in E$ is considered to
  Often times we are interested in how different nodes in a particular graph are or are not connected to one another. In this spirit we define paths.
  
 \begin{definition}
-A $\mathbf{path}$ between nodes $v_1, v_n$ is a sequences of $v_1, v_2, ..., v_n$ with $v_i \in V$ for all $i \in \{1,2,...,n \}$ such that an edge always exists between $v_i$ and $v_{i+1}$. If $v_i \rightarrow v_{i+1} \in E$ for all $i \in \{1,2,...,n \}$, we say $v_i$ is a $\mathbf{directed \ path}$.
+A $\mathbf{path}$ $p$ between nodes $v_1, v_n$ is a sequence $v_1, v_2, ..., v_n$  of distinct nodes such that a distinct edge always exists between $v_i$ and $v_{i+1}$. When $v_i \rightarrow v_{i+1} \in E$ for all $i \in \{1,2,...,n \}$, we say $p$ is a $\mathbf{directed \ path}$.
 \end{definition}
+
+
+
 
 For a directed graph $G$ and a particular node $v \in V$, we define several sets of related nodes. The \textbf{parents} of $v$, $PA_v$ are the nodes with a directed edge ending at $v$, $\{i \in V | i \rightarrow v \}$ and similarly the \textbf{children} of $v$ are those nodes which $v$ has a directed edge to, $\{i \in V | v \rightarrow i \}$. Notice that in a directed graph, a node cannot be both a child and a parent of any other node. Extending these definitions, we define the \textbf{ancestors} of $v$, $AN_v$, as all the nodes from which a directed path to $v$ exists,  $\{i \in V | i \rightarrow ... \rightarrow v \}$. Likewise we define \textbf{descendants} $DE_v$ of $v$ as the nodes for which a directed path from $v$ exists,   $\{i \in V | v \rightarrow ... \rightarrow i \}$ [ref Peters chp 6.1]. With these in place, we progress to the next definition.
 
@@ -121,25 +124,27 @@ A directed graph $G = (V,E)$ is said to be an \textbf{directed acyclic graph} (D
 Now that we have defined DAGs, we can advance to one of our fundamental tools for analyzing them, Pearl's d-separation.
 
 \subsection{D-Separation}
-The graphical structure that every SCM entails allows us to reason about the causal and statistical relationships using the properties of directed graphs. One of the essential such tools is d-separation. To develop the intuition, consider the very basic DAG $A \rightarrow B \rightarrow C$. There is exactly one directed path from $A$ to $C$, and the path passes through $B$. So to get to $C$ from $A$ you need to pass through $B$. In this way, we say that $B$ \emph{blocks} the directed path from $A$ to $C$. We extend this notion [ref Pearl 2008].
+The graphical structure that every SCM entails allows us to reason about the causal and statistical relationships using the properties of directed graphs. One of the essential such tools is d-separation. To develop the intuition, consider the very basic DAG $A \rightarrow B \rightarrow C$. There is exactly one directed path from $A$ to $C$, and the path passes through $B$. So to get to $C$ from $A$ you need to pass through $B$. In this way, we say that $B$ \textbf{\emph{blocks}} the directed path from $A$ to $C$. We extend this notion [ref Pearl 2008], [ref Peters 2017].
 
 \begin{definition}
-Given a directed graph $G$, a path $p$ is said to be blocked by a set $S$ (rephrase to note that S cannot contain starting or ending nodes of the path) if:
+Given a directed graph $G$, a path from node $v_1$ to node $v_n$ is said to be \textbf{\emph{blocked}} by a set $S$ (with $S \cap \{v_1, v_n\} = \emptyset$) if:
 \begin{enumerate}
-\item $j \in S$ and $p$ contains a subpath $i \rightarrow j \rightarrow k$, $i \leftarrow j \leftarrow k$ (called a chain), or $i \leftarrow j \rightarrow k$ (called a fork) or
+\item $v_j \in S$ and $p$ contains a $\mathbf{chain}$: $v_{j-1} \rightarrow v_j \rightarrow v_{j+1}$ or $v_{j-1} \leftarrow v_j \leftarrow v_{j+1}$, or
 
-\item $j \notin S$ and $DE_j \cap S = \emptyset$ and $p$ contains a subpath $i \rightarrow j \leftarrow k$. The structure $i \rightarrow j \leftarrow k$ is called a \textbf{collider} and is particularly important.
+\item $v_j \in S$ and $p$ contains a \textbf{\emph{fork}}: $v_{j-1} \leftarrow v_j \rightarrow v_{j+1}$, or
+
+\item $v_j \notin S$ and $DE_{v_j} \cap S = \emptyset$ and $p$ contains a \textbf{\emph{collider}}: $v_{j-1} \rightarrow v_j \leftarrow v_{j+1}$. As we will see, colliders play an especially important role in the analysis of causal DAGs.
 \end{enumerate}
 \end{definition}
 
 \begin{example}
-Consider a path $A \rightarrow B \rightarrow C \leftarrow D \rightarrow E$ between nodes $A$ and $E$. There are many sets that block this path. For one, there is a collider on the path. This means that and set which does not include $C$ or any elements of $DE_C$ would successfully block the path. However, we could also pick $S = \{B\}$, $S= \{D\}$, or $S = \{B,D\}$ as blocking sets since the path contains a 'chain' at $B$ and a  'fork' at $D$. Importantly, if we have either of these nodes in our blocking set, we could include $C$ as well because the first blocking condition would be satisfied, even though the second would not. In fact, the only $S \subseteq \{B,C,D\}$ that would not block the path is $S = \{C\}$.
+Consider a path $A \rightarrow B \rightarrow C \leftarrow D \rightarrow E$ between nodes $A$ and $E$. There are many sets that block this path. For one, there is a collider on the path. This means that any set which does not include $C$ or any elements of $DE_C$ would successfully block the path. However, we could also pick $S = \{B\}$, $S= \{D\}$, or $S = \{B,D\}$ as blocking sets since the path contains a chain at $B$ and a  fork at $D$. Importantly, if we have either of these nodes in our blocking set, we could include $C$ as well because the first blocking condition would be satisfied, even though the second would not. In fact, the only $S \subseteq \{B,C,D\}$ that would not block the path is $S = \{C\}$.
 \end{example}
 
 With blocking defined, we address d-separation. 
 
 \begin{definition}
-For a DAG $G$, two sets of nodes $A,B \in G$ are said to be \textbf{d-separated} by a set $S$ if all paths between $A$ and $B$ are blocked by $S$. We denote d-separation by the symbol $\perp \!\!\!\perp_G$, with the statement "$A$ is d-separated from $B$ by $S$" expressed as $A \dsep_G B | S$. 
+For a DAG $G$, two sets of nodes $A,B \in G$ are said to be  \textbf{\emph{d-separated}} by a set $S$ if all paths between $A$ and $B$ are blocked by $S$. We denote d-separation by the symbol $\perp \!\!\!\perp_G$, with the statement "$A$ is d-separated from $B$ by $S$" expressed as $A \dsep_G B | S$. 
 \end{definition}
 
 \begin{remark}
@@ -186,7 +191,7 @@ Two nodes in a DAG $G$ can be d-separated if and only if there is not an edge be
 \subsection{Structural Causal Models}
 A huge array of questions in the natural and social sciences revolve around understanding the way that one set of factors (e.g. genes, medicines, social policies) influence others (e.g. disease risk, mortality, childhood poverty rates). In these cases, the language and  of classical statistics is often inadequate. The tools of hypothesis testing, (linear) regression, interval estimation, ect. can tell us much about relationships in the data, but except in the highly constrained setting of randomized controlled trials, very little about cause and effect. These limitations are not just theoretical. Many longstanding controversies and debates within the sciences come down to disagreements over which factors associated with a particular outcome are causing the outcome. 
 
-A paradigmatic example of such a controversy is over the relationship between cigarette smoking and lung cancer. Today, it is uncontroversial that smoking cigarettes, especially habitually over a long period of time, increases a person's risk of contracting lung cancer. This is a causal relationship, and we might express our belief in this relationship as a \emph{causal model} in which a person's risk of contracting lung cancer is a \emph{function} of a person's smoking habits (for simplicity, we  pretend that smoking is the only such causal factor).
+A paradigmatic example of such a controversy is over the relationship between cigarette smoking and lung cancer. Today, it is uncontroversial that smoking cigarettes (especially habitually over a long period of time) increases a person's risk of contracting lung cancer. This is a causal relationship, and we might express our belief in this relationship as a \textbf{\emph{causal model}} in which a person's risk of contracting lung cancer is a \emph{function} of a person's smoking habits (for simplicity, we  pretend that smoking is the only such causal factor).
 
 So, let $L$ be a random variable denoting whether or not a person contracts lung cancer and $S$ be a random variable denoting smoking. Under our causal model in which smoking is the only structural cause of lung cancer, we express $L$ as a function of $S$:
 
@@ -239,7 +244,7 @@ $$\begin{tikzpicture}[
 In this way, every SCM entails a directed graph. Although it is entirely possible for an SCM to entail a graph that has cycles, we focus our attention on the case where the graph entailed is a DAG. Importantly, these two (graphical) models imply different observational joint distributions. Without having specified the functions, little can be said about the joint distribution entailed by the model, however, one important property is built in to every SCM.
 
 \begin{definition}[Markov property]
-In any SCM $C$ with entailed graph $G$, if $A \dsep_G B | S \implies A \dsep B | S$ for all disjoint sets of nodes $A,B,S$. That is, every d-separation in the graph corresponds to a conditional independence in the joint distribution. 
+In any SCM $C$ with entailed graph $G$, if $A \dsep_G B | S \implies A \dsep B | S$ for all disjoint sets of nodes $A,B,S$. That is, every d-separation in the graph corresponds to a conditional independence in the joint distribution. This fact is implied by the definition of SCMs and is called the \emph{\textbf{Markov Property}}.
 \end{definition}
 
 [This seems important enough to reproduce a proof but I will have to spend a little more time than I have tonight]
