@@ -88,7 +88,7 @@ A $\mathbf{path}$ $p$ between nodes $v_1, v_n$ is a sequence $v_1, v_2, ..., v_n
 For a directed graph $G$ and a particular node $v \in V$, we define several sets of related nodes. The \textbf{parents} of $v$, $PA_v$ are the nodes with a directed edge ending at $v$, $\{i \in V | i \rightarrow v \}$ and similarly the \textbf{children} of $v$ are those nodes which $v$ has a directed edge to, $\{i \in V | v \rightarrow i \}$. Notice that in a directed graph, a node cannot be both a child and a parent of any other node. Extending these definitions, we define the \textbf{ancestors} of $v$, $AN_v$, as all the nodes from which a directed path to $v$ exists,  $\{i \in V | i \rightarrow ... \rightarrow v \}$. Likewise we define \textbf{descendants} $DE_v$ of $v$ as the nodes for which a directed path from $v$ exists,   $\{i \in V | v \rightarrow ... \rightarrow i \}$ [ref Peters chp 6.1]. With these in place, we progress to the next definition.
 
 \begin{definition}
-A directed graph $G = (V,E)$ is said to be an \textbf{directed acyclic graph} (DAG) if for all nodes $v \in V$, $DE_v \cap AN_v = \emptyset$. That is, a directed graph is a DAG when the existence of directed path from $v_1$ to $v_2$ implies that there is not a directed path from $v_2$ to $v_1$.
+A directed graph $G = (V,E)$ is said to be an \emph{\textbf{directed acyclic graph}} (DAG) if for all nodes $v \in V$, $DE_v \cap AN_v = \emptyset$. That is, a directed graph is a DAG when the existence of directed path from $v_1$ to $v_2$ implies that there is not a directed path from $v_2$ to $v_1$.
 \end{definition}
 
 \begin{figure}
@@ -124,7 +124,7 @@ A directed graph $G = (V,E)$ is said to be an \textbf{directed acyclic graph} (D
 Now that we have defined DAGs, we can advance to one of our fundamental tools for analyzing them, Pearl's d-separation.
 
 \subsection{D-Separation}
-The graphical structure that every SCM entails allows us to reason about the causal and statistical relationships using the properties of directed graphs. One of the essential such tools is d-separation. To develop the intuition, consider the very basic DAG $A \rightarrow B \rightarrow C$. There is exactly one directed path from $A$ to $C$, and the path passes through $B$. So to get to $C$ from $A$ you need to pass through $B$. In this way, we say that $B$ \textbf{\emph{blocks}} the directed path from $A$ to $C$. We extend this notion [ref Pearl 2008], [ref Peters 2017].
+The graphical structure that every SCM entails allows us to reason about the causal and statistical relationships using the properties of directed graphs. One of the essential such tools is d-separation. To develop the intuition, consider the very basic DAG $A \rightarrow B \rightarrow C$. There is exactly one directed path from $A$ to $C$, and the path passes through $B$. So to get to $C$ from $A$ you need to pass through $B$. In this way, we say that $B$ blocks the directed path from $A$ to $C$. We extend this notion [ref Pearl 2008], [ref Peters 2017].
 
 \begin{definition}
 Given a directed graph $G$, a path from node $v_1$ to node $v_n$ is said to be \textbf{\emph{blocked}} by a set $S$ (with $S \cap \{v_1, v_n\} = \emptyset$) if:
