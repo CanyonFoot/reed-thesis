@@ -79,7 +79,7 @@ Conventions differ, but for our purposes, an edge $(i,j) \in E$ is considered to
  Often times we are interested in how different nodes in a particular graph are or are not connected to one another. In this spirit we define paths.
  
 \begin{definition}
-A $\mathbf{path}$ $p$ between nodes $v_1, v_n$ is a sequence $v_1, v_2, ..., v_n$  of distinct nodes such that a distinct edge always exists between $v_i$ and $v_{i+1}$. When $v_i \rightarrow v_{i+1} \in E$ for all $i \in \{1,2,...,n \}$, we say $p$ is a $\mathbf{directed \ path}$.
+A $\mathbf{path}$ $p$ between nodes $v_1, v_n$ is a sequence $v_1, v_2, ..., v_n$  of distinct nodes such that a distinct edge always exists between $v_i$ and $v_{i+1}$. When $v_i \rightarrow v_{i+1}$ ($(i, i-1) \in E$) for all $i \in \{1,2,...,n \}$, we say $p$ is a $\mathbf{directed \ path}$.
 \end{definition}
 
 
@@ -127,7 +127,7 @@ Now that we have defined DAGs, we can advance to one of our fundamental tools fo
 The graphical structure that every SCM entails allows us to reason about the causal and statistical relationships using the properties of directed graphs. One of the essential such tools is d-separation. To develop the intuition, consider the very basic DAG $A \rightarrow B \rightarrow C$. There is exactly one directed path from $A$ to $C$, and the path passes through $B$. So to get to $C$ from $A$ you need to pass through $B$. In this way, we say that $B$ blocks the directed path from $A$ to $C$. We extend this notion [ref Pearl 2008], [ref Peters 2017].
 
 \begin{definition}
-Given a directed graph $G$, a path from node $v_1$ to node $v_n$ is said to be \textbf{\emph{blocked}} by a set $S$ (with $S \cap \{v_1, v_n\} = \emptyset$) if:
+Given a directed graph $G$, a path $p$ from node $v_1$ to node $v_n$ is said to be \textbf{\emph{blocked}} by a set $S$ (with $S \cap \{v_1, v_n\} = \emptyset$) if:
 \begin{enumerate}
 \item $v_j \in S$ and $p$ contains a $\mathbf{chain}$: $v_{j-1} \rightarrow v_j \rightarrow v_{j+1}$ or $v_{j-1} \leftarrow v_j \leftarrow v_{j+1}$, or
 
