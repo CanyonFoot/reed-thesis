@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=latex 2016.5.22)  7 NOV 2019 19:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=latex 2016.5.22)  13 NOV 2019 20:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**Background_dag.tex
-(./Background_dag.tex
+**Bareinboim_summary.tex
+(./Bareinboim_summary.tex
 LaTeX2e <2016/03/31>
 Babel <3.9r> and hyphenation patterns for 83 language(s) loaded.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/article.cls
@@ -916,54 +916,82 @@ Package: geometry 2010/09/12 v5.6 Page Geometry
 \Gm@layoutvoffset=\dimen176
 \Gm@dimlist=\toks46
 )
-\c@theorem=\count143
-\c@example=\count144
-\c@remark=\count145
-\c@definition=\count146
+(/usr/local/texlive/2016/texmf-dist/tex/latex/csquotes/csquotes.sty
+Package: csquotes 2016/01/31 v5.1g context-sensitive quotations (JAW)
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2015/08/02 v2.2a e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count143
+)
+\csq@reset=\count144
+\csq@gtype=\count145
+\csq@glevel=\count146
+\csq@qlevel=\count147
+\csq@maxlvl=\count148
+\csq@tshold=\count149
+\csq@ltx@everypar=\toks47
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/csquotes/csquotes.def
+File: csquotes.def 2016/01/31 v5.1g csquotes generic definitions (JAW)
+)
+Package csquotes Info: Trying to load configuration file 'csquotes.cfg'...
+Package csquotes Info: ... configuration file loaded successfully.
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/csquotes/csquotes.cfg
+File: csquotes.cfg 
+)
+Package csquotes Info: Enabling multilingual quotes.
+Package csquotes Info: Redefining alias 'english' -> 'english/american'.
+)
+Package csquotes Info: Allocating character ".
+\c@theorem=\count150
+\c@example=\count151
+\c@remark=\count152
+\c@definition=\count153
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 )
-(./Background_dag.aux
+Package csquotes Info: Checking for multilingual support...
+Package csquotes Info: ... found 'babel' package.
 
-LaTeX Warning: Label `fig:M1' multiply defined.
+(./Bareinboim_summary.aux)
+\openout1 = `Bareinboim_summary.aux'.
 
-)
-\openout1 = `Background_dag.aux'.
-
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
 \AtBeginShipoutBox=\box44
-Package hyperref Info: Link coloring OFF on input line 39.
- (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
+Package hyperref Info: Link coloring OFF on input line 43.
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
 (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count147
+\c@section@level=\count154
 )
-LaTeX Info: Redefining \ref on input line 39.
-LaTeX Info: Redefining \pageref on input line 39.
-LaTeX Info: Redefining \nameref on input line 39.
+LaTeX Info: Redefining \ref on input line 43.
+LaTeX Info: Redefining \pageref on input line 43.
+LaTeX Info: Redefining \nameref on input line 43.
 
-(./Background_dag.out) (./Background_dag.out)
+(./Bareinboim_summary.out) (./Bareinboim_summary.out)
 \@outlinefile=\write4
-\openout4 = `Background_dag.out'.
+\openout4 = `Bareinboim_summary.out'.
 
-\c@lstlisting=\count148
+\c@lstlisting=\count155
 
 ABD: EveryShipout initializing macros
 *geometry* driver: auto-detecting
@@ -1000,38 +1028,43 @@ ABD: EveryShipout initializing macros
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 41.
+Package csquotes Info: Making character " active on input line 43.
+LaTeX Font Info:    Try loading font information for U+msa on input line 45.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 41.
+LaTeX Font Info:    Try loading font information for U+msb on input line 45.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-] [2]
-[3] [4] [5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 256.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 256.
- (./Background_dag.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 256.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 256.
-Package rerunfilecheck Info: File `Background_dag.out' has not changed.
-(rerunfilecheck)             Checksum: BF3F86CF7A30B0098474456442296DD7;284.
+]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 58.
 
 
-LaTeX Warning: There were multiply-defined labels.
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 58.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 256.
+[2] [3] [4]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 162.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 162.
+ (./Bareinboim_summary.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 162.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 162.
+Package rerunfilecheck Info: File `Bareinboim_summary.out' has not changed.
+(rerunfilecheck)             Checksum: A87A63853CC988501AE9E37199BF293F;304.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 162.
  ) 
 Here is how much of TeX's memory you used:
- 17997 strings out of 493015
- 325582 string characters out of 6133377
- 434649 words of memory out of 5000000
- 21246 multiletter control sequences out of 15000+600000
- 13730 words of font info for 52 fonts, out of 8000000 for 9000
+ 18794 strings out of 493015
+ 337211 string characters out of 6133377
+ 458753 words of memory out of 5000000
+ 22031 multiletter control sequences out of 15000+600000
+ 14670 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,8n,54p,1321b,855s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,6n,54p,941b,796s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Background_dag.dvi (5 pages, 51712 bytes).
+Output written on Bareinboim_summary.dvi (4 pages, 34808 bytes).
