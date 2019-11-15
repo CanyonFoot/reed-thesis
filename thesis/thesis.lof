@@ -1,0 +1,7 @@
+\select@language {english}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Graphs corresponding to $V = \{A,B,C\}$, $E = \{(A,B), (B,C)\}$ (left) and , $E = \{(A,B), (B,A), (B,C), (C,B)\}$ (right). }}{3}{figure.1.1}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Cyclic (left) and acyclic (right) graphs on the nodes $A,B,C$}}{4}{figure.1.2}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Graph corresponding to selection bias based on income}}{10}{figure.2.1}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Graph corresponding to selection bias based on income and urban residence}}{12}{figure.2.2}
