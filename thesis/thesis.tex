@@ -150,12 +150,12 @@
 \section{Background: Graphs, D-separation, Causality}
 The idea of cause and effect has been studied and discussed in philosophy for centuries, but  the formalization of causality in mathematics, statistics, and computer science is much more recent. One framework in particular, Judea Pearl's Structural Causal Models (SCMs),  [ref Pearl 1996] is flexible, widely used, and mathematically elegant. However, before we can give SCMs a serious treatment, it is helpful to introduce definitions for the graphical machinery that most analysis of SCMs rely on.
 
-\subsection{Directed Acylcic Graphs}
+\subsection{Directed Acylic Graphs}
 \theoremstyle{definition}
 \begin{definition}
 A $\mathbf{graph}$ $G$ is a pair $G = (V, E)$ where $V$ denotes a set of nodes (sometimes called vertices) and $E \subseteq \{(i,j) | i,j \in V\}$ denotes a set of edges between nodes.
 \end{definition}
-Conventions differ, but for our purposes, an edge $(i,j) \in E$ is considered to be a \emph{directed edge},  read as "an edge from node $i$ to node $j$".  For easy reading, we write $i \rightarrow j$ whenever $(i,j) \in E$. If  $(i,j) \in E$ and $(j,i) \in E$ we say an \emph{undirected edge} exists between nodes $i$ and $j$.  In the figures that frequently accompany graphs, an edge is depicted as a line between nodes, with directed edges displayed as lines with arrows.  If a graph  contains only directed edges, (i.e. $(i,j) \in E \implies (j,i) \notin E$) we call the graph a $\mathbf{directed \ graph}$.  Figure 1 gives an example of a directed and undirected graph. 
+Conventions differ, but for our purposes, an edge $(i,j) \in E$ is considered to be a \textbf{edge},  read as "an edge from node $i$ to node $j$".  For easy reading, we write $i \rightarrow j$ whenever $(i,j) \in E$. In the figures that frequently accompany graphs, an edge $(i,j)$ is depicted as an arrow from node $i$ to node $j$.
 
 \begin{figure}
 \centering
@@ -174,29 +174,25 @@ Conventions differ, but for our purposes, an edge $(i,j) \in E$ is considered to
  \path [->] (B) edge node[left] {} (C);
 
 
-\node[shape=circle,draw=black] (A) at (6,0) {A};
-\node[shape=circle,draw=black] (B) at (10,0) {B};
-\node[shape=circle,draw=black] (C) at (8,-2) {C};
-
-\path [-] (A) edge node[left] {} (B);
-\path [-] (B) edge node[left] {} (C);
 \end{tikzpicture}
-\caption{Graphs corresponding to $V = \{A,B,C\}$, $E = \{(A,B), (B,C)\}$ (left) and , $E = \{(A,B), (B,A), (B,C), (C,B)\}$ (right). } \label{fig:M1}
+\caption{Graphs corresponding to $V = \{A,B,C\}$, $E = \{(A,B), (B,C)\}$ } \label{fig:M1}
 \end{figure}
 
  Often times we are interested in how different nodes in a particular graph are or are not connected to one another. In this spirit we define paths.
  
 \begin{definition}
-A $\mathbf{path}$ $p$ between nodes $v_1, v_n$ is a sequence $v_1, v_2, ..., v_n$  of distinct nodes such that a distinct edge always exists between $v_i$ and $v_{i+1}$. When $v_i \rightarrow v_{i+1}$ ($(i, i-1) \in E$) for all $i \in \{1,2,...,n \}$, we say $p$ is a $\mathbf{directed \ path}$.
+A $\mathbf{path}$ $p$ between nodes $v_1, v_n \in V$ is a sequence $v_1, v_2, ..., v_n \in V$  of distinct nodes such that either $(v_i, v_{i+1}) \in E$ or $(v_i, v_{i+1}) \in E$ edge always exists between $v_i$ and $v_{i+1}$. When $v_i \rightarrow v_{i+1}$ ($(i, i-1) \in E$) for all $i \in \{1,2,...,n \}$, we say $p$ is a $\mathbf{directed \ path}$.
 \end{definition}
 
 
 
 
-For a directed graph $G$ and a particular node $v \in V$, we define several sets of related nodes. The \textbf{parents} of $v$, $PA_v$ are the nodes with a directed edge ending at $v$, $\{i \in V | i \rightarrow v \}$ and similarly the \textbf{children} of $v$ are those nodes which $v$ has a directed edge to, $\{i \in V | v \rightarrow i \}$. Notice that in a directed graph, a node cannot be both a child and a parent of any other node. Extending these definitions, we define the \textbf{ancestors} of $v$, $AN_v$, as all the nodes from which a directed path to $v$ exists,  $\{i \in V | i \rightarrow ... \rightarrow v \}$. Likewise we define \textbf{descendants} $DE_v$ of $v$ as the nodes for which a directed path from $v$ exists,   $\{i \in V | v \rightarrow ... \rightarrow i \}$ [ref Peters chp 6.1]. With these in place, we progress to the next definition.
+For a directed graph $G$ and a particular node $v \in V$, we define several sets of related nodes. The \textbf{parents} of $v$, denoted $PA_v$, are the nodes with a directed edge ending at $v$, $\{j \in V | j \rightarrow v \}$ and similarly the \textbf{children}, denoted $CH_v$, of $v$ are those nodes which $v$ has a directed edge to, $\{j \in V | v \rightarrow j \}$. 
+
+Extending these definitions, we define the \textbf{ancestors} of $v$, $AN_v$, as all the nodes from which a directed path to $v$ exists,  $\{j \in V | j \rightarrow ... \rightarrow v \}$. Likewise we define \textbf{descendants} $DE_v$ of $v$ as the nodes for which a directed path from $v$ exists,   $\{j \in V | v \rightarrow ... \rightarrow j\}$ [ref Peters chp 6.1]. With these in place, we progress to the next definition.
 
 \begin{definition}
-A directed graph $G = (V,E)$ is said to be an \emph{\textbf{directed acyclic graph}} (DAG) if for all nodes $v \in V$, $DE_v \cap AN_v = \emptyset$. That is, a directed graph is a DAG when the existence of directed path from $v_1$ to $v_2$ implies that there is not a directed path from $v_2$ to $v_1$.
+A directed graph $G = (V,E)$ is said to be an \emph{\textbf{directed acyclic graph}} (DAG) if for all nodes $v \in V$, $DE_v \cap AN_v = \emptyset$. That is, a directed graph is a DAG when there is never a directed path from a node to itself. 
 \end{definition}
 
 \begin{figure}
@@ -229,10 +225,20 @@ A directed graph $G = (V,E)$ is said to be an \emph{\textbf{directed acyclic gra
 \caption{Cyclic (left) and acyclic (right) graphs on the nodes $A,B,C$} \label{fig:M1}
 \end{figure}
 
-Now that we have defined DAGs, we can advance to one of our fundamental tools for analyzing them, Pearl's d-separation.
+Now that we have defined DAGs, we can advance to a relevant application, Bayesian networks.
+
+\subsection{Bayesian Networks}
+
+Before we do so, we review some basic definitions from probability.
+
+\begin{definition}
+For random variables $X_1, X_2, ..., X_n$, the \textbf{joint distribution} with associated joint probability function $P(x_1, x_2, ..., x_n)$ gives the probability of every possible combination of values for $X_1, X_2, ..., X_n$. For any subset $\{Y_1,...,Y_k\} \subseteq \{X_1, X_2, ..., X_n\}$, the probability distribution for $Y_1, Y_2, ..., Y_k$, is called the \textbf{marginal distribution}. Finally, for a subset 
+\end{definition}
+
+
 
 \subsection{D-Separation}
-The graphical structure that every SCM entails allows us to reason about the causal and statistical relationships using the properties of directed graphs. One of the essential such tools is d-separation. To develop the intuition, consider the very basic DAG $A \rightarrow B \rightarrow C$. There is exactly one directed path from $A$ to $C$, and the path passes through $B$. So to get to $C$ from $A$ you need to pass through $B$. In this way, we say that $B$ blocks the directed path from $A$ to $C$. We extend this notion [ref Pearl 2008], [ref Peters 2017].
+Graphical structure can allow us to reason about causal and statistical relationships. One of the essential tools is d-separation. To develop the intuition, consider the very basic DAG $A \rightarrow B \rightarrow C$. There is exactly one directed path from $A$ to $C$, and the path passes through $B$. So to get to $C$ from $A$ you need to pass through $B$. In this way, we say that $B$ blocks the directed path from $A$ to $C$. We extend this notion [ref Pearl 2008], [ref Peters 2017].
 
 \begin{definition}
 Given a directed graph $G$, a path $p$ from node $v_1$ to node $v_n$ is said to be \textbf{\emph{blocked}} by a set $S$ (with $S \cap \{v_1, v_n\} = \emptyset$) if:
@@ -252,7 +258,7 @@ Consider a path $A \rightarrow B \rightarrow C \leftarrow D \rightarrow E$ betwe
 With blocking defined, we address d-separation. 
 
 \begin{definition}
-For a DAG $G$, two sets of nodes $A,B \in G$ are said to be  \textbf{\emph{d-separated}} by a set $S$ if all paths between $A$ and $B$ are blocked by $S$. We denote d-separation by the symbol $\perp \!\!\!\perp_G$, with the statement "$A$ is d-separated from $B$ by $S$" expressed as $A \dsep_G B | S$. 
+For a DAG $G$, two sets of nodes $A,B \in G$ are said to be  \textbf{\emph{d-separated}} by a set $S$ if all paths between $A$ and $B$ are blocked by $S$. We denote d-separation by the symbol $\perp \!\!\!\perp_G$, with the statement "In DAG $G$, $A$ is d-separated from $B$ by $S$" expressed as $A \dsep_G B | S$. 
 \end{definition}
 
 \begin{remark}
@@ -292,12 +298,8 @@ Consider the DAG $G$ below.
 Which nodes can be d-separated, and by which blocking sets? Nodes which are connected by an edge cannot be d-separated. To see why, take $A$ and $B$. Although some paths between $A$ and $B$ can be blocked, the path $A \rightarrow B$ contains no nodes other than $A$ and $B$ and therefore cannot be blocked. Since there is no set that can block the path, $A$ and $B$ are not able to be d-separated. So consider $A$ and $C$, two nodes which are not connected by an edge. There are two paths between $A$ and $C$, $A \rightarrow B \leftarrow D \leftarrow C$ and $A \rightarrow D \leftarrow C$. Both of these paths include a collider. Of the four possible blocking sets, $\emptyset, \{B\}, \{D\}, \{B,D\}$, all but $\emptyset$ include a collider node for paths that are not blocked by other means. Then $A \dsep_G C | \emptyset$ and no other sets will work. What about $B$ and $C$? Again there are two paths: $B \leftarrow D \leftarrow C$ and $B \leftarrow A \rightarrow D \leftarrow C$. The second path contains a collider, and therefore is blocked by $\emptyset$, but the first path cannot be. To block $B \leftarrow D \leftarrow C$ we must have $D$ in our blocking set. So, $B \dsep_G C | D$, but we can also include $A$ since doing so will not unblock a path with a collider. Then $B \dsep_G C | D,A$.
 
 
-\begin{theorem}
-Two nodes in a DAG $G$ can be d-separated if and only if there is not an edge between the two nodes. 
-\end{theorem}
-
 \subsection{Structural Causal Models}
-A huge array of questions in the natural and social sciences revolve around understanding the way that one set of factors (e.g. genes, medicines, social policies) influence others (e.g. disease risk, mortality, childhood poverty rates). In these cases, the language and  of classical statistics is often inadequate. The tools of hypothesis testing, (linear) regression, interval estimation, ect. can tell us much about relationships in the data, but except in the highly constrained setting of randomized controlled trials, very little about cause and effect. These limitations are not just theoretical. Many longstanding controversies and debates within the sciences come down to disagreements over which factors associated with a particular outcome are causing the outcome. 
+Many questions in the natural and social sciences involve understanding the way that one set of factors (e.g. genes, medicines, social policies) influence others (e.g. disease risk, mortality, childhood poverty rates). In these cases, the language and  of classical statistics is often inadequate. The tools of hypothesis testing, (linear) regression, interval estimation, etc. can tell us much about relationships in the data, but except in the highly constrained setting of randomized controlled trials, very little about cause and effect. These limitations are not just theoretical. Many longstanding controversies and debates within the sciences come down to disagreements over which factors associated with a particular outcome are causing the outcome. 
 
 A paradigmatic example of such a controversy is over the relationship between cigarette smoking and lung cancer. Today, it is uncontroversial that smoking cigarettes (especially habitually over a long period of time) increases a person's risk of contracting lung cancer. This is a causal relationship, and we might express our belief in this relationship as a \textbf{\emph{causal model}} in which a person's risk of contracting lung cancer is a \emph{function} of a person's smoking habits (for simplicity, we  pretend that smoking is the only such causal factor).
 
@@ -364,19 +366,21 @@ This result is a powerful tool that allows us to test how well differing causal 
 
 
 \section{Introduction}
-Bareinboim, Tian, and Pearl's 2014 paper "Recovering from Selection Bias in Causal and Statistical Inference" provides a formulation of selection bias explicitly in terms of causal DAGs and d-separation, making it an especially important resource for developing our study of the topic. In particular, the paper provides graphical conditions (in terms of d-separations) under which a \emph{conditional} distribution $P(y | x)$ can be obtained from a causal graph containing a selection mechanism. However, the content of the paper is highly abstracted and does not attempt to provide real-life cases in which their techniques are useful. For this reason, we will summarize the main results of the paper and interpret them in the context of some realistic examples. 
+Bareinboim, Tian, and Pearl's 2014 paper "Recovering from Selection Bias in Causal and Statistical Inference" provides a formulation of selection bias explicitly in terms of causal DAGs and d-separation, making it an especially important resource for developing our study of the topic. In particular, the paper provides graphical conditions (in terms of d-separations) under which a \emph{conditional} distribution $P(y | x)$ can be obtained despite selection bias. When this can be done, we say that the $P(y | x)$ can be "recovered", from a causal graph containing a selection mechanism. However, the content of the paper is highly abstracted and does not attempt to provide real-life cases in which their techniques are useful. For this reason, we will summarize the main results of the paper and interpret them in the context of some realistic examples. 
 
-The paper is broken into three sections, the first two of which are the most substantial and the focus of our attention. The first gives conditions for when a distribution can be obtained if only the biased distribution is accessible, the second gives conditions for the case where population level data is available for some variables, and the last gives a brief discussion of recovering causal effects.
+The paper is broken into three sections, the first two of which are the most substantial and the focus of our attention. The first gives conditions for when a distribution can be recovered if only the biased distribution is accessible, the second gives conditions for the case where population level data is available for some variables, and the last gives a brief discussion of recovering causal effects.
 
 \section{A Famous Case of Selection Bias}
-One classic example of selection bias is the 1936 presidential election poll  published in an American magazine called The Literary Digest. The election was between Franklin Delano Roosevelt, the democratic incumbent, and Alfred Landon, a republican. The Literary Digest conducted a poll, drawing from their readership and by telephone. The sample size was extremely large, with over 2 million survey respondents. Their prediction, that Landon would comfortably win the election, proved embarrassing. Not only did Landon lose, but he lost in one of the largest electoral landslides in American history:  523 electoral votes went to Roosevelt and 8 went to the Digest's predicted winner. Shortly after, the magazine ceased publication.
+One classic example of selection bias is the 1936 presidential election poll  published in an American magazine called The Literary Digest. The election was between Franklin Delano Roosevelt, the democratic incumbent, and Alfred Landon, a republican. The Literary Digest conducted a poll, drawing from their readership and by telephone and using records of automobile ownership. The sample size was extremely large, with over 2 million survey respondents. Their prediction, that Landon would comfortably win the election, proved embarrassing. Not only did Landon lose, but he lost in one of the largest electoral landslides in American history:  523 electoral votes went to Roosevelt and 8 went to the Digest's predicted winner. Shortly after, the magazine ceased publication.
 
-The precise details of what caused this massive failure are not fully known.  problem was that although their survey had a plenty large sample size, it was non-representative of the population as a whole. Particularly, both being subscribed to The Literary Digest and owning a telephone were more common among more affluent people, and so their survey skewed wealthier than the population as a whole, and therefore underestimated the proportion of voters who would vote for Roosevelt, a candidate with largely working class support. This is no doubt a simplification, but for the moment, let us assume that income was the only variable that was responsible for the non-representative sample, and that this information was collected from respondents as part of the survey. 
+The precise details of what caused this failure are not fully known. One view that has become the popular explanation was that although their survey had a plenty large sample size, it was non-representative of the population as a whole. Particularly, both being subscribed to The Literary Digest and owning a telephone or car were more common among more affluent people, and so their survey skewed wealthier than the population as a whole, and therefore underestimated the proportion of voters who would vote for Roosevelt, a candidate with largely working class support. In fact, this explanation is unlikely to be complete. Although it is true that the survey over-sampled more affluent voters who were more likely to support Landon, a separate poll  conducted by George Gallup in 1937 found that in even voters who owned both a telephone and a car were more likely to favor Roosevelt than Landon. This means that there must have been other factors at play, and in particular, that Landon voters were more likely to return the survey than Roosevelt voters \citep{Squire1988}, \cite{lusinchi_2012}. This is called (non) response bias, and we will see that it falls under the selection bias framework proposed here.
 
-One of the important feature of selection bias is that unlike sampling variation, it cannot be reduced with sufficiently large sample sizes. For this reason, in the rest of the paper we will discuss a selection biased joint distribution for this survey, and thereby ignore sample size.
+For now, though, let's assume that income was the only variable that was responsible for the non-representative sample, and that this information was collected from respondents as part of the survey. However, we will return to this case later to add some depth.
+
+One of the important features of selection bias is that unlike sampling variation, it cannot be reduced with sufficiently large sample sizes. For this reason, in the rest of the paper we will discuss a selection biased joint distribution for this survey, and thereby ignore sample size.
 
 \section{Recovering $P(y|x)$ Without External Data}
-In the simplest case, we only have access to a distribution corresponding to a causal graph $G$  with a set of nodes $\mathbf{X}$ equipped with a selection node $S$. This means that we do not have access to the full joint distribution $P(\mathbf{x})$ but rather the conditional joint distribution $P(\mathbf{x} | S = 1)$. This corresponds to the joint distribution of values that are selected to be sampled. So, returning to our election example, our graph would look like:
+In the simplest case, we only have access to a distribution corresponding to a causal graph $G$  with a set of nodes $\mathbf{V}$ equipped with a selection node $S$. This means that we do not have access to the full joint distribution $P(\mathbf{v})$ but rather the conditional joint distribution $P(\mathbf{v} | S = 1)$. This corresponds to the joint distribution of values that are selected to be sampled. So, returning to our election example, our graph would look like:
 \begin{figure}
 \begin{center}
 \begin{tikzpicture}[
@@ -386,7 +390,7 @@ In the simplest case, we only have access to a distribution corresponding to a c
             node distance = 3cm, % distance between nodes
             semithick % line style
         ]
-\node[shape=circle,draw=black] (V) at (0,0) {V};
+\node[shape=circle,draw=black] (C) at (0,0) {C};
 \node[shape=circle,draw=black] (W) at (4,0) {W};
 \node[shape=circle,draw=black] (S) at (2,-2) {S};
 
@@ -397,9 +401,9 @@ In the simplest case, we only have access to a distribution corresponding to a c
 \end{center}
 \caption{Graph corresponding to selection bias based on income} \label{fig:M1}
 \end{figure}
-Where $V$ is a random variable for the candidate a person intends to vote for, $W$ is measures income and $S$ is a binary variable denoting inclusion in the study. Although in practice we would probably like to know $P(v)$, the population level distribution of intended votes, for now we restrict ourselves to $P(v | w)$, the conditional distribution of intended vote given SES. 
+Where $C$ is a random variable for the candidate a person intends to vote for, $W$ is measures income and $S$ is a binary variable denoting inclusion in the study. Although in practice we would probably like to know $P(c)$, the population level distribution of intended votes, for now we restrict ourselves to $P(c | w)$, the conditional distribution of intended vote given SES. 
 
-In the vein, Bareinboim et al. define \textbf{s-recoverability} as the criterion which must be satisfied for a conditional distribution such as $P(v|w)$ to be obtainable under selection bias. We reproduce their definition exactly and give an explanation of why it makes sense.
+In the vein, Bareinboim et al. define \textbf{s-recoverability} as the criterion which must be satisfied for a conditional distribution such as $P(c|w)$ to be obtainable under selection bias. We reproduce their definition exactly and give an explanation of why it makes sense.
 
 \begin{definition}
 Given a causal graph $G_s$ augmented with a node $S$ encoding the selection mechanism, the distribution $Q = P(y | \mathbf{x})$ is said to be \textbf{s-recoverable} from selection biased data in $G_s$ if the assumptions embedded in the causal model render $Q$ expressible in terms of the distribution under selection bias $P(\mathbf{v} | S = 1)$. Formally, for every two probability distributions $P_1$ and $P_2$ compatible with $G_s$, $P_1(\mathbf{v} | S = 1) = P_2(\mathbf{v} | S = 1) > 0$ implies $P_1(y | \mathbf{x}) = P_2(y | \mathbf{x})$.
@@ -423,7 +427,9 @@ Clearly this is a useful result since it is easy to test whether two nodes are d
 
 \section{Recovery With External Data}
 
-Sometimes a researcher will conduct a survey and collect variables on survey participants for which we know the population level distribution. For instance, the US Census collects and publishes data on occupation, race, income, and many other variables from the entire US population. If some of these variables are measured in our selection biased study, this information can be used to recover distributions that would otherwise be unavailable. To elaborate on this topic we will introduce a more complex model of the selection mechanism in our voter poll. In addition to income affecting a person's likelihood of responding to the survey, we will assume that whether a person lives in a city affects both their voter preference and the probability of being included in the survey, independent of income. Then our modified causal graph $G$ would look like this:
+Sometimes a researcher will conduct a survey and collect variables on survey participants for which we know the population level distribution. For instance, the US Census collects and publishes data on occupation, race, income, and many other variables from the entire US population. If some of these variables are measured in our selection biased study, this information can be used to recover distributions that would otherwise be unavailable. To elaborate on this topic we will introduce a more complex model of the selection mechanism in our voter poll. As mentioned in the introduction, more recent research suggests that the assumption that income was the only variable affecting the probability of being included in the poll is not sufficient. A better explanation 
+
+
 \begin{figure}
 \begin{center}
 \begin{tikzpicture}[
@@ -433,23 +439,23 @@ Sometimes a researcher will conduct a survey and collect variables on survey par
             node distance = 3cm, % distance between nodes
             semithick % line style
         ]
-\node[shape=circle,draw=black] (V) at (0,0) {V};
+\node[shape=circle,draw=black] (C) at (0,0) {C};
 \node[shape=circle,draw=black] (W) at (4,0) {W};
-\node[shape=circle,draw=black] (U) at (-2,-2) {U};
+\node[shape=circle,draw=black] (P) at (-2,-2) {P};
 \node[shape=circle,draw=black] (S) at (2,-2) {S};
 
- \path [->] (W) edge node[left] {} (V);
- \path [->] (U) edge node[left] {} (S);
+ \path [->] (W) edge node[left] {} (C};
+ \path [->] (P) edge node[left] {} (S);
   \path [->] (W) edge node[left] {} (S);
- \path [->] (U) edge node[left] {} (V);
+ \path [->] (P) edge node[left] {} (C);
 
 \end{tikzpicture}
 \end{center}
 \caption{Graph corresponding to selection bias based on income and urban residence} \label{fig:M1}
 \end{figure}
-Where $U$ is a binary variable denoting whether the person lives in a city. Under this model, we have a path $S \leftarrow U \rightarrow V$ which is not blocked by $W$. So $S \not \dsep_G Y | X$ and by the previous theorem, we cannot recover $P(v|w)$. Of course, we could recover $P(v | w, u)$ since $S \dsep_G V | \{W,U\}$, but assuming we are still interested in $P(v|w)$, what can be done? 
+Where $P$ is a binary variable denoting whether the person lives in a city. Under this model, we have a path $S \leftarrow U \rightarrow V$ which is not blocked by $W$. So $S \not \dsep_G Y | X$ and by the previous theorem, we cannot recover $P(c|w)$. Of course, we could recover $P(c | w, u)$ since $S \dsep_G V | \{W,U\}$, but assuming we are still interested in $P(c|w)$, what can be done? 
 
-Well, we could consult the US census and gather the  joint distribution for income and city-living $P(u, w)$. This is what we would call \emph{external data} since it is not affected by the selection mechanism. It turns out that in this case, we can do something. To address this situation, Bareinboim et al.  introduce a revised definition  of s-recoverability which we again reproduce and comment on. 
+Well, we could consult the US census and voter records and gather the  joint distribution for income and party registration $P(u, w)$. This is what we would call \emph{external data} since it is not affected by the selection mechanism. It turns out that in this case, we can do something. To address this situation, Bareinboim et al.  introduce a revised definition  of s-recoverability which we again reproduce and comment on. 
  
 \begin{definition}
 Given a causal graph $G_s$ augmented with a node $S$ encoding the selection mechanism, the distribution $Q = P(y | \mathbf{x})$ is said to be \textbf{s-recoverable} from selection bias in $G_s$ with external data over $\mathbf{T} \subseteq \mathbf{V}$ and selection biased data over $\mathbf{M} \subseteq \mathbf{V}$ if the the assumptions embedded in the causal model render $Q$ expressible in terms of the distribution under selection bias $P(\mathbf{m} | S = 1)$ and $P(\mathbf{t})$, both positive. Formally, for every two probability distributions $P_1$ and $P_2$ compatible with $G_s$, if they agree on the available distributions $P_1(\mathbf{v} | S = 1) = P_2(\mathbf{v} | S = 1) > 0$, $P_1(\mathbf{t}) = P_2(\mathbf{t})$ they must agree on the query distribution $P_1(y | \mathbf{x}) = P_2(y | \mathbf{x})$.

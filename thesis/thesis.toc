@@ -1,12 +1,13 @@
 \select@language {english}
 \contentsline {chapter}{Chapter 1: The First}{3}{chapter.1}
 \contentsline {section}{\numberline {1.1}Background: Graphs, D-separation, Causality}{3}{section.1.1}
-\contentsline {subsection}{\numberline {1.1.1}Directed Acylcic Graphs}{3}{subsection.1.1.1}
-\contentsline {subsection}{\numberline {1.1.2}D-Separation}{4}{subsection.1.1.2}
-\contentsline {subsection}{\numberline {1.1.3}Structural Causal Models}{6}{subsection.1.1.3}
+\contentsline {subsection}{\numberline {1.1.1}Directed Acylic Graphs}{3}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}Bayesian Networks}{4}{subsection.1.1.2}
+\contentsline {subsection}{\numberline {1.1.3}D-Separation}{4}{subsection.1.1.3}
+\contentsline {subsection}{\numberline {1.1.4}Structural Causal Models}{6}{subsection.1.1.4}
 \contentsline {chapter}{Chapter 2: Bareinboim et al 2014}{9}{chapter.2}
 \contentsline {section}{\numberline {2.1}Introduction}{9}{section.2.1}
 \contentsline {section}{\numberline {2.2}A Famous Case of Selection Bias}{9}{section.2.2}
 \contentsline {section}{\numberline {2.3}Recovering $P(y|x)$ Without External Data}{10}{section.2.3}
 \contentsline {section}{\numberline {2.4}Recovery With External Data}{11}{section.2.4}
-\contentsline {section}{\numberline {2.5}A Useful Extension}{12}{section.2.5}
+\contentsline {section}{\numberline {2.5}A Useful Extension}{13}{section.2.5}

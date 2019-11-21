@@ -1,0 +1,12 @@
+\BOOKMARK [0][-]{chapter.1}{Chapter 1: The First}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Background: Graphs, D-separation, Causality}{chapter.1}% 2
+\BOOKMARK [2][-]{subsection.1.1.1}{Directed Acylic Graphs}{section.1.1}% 3
+\BOOKMARK [2][-]{subsection.1.1.2}{Bayesian Networks}{section.1.1}% 4
+\BOOKMARK [2][-]{subsection.1.1.3}{D-Separation}{section.1.1}% 5
+\BOOKMARK [2][-]{subsection.1.1.4}{Structural Causal Models}{section.1.1}% 6
+\BOOKMARK [0][-]{chapter.2}{Chapter 2: Bareinboim et al 2014}{}% 7
+\BOOKMARK [1][-]{section.2.1}{Introduction}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.2}{A Famous Case of Selection Bias}{chapter.2}% 9
+\BOOKMARK [1][-]{section.2.3}{Recovering P\(y|x\) Without External Data}{chapter.2}% 10
+\BOOKMARK [1][-]{section.2.4}{Recovery With External Data}{chapter.2}% 11
+\BOOKMARK [1][-]{section.2.5}{A Useful Extension}{chapter.2}% 12
