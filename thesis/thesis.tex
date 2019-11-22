@@ -395,7 +395,7 @@ In the simplest case, we only have access to a distribution corresponding to a c
 \node[shape=circle,draw=black] (S) at (2,-2) {S};
 
  \path [->] (W) edge node[left] {} (S);
- \path [->] (W) edge node[left] {} (V);
+ \path [->] (W) edge node[left] {} (C);
 
 \end{tikzpicture}
 \end{center}
@@ -427,7 +427,7 @@ Clearly this is a useful result since it is easy to test whether two nodes are d
 
 \section{Recovery With External Data}
 
-Sometimes a researcher will conduct a survey and collect variables on survey participants for which we know the population level distribution. For instance, the US Census collects and publishes data on occupation, race, income, and many other variables from the entire US population. If some of these variables are measured in our selection biased study, this information can be used to recover distributions that would otherwise be unavailable. To elaborate on this topic we will introduce a more complex model of the selection mechanism in our voter poll. As mentioned in the introduction, more recent research suggests that the assumption that income was the only variable affecting the probability of being included in the poll is not sufficient. A better explanation 
+Sometimes a researcher will conduct a survey and collect variables on survey participants for which we know the population level distribution. For instance, the US Census collects and publishes data on occupation, race, income, and many other variables from the entire US population. If some of these variables are measured in our selection biased study, this information can be used to recover distributions that would otherwise be unavailable. To elaborate on this topic we will introduce a more complex model of the selection mechanism in our voter poll. As mentioned in the introduction, more recent research suggests that the assumption that income was the only variable affecting the probability of being included in the poll is not sufficient. A better explanation includes the fact that Roosevelt supporters who received the survey were much less likely to respond than Landon supporters \cite{lusinchi_2012}. This effect is called non-response bias, and is really another form of selection bias since it arises from the differing probabilities of being included in the final sample. The exact mechanism of the non-response effect in this poll is not and likely will never be known. In fact, if candidate preference directly influences the likelihood of survey response, (i.e. $C \rightarrow S$), the two nodes cannot be d-separated and we will be out of luck. Being optimistic, however, let's say we have reason to believe that another factor is the culprit. Particularly, the political party to which a survey respondent is registered could be mediating the relationship between voter preference and response probability. This model is represented in the figure below.
 
 
 \begin{figure}
@@ -444,18 +444,19 @@ Sometimes a researcher will conduct a survey and collect variables on survey par
 \node[shape=circle,draw=black] (P) at (-2,-2) {P};
 \node[shape=circle,draw=black] (S) at (2,-2) {S};
 
- \path [->] (W) edge node[left] {} (C};
+
  \path [->] (P) edge node[left] {} (S);
   \path [->] (W) edge node[left] {} (S);
  \path [->] (P) edge node[left] {} (C);
-
+ \path [->] (W) edge node[left] {} (C);
 \end{tikzpicture}
 \end{center}
-\caption{Graph corresponding to selection bias based on income and urban residence} \label{fig:M1}
+\caption{Graph corresponding to selection bias based on income and party registration} \label{fig:M1}
 \end{figure}
-Where $P$ is a binary variable denoting whether the person lives in a city. Under this model, we have a path $S \leftarrow U \rightarrow V$ which is not blocked by $W$. So $S \not \dsep_G Y | X$ and by the previous theorem, we cannot recover $P(c|w)$. Of course, we could recover $P(c | w, u)$ since $S \dsep_G V | \{W,U\}$, but assuming we are still interested in $P(c|w)$, what can be done? 
 
-Well, we could consult the US census and voter records and gather the  joint distribution for income and party registration $P(u, w)$. This is what we would call \emph{external data} since it is not affected by the selection mechanism. It turns out that in this case, we can do something. To address this situation, Bareinboim et al.  introduce a revised definition  of s-recoverability which we again reproduce and comment on. 
+Where $P$ is a binary variable denoting the party registration status of the voter. Under this model, we have a path $S \leftarrow U \rightarrow V$ which is not blocked by $W$. So $S \not \dsep_G Y | X$ and by the previous theorem, we cannot recover $P(c|w)$. Of course, we could recover $P(c | w, p)$ since $S \dsep_G V | \{W,P\}$, but assuming we are still interested in $P(c|w)$, what can be done? 
+
+Well, we could consult the US census as well as state voter records and gather the  joint distribution for income and party registration $P(u, w)$. This is what we would call \emph{external data} since it is not affected by the selection mechanism. It turns out that in this case, we can do something. To address this situation, Bareinboim et al.  introduce a revised definition  of s-recoverability which we again reproduce and comment on. 
  
 \begin{definition}
 Given a causal graph $G_s$ augmented with a node $S$ encoding the selection mechanism, the distribution $Q = P(y | \mathbf{x})$ is said to be \textbf{s-recoverable} from selection bias in $G_s$ with external data over $\mathbf{T} \subseteq \mathbf{V}$ and selection biased data over $\mathbf{M} \subseteq \mathbf{V}$ if the the assumptions embedded in the causal model render $Q$ expressible in terms of the distribution under selection bias $P(\mathbf{m} | S = 1)$ and $P(\mathbf{t})$, both positive. Formally, for every two probability distributions $P_1$ and $P_2$ compatible with $G_s$, if they agree on the available distributions $P_1(\mathbf{v} | S = 1) = P_2(\mathbf{v} | S = 1) > 0$, $P_1(\mathbf{t}) = P_2(\mathbf{t})$ they must agree on the query distribution $P_1(y | \mathbf{x}) = P_2(y | \mathbf{x})$.
@@ -477,7 +478,7 @@ $$P(y | \mathbf{x}) = \sum_{\mathbf{c}} P(y | \mathbf{x}, \mathbf{c}) P(\mathbf{
 
 \end{proof}
 
-Therefore, if we wish to recover $P(v | w)$ when living in a city is affects selection, we can do so using the external data $P(u | w)$.
+Therefore, if we wish to recover $P(c | w)$ party registration affects response probability, we can do so using the external data $P(p | w)$.
 
 \section{A Useful Extension}
 As we have seen, Bareinboim et al. is focused on the recovery of conditional distributions, i.e. $P(v|w)$. However, we would often like to have the unconditional distribution $P(v)$. Although it is only mentioned obliquely at the end of the second section, the results they prove give a simple condition for when $P(v)$ is recoverable using external data. In both sections we have seen that $P(v|w)$ was recoverable. Then, assuming that we have the external data for $P(w)$, we can use the law of total probability to write:
