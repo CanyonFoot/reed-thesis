@@ -1,0 +1,112 @@
+
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage[english]{babel}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\newcommand{\dsep}{\perp \!\!\!\perp}
+
+% Sensible defaults for lstlistings
+\lstset{
+  basicstyle=\footnotesize\ttfamily,
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  commentstyle=\bfseries\color{purple!40!black}
+  frame=L,
+  identifierstyle=\color{blue},
+  keywordstyle=\bfseries\color{green!40!black},
+  language=python,
+  showstringspaces=false,
+  stringstyle=\color{orange},
+}
+
+\title{\vspace{-3cm} Lemma 1 Proof/Example}
+\author{Canyon Foot}
+
+
+\begin{document}
+\maketitle
+
+Here I give a simple example of two causal graphs measuring the same variables but with different selection mechanisms. In this case, the full joint distribution is recoverable only if we have access to the distributions for both graphs. We assume external information $P(x)$.
+
+
+\begin{center}
+\begin{tikzpicture}
+  >= stealth, % arrow head style
+            shorten >= 2pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+        
+
+        \tikzstyle{every state}=[
+            draw = black,
+            thick,
+            fill = white,
+            minimum size = 4mm
+        ]
+\node[] (X) at (2,1) {$G_1$};
+\node[shape=circle,draw=black] (X) at (0,0) {X};
+\node[shape=circle,draw=black] (Z) at (4,0) {Z};
+\node[shape=circle,draw=black] (S) at (2,-2) {S};
+\node[shape=circle,draw=black] (Y) at (0,-4) {Y};
+
+ \path [->] (X) edge node[left] {} (Y);
+  \path [->] (X) edge node[left] {} (Z);
+   \path [->] (X) edge node[left] {} (S);
+ \path [->] (Z) edge node[left] {} (S);
+\end{tikzpicture} 
+\end{center}
+
+As always, we have access to $P(x,y,z | S = 1)$, and since $Y \dsep S | X$, we also have $P(y | x)$. Additionally, since we have assumed access to $P(x)$, we could obtain $P(x,y)$ if we wanted. Notice the because of their is an edge for $Z$ to $S$, we cannot obtain $P(z)$. 
+
+\begin{center}
+\begin{tikzpicture}
+  >= stealth, % arrow head style
+            shorten >= 2pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+        
+
+        \tikzstyle{every state}=[
+            draw = black,
+            thick,
+            fill = white,
+            minimum size = 4mm
+        ]
+\node[] (X) at (2,1) {$G_2$};
+\node[shape=circle,draw=black] (X) at (0,0) {X};
+\node[shape=circle,draw=black] (Z) at (4,0) {Z};
+\node[shape=circle,draw=black] (S) at (2,-2) {S};
+\node[shape=circle,draw=black] (Y) at (0,-4) {Y};
+
+ \path [->] (X) edge node[left] {} (Y);
+  \path [->] (X) edge node[left] {} (Z);
+   \path [->] (X) edge node[left] {} (S);
+ \path [->] (Y) edge node[left] {} (S);
+\end{tikzpicture} 
+\end{center}
+
+The story here is similar. We can get $P(x,y,z | S = 1)$,  $P(z | x)$, and $P(x,z)$ (using the external data). Then, using the chain rule for probability,
+
+\begin{align*}
+P(X,Y,Z) &= P(Y | X, Z) P(X,Z) \\
+&= P(Y | X) P(Z | X) P(X) 
+\end{align*}
+
+Since we have all of these quantities we can find $P(X,Y,Z)$ without issue. However, to do so we need to use $P(Z | X)$ and $P(Y | X)$, which means we need both biased distributions.
+
+\end{document}
+ 

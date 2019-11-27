@@ -454,7 +454,7 @@ Sometimes a researcher will conduct a survey and collect variables on survey par
 \caption{Graph corresponding to selection bias based on income and party registration} \label{fig:M1}
 \end{figure}
 
-Where $P$ is a binary variable denoting the party registration status of the voter. Under this model, we have a path $S \leftarrow U \rightarrow V$ which is not blocked by $W$. So $S \not \dsep_G Y | X$ and by the previous theorem, we cannot recover $P(c|w)$. Of course, we could recover $P(c | w, p)$ since $S \dsep_G V | \{W,P\}$, but assuming we are still interested in $P(c|w)$, what can be done? 
+Where $P$ is a binary variable denoting the party registration status of the voter. Under this model, we have a path $S \leftarrow U \rightarrow V$ which is not blocked by $W$. So $S \not \dsep_G Y | X$ and by the previous theorem, we cannot recover $P(c|w)$. Of course, we could recover $P(c | w, p)$ since $S \dsep_G V | \{W,P\}$, but assuming we are still interested in $P(c|w)$, what can be done?  
 
 Well, we could consult the US census as well as state voter records and gather the  joint distribution for income and party registration $P(u, w)$. This is what we would call \emph{external data} since it is not affected by the selection mechanism. It turns out that in this case, we can do something. To address this situation, Bareinboim et al.  introduce a revised definition  of s-recoverability which we again reproduce and comment on. 
  
