@@ -3,5 +3,9 @@
 \contentsline {figure}{\numberline {1.1}{\ignorespaces Graphs corresponding to $V = \{A,B,C\}$, $E = \{(A,B), (B,C)\}$ }}{3}{figure.1.1}
 \contentsline {figure}{\numberline {1.2}{\ignorespaces Cyclic (left) and acyclic (right) graphs on the nodes $A,B,C$}}{4}{figure.1.2}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Graph corresponding to selection bias based on income}}{10}{figure.2.1}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Graph corresponding to selection bias based on income}}{11}{figure.2.1}
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Graph corresponding to selection bias based on income and party registration}}{12}{figure.2.2}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Basic DAG for inverse probability weighting example}}{18}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Study design for the Hern\'n's example}}{19}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Study design for the Geneletti's example}}{20}{figure.3.3}

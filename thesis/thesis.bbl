@@ -1,0 +1,105 @@
+\begin{thebibliography}{15}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{{\tt #1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{}\fi
+
+\bibitem[{Bareinboim et~al.(2014)Bareinboim, Tian, \& Pearl}]{Bareinboim_2014}
+Bareinboim, E., Tian, J., \& Pearl, J. (2014).
+\newblock Recovering from selection bias in causal and statistical inference.
+\newblock {\em Proceedings of the National Conference on Artificial
+  Intelligence\/}, {\em 4\/}, 2410--2416.
+
+\bibitem[{Bushway et~al.(2007)Bushway, Johnson, \& Slocum}]{Bushway_2007}
+Bushway, S., Johnson, B.~D., \& Slocum, L.~A. (2007).
+\newblock Is the magic still there? the use of the heckman two-step correction
+  for selection bias in criminology.
+\newblock {\em Journal of Quantitative Criminology\/}, {\em 23\/}(2), 151--178.
+\urlprefix\url{https://doi.org/10.1007/s10940-007-9024-4}
+
+\bibitem[{Cortes et~al.(2008)Cortes, Mohri, Riley, \&
+  Rostamizadeh}]{Cortes_2008}
+Cortes, C., Mohri, M., Riley, M., \& Rostamizadeh, A. (2008).
+\newblock Sample selection bias correction theory.
+\newblock In Y.~Freund, L.~Gyorfi, G.~Tur{\'a}n, \& T.~Zeugmann (Eds.), {\em
+  Algorithmic Learning Theory\/}, (pp. 38--53). Berlin, Heidelberg: Springer
+  Berlin Heidelberg.
+
+\bibitem[{Delgado-Rodr{\'\i}guez \& Llorca(2004)}]{Delgado_2008}
+Delgado-Rodr{\'\i}guez, M., \& Llorca, J. (2004).
+\newblock Bias.
+\newblock {\em Journal of Epidemiology \& Community Health\/}, {\em 58\/}(8),
+  635--641.
+\urlprefix\url{https://jech.bmj.com/content/58/8/635}
+
+\bibitem[{Fienberg \& Tanur(1996)}]{Fienberg_1996}
+Fienberg, S.~E., \& Tanur, J.~M. (1996).
+\newblock Reconsidering the fundamental contributions of fisher and neyman on
+  experimentation and sampling.
+\newblock {\em International Statistical Review / Revue Internationale de
+  Statistique\/}, {\em 64\/}(3), 237--253.
+\urlprefix\url{http://www.jstor.org/stable/1403784}
+
+\bibitem[{Geneletti et~al.(2008)Geneletti, Richardson, \&
+  Best}]{Geneletti_2008}
+Geneletti, S., Richardson, S., \& Best, N. (2008).
+\newblock {Adjusting for selection bias in retrospective, case–control
+  studies}.
+\newblock {\em Biostatistics\/}, {\em 10\/}(1), 17--31.
+\urlprefix\url{https://doi.org/10.1093/biostatistics/kxn010}
+
+\bibitem[{Heckman(1979)}]{Heckman_1979}
+Heckman, J.~J. (1979).
+\newblock Sample selection bias as a specification error.
+\newblock {\em Econometrica\/}, {\em 47\/}(1), 153--161.
+\urlprefix\url{http://www.jstor.org/stable/1912352}
+
+\bibitem[{Hernán et~al.(2004)Hernán, Hernández-Díaz, \&
+  Robins}]{Hernan_2004}
+Hernán, M., Hernández-Díaz, S., \& Robins, J. (2004).
+\newblock A structural approach to selection bias.
+\newblock {\em Epidemiology (Cambridge, Mass.)\/}, {\em 15\/}, 615--25.
+
+\bibitem[{Horvitz \& Thompson(1952)}]{Horvitz_1952}
+Horvitz, D.~G., \& Thompson, D.~J. (1952).
+\newblock A generalization of sampling without replacement from a finite
+  universe.
+\newblock {\em Journal of the American Statistical Association\/}, {\em
+  47\/}(260), 663--685.
+\urlprefix\url{https://www.tandfonline.com/doi/abs/10.1080/01621459.1952.10483446}
+
+\bibitem[{Little \& Rubin(1986)}]{Little_1986}
+Little, R. J.~A., \& Rubin, D.~B. (1986).
+\newblock {\em Statistical Analysis with Missing Data\/}.
+\newblock New York, NY, USA: John Wiley \& Sons, Inc.
+
+\bibitem[{Lusinchi(2012)}]{lusinchi_2012}
+Lusinchi, D. (2012).
+\newblock “president” landon and the 1936 literary digest poll: Were
+  automobile and telephone owners to blame?
+\newblock {\em Social Science History\/}, {\em 36\/}(1), 23–54.
+
+\bibitem[{Pearl(1995)}]{Pearl_1995}
+Pearl, J. (1995).
+\newblock Causal diagrams for empirical research.
+\newblock {\em Biometrika\/}, {\em 82\/}(4), 669--688.
+\urlprefix\url{http://www.jstor.org/stable/2337329}
+
+\bibitem[{Robins(2001)}]{Robbins_2001}
+Robins, J.~M. (2001).
+\newblock Data, design, and background knowledge in etiologic inference.
+\newblock {\em Epidemiology\/}, {\em 12\/}(3).
+
+\bibitem[{Squire(1988)}]{Squire1988}
+Squire, P. (1988).
+\newblock Why the 1936 literary digest poll failed.
+\newblock {\em The Public Opinion Quarterly\/}, {\em 52\/}(1), 125--133.
+\urlprefix\url{http://www.jstor.org/stable/2749114}
+
+\bibitem[{Woodward(1999)}]{Woodward_1999}
+Woodward, M. (1999).
+\newblock {\em Epidemiology: Study Design and Data Analysis\/}.
+\newblock Chapman \& Hall/CRC Texts in Statistical Science. Taylor \& Francis.
+\urlprefix\url{https://books.google.com/books?id=OqjB1WBrjjEC}
+
+\end{thebibliography}

@@ -7,7 +7,18 @@
 \contentsline {subsection}{\numberline {1.1.4}Structural Causal Models}{6}{subsection.1.1.4}
 \contentsline {chapter}{Chapter 2: Bareinboim et al 2014}{9}{chapter.2}
 \contentsline {section}{\numberline {2.1}Introduction}{9}{section.2.1}
-\contentsline {section}{\numberline {2.2}A Famous Case of Selection Bias}{9}{section.2.2}
-\contentsline {section}{\numberline {2.3}Recovering $P(y|x)$ Without External Data}{10}{section.2.3}
-\contentsline {section}{\numberline {2.4}Recovery With External Data}{11}{section.2.4}
-\contentsline {section}{\numberline {2.5}A Useful Extension}{13}{section.2.5}
+\contentsline {section}{\numberline {2.2}Representing Selection with DAGs}{9}{section.2.2}
+\contentsline {section}{\numberline {2.3}A Famous Case of Selection Bias}{10}{section.2.3}
+\contentsline {section}{\numberline {2.4}Recovering $P(y|x)$ Without External Data}{10}{section.2.4}
+\contentsline {section}{\numberline {2.5}Recovery With External Data}{12}{section.2.5}
+\contentsline {section}{\numberline {2.6}A Useful Extension}{13}{section.2.6}
+\contentsline {chapter}{Chapter 3: Earlier Approaches to Selection Bias}{15}{chapter.3}
+\contentsline {section}{\numberline {3.1}Old Stuff}{15}{section.3.1}
+\contentsline {section}{\numberline {3.2}The Heckman Correction}{15}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Premise}{16}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Implementing the Correction}{16}{subsection.3.2.2}
+\contentsline {section}{\numberline {3.3}Probability Weighting}{17}{section.3.3}
+\contentsline {section}{\numberline {3.4}Getting Graphical}{18}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Hern\'an et. al}{18}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Geneletti et. al}{19}{subsection.3.4.2}
+\contentsline {chapter}{Bibliography}{21}{chapter*.10}

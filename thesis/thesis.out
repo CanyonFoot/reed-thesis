@@ -6,7 +6,18 @@
 \BOOKMARK [2][-]{subsection.1.1.4}{Structural Causal Models}{section.1.1}% 6
 \BOOKMARK [0][-]{chapter.2}{Chapter 2: Bareinboim et al 2014}{}% 7
 \BOOKMARK [1][-]{section.2.1}{Introduction}{chapter.2}% 8
-\BOOKMARK [1][-]{section.2.2}{A Famous Case of Selection Bias}{chapter.2}% 9
-\BOOKMARK [1][-]{section.2.3}{Recovering P\(y|x\) Without External Data}{chapter.2}% 10
-\BOOKMARK [1][-]{section.2.4}{Recovery With External Data}{chapter.2}% 11
-\BOOKMARK [1][-]{section.2.5}{A Useful Extension}{chapter.2}% 12
+\BOOKMARK [1][-]{section.2.2}{Representing Selection with DAGs}{chapter.2}% 9
+\BOOKMARK [1][-]{section.2.3}{A Famous Case of Selection Bias}{chapter.2}% 10
+\BOOKMARK [1][-]{section.2.4}{Recovering P\(y|x\) Without External Data}{chapter.2}% 11
+\BOOKMARK [1][-]{section.2.5}{Recovery With External Data}{chapter.2}% 12
+\BOOKMARK [1][-]{section.2.6}{A Useful Extension}{chapter.2}% 13
+\BOOKMARK [0][-]{chapter.3}{Chapter 3: Earlier Approaches to Selection Bias}{}% 14
+\BOOKMARK [1][-]{section.3.1}{Old Stuff}{chapter.3}% 15
+\BOOKMARK [1][-]{section.3.2}{The Heckman Correction}{chapter.3}% 16
+\BOOKMARK [2][-]{subsection.3.2.1}{Premise}{section.3.2}% 17
+\BOOKMARK [2][-]{subsection.3.2.2}{Implementing the Correction}{section.3.2}% 18
+\BOOKMARK [1][-]{section.3.3}{Probability Weighting}{chapter.3}% 19
+\BOOKMARK [1][-]{section.3.4}{Getting Graphical}{chapter.3}% 20
+\BOOKMARK [2][-]{subsection.3.4.1}{Hern\341n et. al}{section.3.4}% 21
+\BOOKMARK [2][-]{subsection.3.4.2}{Geneletti et. al}{section.3.4}% 22
+\BOOKMARK [0][-]{chapter*.10}{Bibliography}{}% 23

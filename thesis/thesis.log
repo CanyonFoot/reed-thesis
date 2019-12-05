@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=latex 2016.5.22)  21 NOV 2019 22:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=latex 2016.5.22)  4 DEC 2019 23:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1038,7 +1038,7 @@ Package csquotes Info: ... found 'babel' package.
 LaTeX Warning: Label `fig:M1' multiply defined.
 
 
-LaTeX Warning: Label `fig:M1' multiply defined.
+LaTeX Warning: Label `fig:2.1' multiply defined.
 
 )
 \openout1 = `thesis.aux'.
@@ -1183,60 +1183,87 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 ]
 Chapter 2.
 
-Package natbib Warning: Citation `Squire1988' on page 9 undefined on input line
- 376.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-Package natbib Warning: Citation `lusinchi_2012' on page 9 undefined on input l
-ine 376.
-
-[9]
+ [9]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 382.
+(hyperref)                removing `math shift' on input line 386.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 382.
+(hyperref)                removing `math shift' on input line 386.
 
-[10]
-
-Package natbib Warning: Citation `lusinchi_2012' on page 11 undefined on input 
-line 430.
-
-[11] [12] [13] [14
+[10] [11] [12] [13] [14
 
 ]
-No file thesis.bbl.
+Chapter 3.
+[15]
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <8> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 520.
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 520.
+
+
+Package natbib Warning: Citation `Jin' on page 16 undefined on input line 534.
+
+[16]
+
+Package natbib Warning: Citation `Jin' on page 17 undefined on input line 550.
+
+[17] [18] [19] [20] (./thesis.bbl
+Underfull \hbox (badness 5908) in paragraph at lines 45--50
+[]\OT1/cmr/m/n/12 Geneletti, S., Richard-son, S., & Best, N. (2008).  Ad-just-i
+ng for se-lec-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--50
+\OT1/cmr/m/n/12 bias in ret-ro-spec-tive, case{control stud-ies.  \OT1/cmr/m/it
+/12 Bio-statis-tics\OT1/cmr/m/n/12 , \OT1/cmr/m/it/12 10\OT1/cmr/m/n/12 (1), 17
+--31.
+ []
+
+[21
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 100--104
+[]\OT1/cmr/m/n/12 Woodward, M. (1999).  \OT1/cmr/m/it/12 Epi-demi-ol-ogy: Study
+ De-sign and Data Anal-y-
+ []
+
+
+Underfull \hbox (badness 3503) in paragraph at lines 100--104
+\OT1/cmr/m/it/12 sis\OT1/cmr/m/n/12 .  Chap-man & Hal-l/CRC Texts in Sta-tis-ti
+-cal Sci-ence. Tay-lor & Fran-cis.
+ []
+
+)
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 525.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 525.
-(./thesis.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 525.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 525.
+[22]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 696.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 696.
+ (./thesis.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 696.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 696.
+Package rerunfilecheck Info: File `thesis.out' has not changed.
+(rerunfilecheck)             Checksum: E90C86C9EE98AE2DE0FF88DC020FA3C0;1611.
 
-
-Package rerunfilecheck Warning: File `thesis.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `thesis.out':
-(rerunfilecheck)             Before: 98B05D3FA497D56DEEF4B63AAA6E6D93;795
-(rerunfilecheck)             After:  13E5192A2975FD2239C3A63CBFEC0F04;860.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 525.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 696.
  ) 
 Here is how much of TeX's memory you used:
- 19592 strings out of 493015
- 346975 string characters out of 6133377
- 449635 words of memory out of 5000000
- 22778 multiletter control sequences out of 15000+600000
- 14581 words of font info for 57 fonts, out of 8000000 for 9000
+ 19703 strings out of 493015
+ 348625 string characters out of 6133377
+ 451562 words of memory out of 5000000
+ 22879 multiletter control sequences out of 15000+600000
+ 16697 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,12n,54p,1707b,899s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,12n,54p,1712b,899s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on thesis.dvi (34 pages, 103972 bytes).
+Output written on thesis.dvi (42 pages, 170136 bytes).

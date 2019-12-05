@@ -370,6 +370,10 @@ Bareinboim, Tian, and Pearl's 2014 paper "Recovering from Selection Bias in Caus
 
 The paper is broken into three sections, the first two of which are the most substantial and the focus of our attention. The first gives conditions for when a distribution can be recovered if only the biased distribution is accessible, the second gives conditions for the case where population level data is available for some variables, and the last gives a brief discussion of recovering causal effects.
 
+\section{Representing Selection with DAGs}
+
+Although the topic of this paper is selection \emph{bias}, the graphical framework is really a model of selection itself. That is, it can model cases where selection does not induce bias as well as cases in which it does. Representing selection in this way requires augmenting  a structural causal model over a set of variables $\mathbf{V}$ with a node $S$ that represents inclusion in the sample. The biased distribution is then $P(\mathbf{v} | S = 1)$, that is, the joint for our variables $\mathbf{V}$ conditioned on inclusion within the sample.  
+
 \section{A Famous Case of Selection Bias}
 One classic example of selection bias is the 1936 presidential election poll  published in an American magazine called The Literary Digest. The election was between Franklin Delano Roosevelt, the democratic incumbent, and Alfred Landon, a republican. The Literary Digest conducted a poll, drawing from their readership and by telephone and using records of automobile ownership. The sample size was extremely large, with over 2 million survey respondents. Their prediction, that Landon would comfortably win the election, proved embarrassing. Not only did Landon lose, but he lost in one of the largest electoral landslides in American history:  523 electoral votes went to Roosevelt and 8 went to the Digest's predicted winner. Shortly after, the magazine ceased publication.
 
@@ -399,7 +403,7 @@ In the simplest case, we only have access to a distribution corresponding to a c
 
 \end{tikzpicture}
 \end{center}
-\caption{Graph corresponding to selection bias based on income} \label{fig:M1}
+\caption{Graph corresponding to selection bias based on income} \label{fig:2.1}
 \end{figure}
 Where $C$ is a random variable for the candidate a person intends to vote for, $W$ is measures income and $S$ is a binary variable denoting inclusion in the study. Although in practice we would probably like to know $P(c)$, the population level distribution of intended votes, for now we restrict ourselves to $P(c | w)$, the conditional distribution of intended vote given SES. 
 
@@ -451,7 +455,7 @@ Sometimes a researcher will conduct a survey and collect variables on survey par
  \path [->] (W) edge node[left] {} (C);
 \end{tikzpicture}
 \end{center}
-\caption{Graph corresponding to selection bias based on income and party registration} \label{fig:M1}
+\caption{Graph corresponding to selection bias based on income and party registration} \label{fig:2.1}
 \end{figure}
 
 Where $P$ is a binary variable denoting the party registration status of the voter. Under this model, we have a path $S \leftarrow U \rightarrow V$ which is not blocked by $W$. So $S \not \dsep_G Y | X$ and by the previous theorem, we cannot recover $P(c|w)$. Of course, we could recover $P(c | w, p)$ since $S \dsep_G V | \{W,P\}$, but assuming we are still interested in $P(c|w)$, what can be done?  
@@ -492,9 +496,171 @@ If there exists a set $\mathbf{X} \subseteq V$ such that $P(y|\mathbf{x})$ is s-
 \end{theorem}
 
 
+\chapter{Earlier Approaches to Selection Bias}
+
+In statistics and many related fields, forms of the effect we are calling "selection bias" have gone by many names. As we have seen,  the tendency for types of survey recipients to respond more or less that others - (non) response bias - falls neatly into the framework of selection bias. In epidemiology and biostatistics, Berkson's bias (sometimes Berkson's paradox) describes a phenomenon in which two conditions that are independent at the population level become dependent within a sample as a result of both conditions affecting the likelihood of sample inclusion. This too is a kind of selection bias, as is Neyman's Bias which results from survivors of a disease being selected for study but not those who died from the disease. In fact there are far more names for particular selection biases than we can describe here \citep{Delgado_2008}. One explanation for this extensive and overlapping nomenclature is that prior to the widespread use of graphical models, it was difficult to give any concise definition of selection bias that was specific enough to be useful. Selection bias is essentially about a sample with a different distribution than the population, but when that non-representivity can come from so many places this characterization is hardly useful.
+
+In this section we will review a handful of notable earlier approaches to defining, correcting, and recognizing selection bias that have appeared within the literature. The purpose here is two-fold. For one, the historical background is generally useful to anyone looking for a thorough treatment of the subject. More pointedly, we will use the examples of previous methods to argue for the utility of the causal/graphical formulation used in this paper, as well as interpreting the techniques in that light (haven't really done this part yet).
+
+\section{Old Stuff}
+
+I want this section to be review of the really old content on selection bias (like the origin of the term and so on), but so far I have not found much.
+
+\section{The Heckman Correction}
+James Heckman's well-cited 1979 paper "Sample Selection Bias as a Specification Error" proposes a method for overcoming selection bias that is among the most prominent selection adjustment techniques \citep{Heckman_1979}. Heckman was an economist, and his correction technique comes in the context of economic modeling, particularly linear regression models. Because it is situated within this framework, the correction is parametric - it requires the  assumption of normally distributed noise. We consider the familiar situation in which a non-representative sample is drawn from a population. Since we are interested modeling the population values and coefficients, this poses a potential problem. The title of Heckman's paper gives a hint to his strategy: specification error refers to the omission of a relevant variable from a model, and this is how Heckman views the problem. This focus is slightly different than ours as it is really about a model rather than a distribution, but some of the lessons are still applicable.
+
+The process proceeds in two parts: first, a model is constructed for sample inclusion and second, an expected error term is calculated such that it can be included in the regression model to remove the bias associated with its exclusion. We now describe Heckman's method in detail.
+
+\subsection{Premise}
+
+Heckman's original paper is concerned with estimating model coefficients in the context of a finite sample. So far, we have been considering distributions rather than samples, and for the sake of continuity (as well as avoiding excess indexing) we will present the method in the context of distributions. Fortunately, the math is essentially the same.
+
+Assume that we have access to the distributions of a dependent variable $Y$, a vector of regressor variables $\mathbf{X}$, and a normally distributed noise term $\epsilon$ which is independent of $\mathbf{X}$. Further assume that the linear regression assumption holds, i.e.
+
+$$Y = \mathbf{X} \boldsymbol{\beta} + \epsilon.$$
+
+Now, assuming we have the joint distribution $P(y, \mathbf{x}, \epsilon)$ we can get $\mathbf{\beta}$ using standard techniques. However, if a selection mechanism is present, this may not be possible. Heckman's correction can be applied when the selection mechanism follows a specific form. Particularly, assume that we have access to another set of random variable that also follow the linear model pattern: 
+
+$$Z = \mathbf{W} \boldsymbol{\delta} + \tau.$$
+
+Again, $\mathbf{W}$ is a vector of regressors, $\boldsymbol{\delta}$ is a coefficient vector and $\tau$ is normally distributed and independent of $\mathbf{W}$. We also require that the joint $P(\tau, \epsilon)$ follows the bivariate normal distribution. Heckman's correction can be applied when selection mechanism is of the form:
+
+$$S = I(Z > c) = I( \mathbf{W} \boldsymbol{\delta} + \tau > c).$$ 
+
+For some constant $c$. Without losing generality, we assume that $c = 0$. So selection occurs when a second random variable, $Z$,  passes a particular threshold. 
+
+\subsection{Implementing the Correction}
+
+Heckman is viewing selection bias as being the result of an omitted variable which we can obtain. Here we give the derivation of what this variable actually is, closely following the original paper but with some clarifications and changes to notation as in \citep{Jin}. We know that:
+
+$$E[Y | \mathbf{X}, S = 1] = E[ \mathbf{X} \boldsymbol{\beta} + \epsilon | \mathbf{X}, S = 1] = \mathbf{X} \boldsymbol{\beta} + E[\epsilon |  \mathbf{X}, S = 1].$$
+
+Our independence assumption gives that $ E[\epsilon |  \mathbf{X}, S = 1] =  E[\epsilon |  S = 1]$ and so this is the quantity we wish to estimate. Now, $S=1 \implies  \mathbf{W} \boldsymbol{\delta} + \tau > 0$ and we write:  
+
+$$E[\epsilon |  \mathbf{X}, S = 1] = E[\epsilon | \mathbf{W} \boldsymbol{\delta}+ \tau > 0] = E[\epsilon |  \tau > - \mathbf{W} \boldsymbol{\delta}].$$
+
+Since $(\epsilon, \tau)$ follows a bivariate normal distribution and each have a marginal mean of $0$, the conditional expectation $E[\epsilon | \tau] = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}} \tau$ where $\rho$ is the correlation between $\epsilon$ and $\tau$ and $\sigma^2_{\epsilon}$, $\sigma^2_{\tau}$ are the respective variances. Let $\gamma  = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}}$ giving $E[\epsilon | \tau]$. We may then write:	
+
+$$E[\epsilon | \tau] = \gamma E[\tau | \tau >  - \mathbf{W} \boldsymbol{\delta}].$$																																																												
+We recognize this as the expectation of a truncated normal, which is given by the inverse Mills ratio ($\frac{\phi(x)}{1 - \Phi(x)}$) evaluated at the truncation point. Therefore, 								$$E[\epsilon | \tau] = \gamma \frac{\phi(- \mathbf{W} \boldsymbol{\delta})}{1  - \Phi(- \mathbf{W} \boldsymbol{\delta})}.$$				
+
+So the bias term  we want to estimate is $\gamma \frac{\phi(- \mathbf{W} \boldsymbol{\delta})}{1  - \Phi(- \mathbf{W} \boldsymbol{\delta})}$. This is done in two parts:
+
+\begin{enumerate}
+\item A probit model is employed to estimate $\boldsymbol{\delta}$, i.e. $P(S = 1 | \mathbf{W}) = \Phi(- \mathbf{W} \boldsymbol{\delta})$ \cite{Jin}.
+
+\item This estimated quantity is used to get an estimate of $\gamma$ and $\frac{\phi(- \mathbf{W} \boldsymbol{\delta})}{1  - \Phi(- \mathbf{W} \boldsymbol{\delta})}$.
+
+\item The estimate of $\gamma \frac{\phi(- \mathbf{W} \boldsymbol{\delta})}{1  - \Phi(- \mathbf{W} \boldsymbol{\delta})}$ is included in the corrected model $Y = \mathbf{X} \boldsymbol{\beta} + \gamma \frac{\phi(- \mathbf{W} \boldsymbol{\delta})}{1  - \Phi(- \mathbf{W} \boldsymbol{\delta})} + \epsilon$.
+\end{enumerate}
+						
+Something to note: unlike the approach we see in the more contemporary selection bias literature, Heckman's method asks for external information on the selection mechanism itself, not the variables being measured. In addition to this, Heckman makes very strong parametric assumptions. Sometimes when such assumptions are made, the method is still relatively robust to (mild) violations.  However, Heckman's correction's does not generally have this property, and violations of the set-up can cause seriously biased estimates \citep{Little_1986}, \citep{Bushway_2007}. 
+
+\section{Probability Weighting}
+
+Another technique worth mentioning is a very general approach called inverse probability weighting. Versions of the technique are old  and have uses well outside of adjusting for selection bias \citep{Horvitz_1952}, but we give an interpretation particularly suited for this task. Given a particular (potentially non-representative) sample, the goal is to construct a 'new' sample which follows the population distribution. Doing this requires knowing something about the selection rule, particularly knowing the probability that any particular set of values is sampled \cite{Cortes_2008}. Inverse probability weighting admits a particularly clear interpretation using our graphical notation. Consider a simple two variable case following the DAG below.
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 2pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+\node[shape=circle,draw=black] (X) at (0,0) {X};
+\node[shape=circle,draw=black] (Y) at (4,0) {Y};
+\node[shape=circle,draw=black] (S) at (2,-2) {S};
+
+
+ \path [->] (X) edge node[left] {} (S);
+ \path [->] (Y) edge node[left] {} (X);
+\end{tikzpicture}
+\end{center}
+\caption{Basic DAG for inverse probability weighting example}
+\end{figure}
+
+
+Now, instead of assuming that we have access to the population distribution $P(x)$ as in the external data section, but rather that we know or can estimate  $P(S = 1)$.  One context in which this is plausible is in drop-out over the course of a longitudinal study \citep{Hernan_2004}. Particularly, selection into the final analysis is the result of \emph{not} dropping out at some point over the course of the study. If drop out does not occur at random, selection bias is likely. However, it would be possible to estimate drop-out probability by comparing the body of participants at the outset of the study to the group that remains. Since we have $P(x,y | S = 1)$, knowing $P(S = 1)$ gives $P(x,y, S = 1) = P(x,y | S = 1)P(S = 1)$ and thereby use Baye's rule to get:
+
+$$P(x,y) = \frac{P(x,y | S = 1) P(S = 1)}{P(S = 1 | x,y)} = \frac{P(S = 1)}{P(S = 1 | x )}P(x,y | S = 1).$$
+
+So clearly knowing $P(S = 1)$ is quite powerful. As with Heckman, this method requires information about the selection mechanism, but doesn't assume population level information about the other variables. This is a real difference between inverse probability weighting or the Heckman correction and the graphical approaches we examine next.
+
+\section{Getting Graphical}
+
+
+By the first decade of the 2000's, Pearl's causality framework had become well-known not just in computer science but in applied fields as well. Accordingly, this period marks the first attempts to formulate selection bias in graphical terms. Specifically, we discuss two influential papers that drawn on Pearl's work.
+
+\subsection{Hern\'an et. al}
+
+Miguel Hern\'an's 2004 paper "A Structural Approach to Selection Bias" sets out to distinguish between selection bias and other problematic features of studies using the logic of causality. Although some other work had used DAGs to represent selection into a study \citep{Robbins_2001}, \citep{Pearl_1995}, Hern\'an's paper went further in that it gave an explicitly graphical interpretation of presence bias caused by selection. Hern\'an, an epidemiologist, is particularly concerned with presence of selection bias within case-control and cohort studies, and his paper proceeds primarily by drawing on examples of such studies in which selection bias is a problem. As is often the case in medical studies, the random variables considered are mostly binary, meaning that instead of looking for conditional distributions in general, related quantities such as risk ratios or odds ratios are considered. However, the concepts are very similar.
+
+The core of Hern\'an's argument is that selection bias occurs when we \emph{condition on common effects} of the exposure (treatment) and the outcome through selection. This can be contrasted with confounding, which has its roots in common \emph{causes}. Hern\'an gives an simple example illustrating what is meant by this which we reproduce.
+
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 2pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+\node[shape=circle,draw=black] (E) at (0,0) {E};
+\node[shape=circle,draw=black] (F) at (2,2) {F};
+\node[shape=circle,draw=black] (D) at (2,-2) {D};
+\node[shape=circle,draw=black] (S) at (4,0) {S};
+
+
+ \path [->] (E) edge node[left] {} (F);
+ \path [->] (D) edge node[left] {} (S);
+  \path [->] (F) edge node[left] {} (S);
+\end{tikzpicture}
+\end{center}
+\caption{Study design for the Hern\'n's example}
+\end{figure}
+
+Here, $E$ is the treatment, estrogen supplements, $F$ denotes women who fractured their hips, and $D$ represents having a heart attack. We want to know if estrogen use increases the risk of having a heart attack. The study participants were gathered in such that the controls, the women who did not have a heart attack, were disproportionately women who had fractured their hips. This could be because the sample was taken from a particular hospital. Since estrogen use decreases a woman's risk of breaking her hip, this means that women taking estrogen are underrepresented within the controls. So, if we look at $P(d | e, S = 1)$ then we will find a positive relationship between $F$ and $E$ since selection into the study is a caused by both estrogen use (indirectly through decreased hip factors) and having a heart attack. So by selecting our sample in the way that we have, we have conditioned on a common effect of both the treatment and the outcome, biasing our inferences. 
+
+Although Hern\'an's work was important in categorizing selection bias through graph structure, the paper was not primarily concerned with correcting for selection bias. There is a short section on how to overcome such bias, but it was limited to inverse probability weighting, a technique not based in the conditional independences implied by the causal structure. Fortunately, the next paper we examine does. 
 
 
 
+\subsection{Geneletti et. al}
+
+(This section is unfinished, it's late)
+
+Following up on Hern\'an's work characterizing selection bias, another epidemiologist, Sara Geneletti and her co-authors give a method for correcting selection bias in retrospective case-control studies using DAGs and conditional independence \citep{Geneletti_2008}. In spirit this is very similar to Bareinboim's work but limited to a specific study design such that further assumptions can be leveraged.  We now briefly review the structure of a retrospective case-control study. 
+
+Unlike experiments where treatments are assigned randomly and outcomes measured after treatment, or cohort studies where individuals are tracked over a long period to see if they develop a disease, retrospective case-control studies (often just called case-control studies) select individuals for sample inclusion \emph{after} they have contracted a disease \citep{Woodward_1999}. Two groups are selected: one which has a particular disease/condition and one which does not. Then, covariates are gathered for both groups, with the hope of discovering some factors which are more common in one group that the other. So for instance, we could gather a sample of lung cancer patients and another of adults without lung cancer. We would likely discover that after adjusting for relevant demographic factors (age, sex, SES, etc.) smoking was more common in the lung cancer group and then construct an estimate of the risk ratio for smoking and lung cancer. However, this kind of study is particularly susceptible to selection bias \citep{Woodward_1999} \citep{Geneletti_2008}. This can happen for different reasons, but one of most prominent is that the treatment (smoking, in our example) might cause patients to be admitted to the hospital for a reason unrelated to lung cancer, but upon their admission be discovered to have lung cancer. In this way, we might see a dependence between lung cancer and smoking that is caused by smoker's greater likelihood to be diagnosed.  Similarly, when both cases and controls are selected from the hospital Berkson's bias could create a false negative association \citep{Hernan_2004}.  
+
+Much like the first theorem of \cite{Bareinboim_2014}, Geneletti goes about recovering a conditional distribution by constructing a "bias breaking" set that d-separates (though she does not use the term) the selection node from treatment. The paper uses nearly the same example as Hern\'an's but here 
+
+
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 2pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+\node[shape=circle,draw=black] (E) at (0,0) {E};
+\node[shape=circle,draw=black] (F) at (2,2) {F};
+\node[shape=circle,draw=black] (D) at (2,-2) {D};
+\node[shape=circle,draw=black] (S) at (4,0) {S};
+
+
+ \path [->] (E) edge node[left] {} (F);
+ \path [->] (D) edge node[left] {} (S);
+   \path [->] (E) edge node[left] {} (D);
+  \path [->] (F) edge node[left] {} (S);
+\end{tikzpicture}
+\end{center}
+\caption{Study design for the Geneletti's example}
+\end{figure}
 
 
 %If you feel it necessary to include an appendix, it goes here.
@@ -518,6 +684,11 @@ If there exists a set $\mathbf{X} \subseteq V$ such that $P(y|\mathbf{x})$ is s-
 % subfolder, e.g. 
  \bibliographystyle{APA/apa-good}  % or
  \bibliography{thesis}
+\nocite{*}% there are a variety of styles available; 
+%  \bibliographystyle{plainnat}
+% replace ``plainnat'' with the style of choice. You can refer to files in the bsts or APA 
+% subfolder, e.g. 
+%\bibliographystyle{APA/apa-good}  % or
  % Comment the above two lines and uncomment the next line to use biblatex-chicago.
  %\printbibliography[heading=bibintoc]
 

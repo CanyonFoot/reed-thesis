@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: thesis.aux
+The style file: APA/apa-good.bst
+Multiple inclusions of entire database
+---line 99 of file thesis.aux
+ : \citation{*
+ :            }
+I'm skipping whatever remains of this command
+Database file #1: thesis.bib
+Warning--I didn't find a database entry for "Jin"
+You've used 15 entries,
+            2804 wiz_defined-function locations,
+            719 strings with 7789 characters,
+and the built_in function-call counts, 8553 in all, are:
+= -- 692
+> -- 292
+< -- 11
++ -- 113
+- -- 94
+* -- 662
+:= -- 1319
+add.period$ -- 47
+call.type$ -- 15
+change.case$ -- 107
+chr.to.int$ -- 15
+cite$ -- 15
+duplicate$ -- 642
+empty$ -- 677
+format.name$ -- 136
+if$ -- 1668
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 137
+newline$ -- 91
+num.names$ -- 62
+pop$ -- 232
+preamble$ -- 1
+purify$ -- 90
+quote$ -- 0
+skip$ -- 221
+stack$ -- 0
+substring$ -- 445
+swap$ -- 361
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 129
+warning$ -- 0
+while$ -- 66
+width$ -- 0
+write$ -- 210
+(There was 1 error message)
