@@ -498,7 +498,7 @@ If there exists a set $\mathbf{X} \subseteq V$ such that $P(y|\mathbf{x})$ is s-
 
 \chapter{Earlier Approaches to Selection Bias}
 
-In statistics and many related fields, forms of the effect we are calling "selection bias" have gone by many names. As we have seen,  the tendency for types of survey recipients to respond more or less that others - (non) response bias - falls neatly into the framework of selection bias. In epidemiology and biostatistics, Berkson's bias (sometimes Berkson's paradox) describes a phenomenon in which two conditions that are independent at the population level become dependent within a sample as a result of both conditions affecting the likelihood of sample inclusion. This too is a kind of selection bias, as is Neyman's Bias which results from survivors of a disease being selected for study but not those who died from the disease. In fact there are far more names for particular selection biases than we can describe here \citep{Delgado_2008}. One explanation for this extensive and overlapping nomenclature is that prior to the widespread use of graphical models, it was difficult to give any concise definition of selection bias that was specific enough to be useful. Selection bias is essentially about a sample with a different distribution than the population, but when that non-representivity can come from so many places this characterization is hardly useful.
+In statistics and many related fields, forms of the effect we are calling "selection bias" have gone by many names. As we have seen,  the tendency for types of survey recipients to respond more or less than others - (non) response bias - falls neatly into the framework of selection bias. In epidemiology and biostatistics, Berkson's bias (sometimes Berkson's paradox) describes a phenomenon in which two conditions that are independent at the population level become dependent within a sample as a result of both conditions affecting the likelihood of sample inclusion. This too is a kind of selection bias, as is Neyman's bias which results from survivors of a disease being selected for study but not those who died from the disease. In fact there are far more names for particular selection biases than we can describe here \citep{Delgado_2008}. One explanation for this extensive and overlapping nomenclature is that prior to the widespread use of graphical models, it was difficult to give any concise definition of selection bias that was specific enough to be useful. Selection bias is essentially about a sample with a different distribution than the population, but when that non-representivity can come from so many places this characterization is hardly useful.
 
 In this section we will review a handful of notable earlier approaches to defining, correcting, and recognizing selection bias that have appeared within the literature. The purpose here is two-fold. For one, the historical background is generally useful to anyone looking for a thorough treatment of the subject. More pointedly, we will use the examples of previous methods to argue for the utility of the causal/graphical formulation used in this paper, as well as interpreting the techniques in that light (haven't really done this part yet).
 
@@ -507,9 +507,9 @@ In this section we will review a handful of notable earlier approaches to defini
 I want this section to be review of the really old content on selection bias (like the origin of the term and so on), but so far I have not found much.
 
 \section{The Heckman Correction}
-James Heckman's well-cited 1979 paper "Sample Selection Bias as a Specification Error" proposes a method for overcoming selection bias that is among the most prominent selection adjustment techniques \citep{Heckman_1979}. Heckman was an economist, and his correction technique comes in the context of economic modeling, particularly linear regression models. Because it is situated within this framework, the correction is parametric - it requires the  assumption of normally distributed noise. We consider the familiar situation in which a non-representative sample is drawn from a population. Since we are interested modeling the population values and coefficients, this poses a potential problem. The title of Heckman's paper gives a hint to his strategy: specification error refers to the omission of a relevant variable from a model, and this is how Heckman views the problem. This focus is slightly different than ours as it is really about a model rather than a distribution, but some of the lessons are still applicable.
+James Heckman's well-cited 1979 paper "Sample Selection Bias as a Specification Error" proposes a method for overcoming selection bias that is among the most prominent selection adjustment techniques \citep{Heckman_1979}. Heckman was an economist, and his correction technique comes in the context of economic modeling, particularly linear regression models. Because it is situated within this framework, the correction is parametric - it requires the  assumption of normally distributed noise. We consider the familiar situation in which a non-representative sample is drawn from a population. Since we are interested modeling the population values and coefficients, this poses a potential problem. The title of Heckman's paper gives a hint to his strategy: specification error refers to the omission of a relevant variable from a model. 
 
-The process proceeds in two parts: first, a model is constructed for sample inclusion and second, an expected error term is calculated such that it can be included in the regression model to remove the bias associated with its exclusion. We now describe Heckman's method in detail.
+The method proceeds in two parts: first, a model is constructed for sample inclusion and second, an expected error term is calculated such that it can be included in the regression model to remove the bias associated with its exclusion. We now describe Heckman's method in detail.
 
 \subsection{Premise}
 
@@ -519,11 +519,11 @@ Assume that we have access to the distributions of a dependent variable $Y$, a v
 
 $$Y = \mathbf{X} \boldsymbol{\beta} + \epsilon.$$
 
-Now, assuming we have the joint distribution $P(y, \mathbf{x}, \epsilon)$ we can get $\mathbf{\beta}$ using standard techniques. However, if a selection mechanism is present, this may not be possible. Heckman's correction can be applied when the selection mechanism follows a specific form. Particularly, assume that we have access to another set of random variable that also follow the linear model pattern: 
+Now, assuming we have the joint distribution $P(y, \mathbf{x}, \epsilon)$ we can get $\mathbf{\beta}$ using standard techniques. However, if a selection mechanism is present, this may not be possible. Heckman's correction can be applied when the selection mechanism follows a specific form. Particularly, assume that we have access to another set of random variables that also follow the linear model pattern: 
 
 $$Z = \mathbf{W} \boldsymbol{\delta} + \tau.$$
 
-Again, $\mathbf{W}$ is a vector of regressors, $\boldsymbol{\delta}$ is a coefficient vector and $\tau$ is normally distributed and independent of $\mathbf{W}$. We also require that the joint $P(\tau, \epsilon)$ follows the bivariate normal distribution. Heckman's correction can be applied when selection mechanism is of the form:
+Again, $\mathbf{W}$ is a vector of regressors, $\boldsymbol{\delta}$ is a coefficient vector and $\tau$ is normally distributed and independent of $\mathbf{W}$. Oftentimes, it is assumed that $X \subset W$, but this is not needed. We also require that the joint $P(\tau, \epsilon)$ follows the bivariate normal distribution. Heckman's correction can be applied when the selection mechanism is of the form:
 
 $$S = I(Z > c) = I( \mathbf{W} \boldsymbol{\delta} + \tau > c).$$ 
 
@@ -539,19 +539,23 @@ Our independence assumption gives that $ E[\epsilon |  \mathbf{X}, S = 1] =  E[\
 
 $$E[\epsilon |  \mathbf{X}, S = 1] = E[\epsilon | \mathbf{W} \boldsymbol{\delta}+ \tau > 0] = E[\epsilon |  \tau > - \mathbf{W} \boldsymbol{\delta}].$$
 
-Since $(\epsilon, \tau)$ follows a bivariate normal distribution and each have a marginal mean of $0$, the conditional expectation $E[\epsilon | \tau] = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}} \tau$ where $\rho$ is the correlation between $\epsilon$ and $\tau$ and $\sigma^2_{\epsilon}$, $\sigma^2_{\tau}$ are the respective variances. Let $\gamma  = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}}$ giving $E[\epsilon | \tau]$. We may then write:	
+Since $(\epsilon, \tau)$ follows a bivariate normal distribution and each have a marginal mean of $0$, the conditional expectation $E[\epsilon | \tau] = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}} \tau$ where $\rho$ is the correlation between $\epsilon$ and $\tau$ and $\sigma^2_{\epsilon}$, $\sigma^2_{\tau}$ are the respective variances. Let $\gamma  = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}}$ giving $E[\epsilon | \tau] = \gamma \tau$. We may then write:	
 
-$$E[\epsilon | \tau] = \gamma E[\tau | \tau >  - \mathbf{W} \boldsymbol{\delta}].$$																																																												
-We recognize this as the expectation of a truncated normal, which is given by the inverse Mills ratio ($\frac{\phi(x)}{1 - \Phi(x)}$) evaluated at the truncation point. Therefore, 								$$E[\epsilon | \tau] = \gamma \frac{\phi(- \mathbf{W} \boldsymbol{\delta})}{1  - \Phi(- \mathbf{W} \boldsymbol{\delta})}.$$				
 
-So the bias term  we want to estimate is $\gamma \frac{\phi(- \mathbf{W} \boldsymbol{\delta})}{1  - \Phi(- \mathbf{W} \boldsymbol{\delta})}$. This is done in two parts:
+
+$$E[\epsilon | \tau >  - \mathbf{W} \boldsymbol{\delta}] = E[\gamma \tau | \tau >   - \mathbf{W} \boldsymbol{\delta}] = \gamma E[ \tau | \tau >   - \mathbf{W} \boldsymbol{\delta}]$$																																																												
+We recognize this as the expectation of a truncated normal, which is given by the inverse Mills ratio $\frac{\phi(\frac{x- \mu}{\sigma})}{\sigma(1 - \Phi(\frac{x - \mu}{\sigma}))}$ evaluated at the truncation point. Where $\phi$ is the density function for the standard normal and $\Phi$ is the distribution function and by assumption, $\mu = 0$. Therefore,						
+
+$$E[\epsilon | \tau] = \gamma \frac{\phi(\frac{x}{\sigma})}{\sigma(1 - \Phi(\frac{x}{\sigma}))}.$$				
+
+So the bias term  we want to estimate is $\gamma \frac{\phi(\frac{x}{\sigma})}{\sigma(1 - \Phi(\frac{x}{\sigma}))}$. This is done in two parts:
 
 \begin{enumerate}
-\item A probit model is employed to estimate $\boldsymbol{\delta}$, i.e. $P(S = 1 | \mathbf{W}) = \Phi(- \mathbf{W} \boldsymbol{\delta})$ \cite{Jin}.
+\item First, a linear model for $E[Z | W]$ is constructed and $\hat \sigma_{\tau}$ is estimated from the squared sum of the residuals. Then, probit model is employed to estimate $\boldsymbol{\delta}$, i.e. $P(S = 1 | \mathbf{W}) = \Phi(\frac{ \mathbf{W} \boldsymbol{\delta}}{\sigma_{\tau}})$. The estimate $\boldsymbol{\hat \delta}$ is calculated as $\boldsymbol{\hat \delta} = \boldsymbol{\tilde{\delta}} \hat \sigma_{\tau}$ where $\boldsymbol{\tilde{\delta}}$ are the model coefficients of the probit model.
 
-\item This estimated quantity is used to get an estimate of $\gamma$ and $\frac{\phi(- \mathbf{W} \boldsymbol{\delta})}{1  - \Phi(- \mathbf{W} \boldsymbol{\delta})}$.
+\item This estimated quantity is used to get an estimate of  $\frac{\phi(\frac{x}{\sigma})}{\sigma(1 - \Phi(\frac{x}{\sigma}))}$.
 
-\item The estimate of $\gamma \frac{\phi(- \mathbf{W} \boldsymbol{\delta})}{1  - \Phi(- \mathbf{W} \boldsymbol{\delta})}$ is included in the corrected model $Y = \mathbf{X} \boldsymbol{\beta} + \gamma \frac{\phi(- \mathbf{W} \boldsymbol{\delta})}{1  - \Phi(- \mathbf{W} \boldsymbol{\delta})} + \epsilon$.
+\item The estimate of $\frac{\phi(\frac{x}{\sigma})}{\sigma(1 - \Phi(\frac{x}{\sigma}))}$ is included in the corrected model $Y = \mathbf{X} \boldsymbol{\beta} + \frac{\phi(\frac{x}{\sigma})}{\sigma(1 - \Phi(\frac{x}{\sigma}))} + \epsilon$. The coefficient on $\frac{\phi(\frac{x}{\sigma})}{\sigma(1 - \Phi(\frac{x}{\sigma}))}$ is then an estimate of $\gamma$. 
 \end{enumerate}
 						
 Something to note: unlike the approach we see in the more contemporary selection bias literature, Heckman's method asks for external information on the selection mechanism itself, not the variables being measured. In addition to this, Heckman makes very strong parametric assumptions. Sometimes when such assumptions are made, the method is still relatively robust to (mild) violations.  However, Heckman's correction's does not generally have this property, and violations of the set-up can cause seriously biased estimates \citep{Little_1986}, \citep{Bushway_2007}. 
