@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=latex 2016.5.22)  10 DEC 2019 23:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=latex 2016.5.22)  12 DEC 2019 21:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1207,11 +1207,7 @@ LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
 
 Package natbib Warning: Citation `Jin' on page 16 undefined on input line 534.
 
-[16] [17]
-Underfull \vbox (badness 1997) has occurred while \output is active []
-
- [18]
-[19]
+[16] [17] [18] [19]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [20]
@@ -1244,31 +1240,33 @@ Underfull \hbox (badness 3503) in paragraph at lines 100--104
 -cal Sci-ence. Tay-lor & Fran-cis.
  []
 
-)
+) [24]
 
 Package natbib Warning: There were undefined citations.
 
-[24]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 700.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 700.
+[25
+
+]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 732.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 732.
  (./thesis.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 700.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 700.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 732.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 732.
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: E90C86C9EE98AE2DE0FF88DC020FA3C0;1611.
+(rerunfilecheck)             Checksum: 5C37CB436A3F6F8E1FD152C21330C121;1943.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 700.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 732.
  ) 
 Here is how much of TeX's memory you used:
- 19703 strings out of 493015
- 348625 string characters out of 6133377
- 451562 words of memory out of 5000000
- 22879 multiletter control sequences out of 15000+600000
+ 19707 strings out of 493015
+ 348700 string characters out of 6133377
+ 453006 words of memory out of 5000000
+ 22883 multiletter control sequences out of 15000+600000
  16697 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  48i,12n,54p,1712b,899s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on thesis.dvi (44 pages, 172548 bytes).
+Output written on thesis.dvi (45 pages, 179596 bytes).

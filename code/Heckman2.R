@@ -1,16 +1,17 @@
 ### Implementing Heckman correction - More Complex Case
 library(MASS)
-n <- 100000
-X <- matrix(c(rnorm(n, 0, 1), rexp(n, 0, 1)), ncol = 2)
+n <- 1000000
+X <- matrix(c(rnorm(n, 0, 1), rnorm(n, 0, 1)), ncol = 2)
 Betas <- c(1.25, 3.125)
 
-W <- matrix(c(rnorm(n, 0, 1), rexp(n, 0, 1)), ncol = 2)
+W <- matrix(c(rnorm(n, 0, 1), rnorm(n, 0, 1)), ncol = 2)
 Deltas <- c(2.5, 1.5)
 
-ep_tau <- mvrnorm(n = n, mu  = c(0,0), Sigma = matrix(c(2, 1.5, 1.5, 2), byrow = T, nrow =2))
+ep_tau <- mvrnorm(n = n, mu  = c(0,0), Sigma = matrix(c(10, 1.5, 1.5, 5), byrow = T, nrow =2))
 
 Y <- (X %*% Betas) + ep_tau[,1]
 Z <- (W %*% Deltas) + ep_tau[,2]
+
 
 sample_vec <- ep_tau[,2] > - (W %*% Deltas)
 mean(sample_vec)
@@ -24,7 +25,7 @@ lm(sampled_Y ~ sampled_X)
 
 V <- -(W %*% Deltas) 
 
-bias_term <-  (dnorm(V / sqrt(2)) / (sqrt(2) * (1 - pnorm(V / sqrt(2)))))
+bias_term <-  sqrt(2) * (dnorm(V / sqrt(2)) / ( (1 - pnorm(V / sqrt(2)))))
 
 mean(bias_term[bias_term < Inf])
 bias_term[bias_term == Inf] <- max(bias_term[bias_term != Inf])
@@ -47,7 +48,7 @@ estimated_deltas <- unname(sampling_probit$coefficients[2:3]) * estimated_sigma_
 
 # Estimate bias term 
 estimated_V <- -(W %*% estimated_deltas) / estimated_sigma_tau
-estimated_bias <- (dnorm(estimated_V) / (estimated_sigma_tau * (1 - pnorm(estimated_V))))
+estimated_bias <- estimated_sigma_tau * (dnorm(estimated_V) / ( (1 - pnorm(estimated_V))))
 
 estimated_bias[estimated_bias == Inf] <- max(estimated_bias[estimated_bias != Inf])
 
