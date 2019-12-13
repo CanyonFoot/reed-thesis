@@ -544,21 +544,22 @@ Since $(\epsilon, \tau)$ follows a bivariate normal distribution and each have a
 
 
 $$E[\epsilon | \tau >  - \mathbf{W} \boldsymbol{\delta}] = E[\gamma \tau | \tau >   - \mathbf{W} \boldsymbol{\delta}] = \gamma E[ \tau | \tau >   - \mathbf{W} \boldsymbol{\delta}]$$																																																												
-We recognize this as the expectation of a truncated normal, which is given by the inverse Mills ratio $\frac{\phi(\frac{x- \mu}{\sigma})}{\sigma(1 - \Phi(\frac{x - \mu}{\sigma}))}$ evaluated at the truncation point. Where $\phi$ is the density function for the standard normal and $\Phi$ is the distribution function and by assumption, $\mu = 0$. Therefore,						
+We recognize this as the expectation of a truncated normal, which is given by the inverse Mills ratio $E[X | X > x] = \sigma \frac{\phi(\frac{x- \mu}{\sigma})}{1 - \Phi(\frac{x - \mu}{\sigma})}$ for $X \sim N(\mu, \sigma^2)$. As usual, $\phi$ is the density function for the standard normal and $\Phi$ is the distribution function. By assumption, $\mu = 0$. Therefore,						
 
-$$E[\epsilon | \tau] = \gamma \frac{\phi(\frac{x}{\sigma})}{\sigma(1 - \Phi(\frac{x}{\sigma}))}.$$				
+$$E[\epsilon | \tau > -\mathbf{W} \boldsymbol{\delta}] = \gamma \sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}.$$				
 
-So the bias term  we want to estimate is $\gamma \frac{\phi(\frac{x}{\sigma})}{\sigma(1 - \Phi(\frac{x}{\sigma}))}$. This is done in two parts:
+So the bias term  we want to estimate is $\gamma\sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$. This is done in two parts:
 
 \begin{enumerate}
 \item First, a linear model for $E[Z | W]$ is constructed and $\hat \sigma_{\tau}$ is estimated from the squared sum of the residuals. Then, probit model is employed to estimate $\boldsymbol{\delta}$, i.e. $P(S = 1 | \mathbf{W}) = \Phi(\frac{ \mathbf{W} \boldsymbol{\delta}}{\sigma_{\tau}})$. The estimate $\boldsymbol{\hat \delta}$ is calculated as $\boldsymbol{\hat \delta} = \boldsymbol{\tilde{\delta}} \hat \sigma_{\tau}$ where $\boldsymbol{\tilde{\delta}}$ are the model coefficients of the probit model.
 
-\item This estimated quantity is used to get an estimate of  $\frac{\phi(\frac{x}{\sigma})}{\sigma(1 - \Phi(\frac{x}{\sigma}))}$.
+\item This estimated quantity is used to get an estimate of  $\sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$.
 
-\item The estimate of $\frac{\phi(\frac{x}{\sigma})}{\sigma(1 - \Phi(\frac{x}{\sigma}))}$ is included in the corrected model $Y = \mathbf{X} \boldsymbol{\beta} + \frac{\phi(\frac{x}{\sigma})}{\sigma(1 - \Phi(\frac{x}{\sigma}))} + \epsilon$. The coefficient on $\frac{\phi(\frac{x}{\sigma})}{\sigma(1 - \Phi(\frac{x}{\sigma}))}$ is then an estimate of $\gamma$. 
+\item The estimate of $\sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$ is included in the corrected model $Y = \mathbf{X} \boldsymbol{\beta} + \sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})} + \epsilon$. The coefficient on $\sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$ is then an estimate of $\gamma$. 
 \end{enumerate}
 						
 Something to note: unlike the approach we see in the more contemporary selection bias literature, Heckman's method asks for external information on the selection mechanism itself, not the variables being measured. In addition to this, Heckman makes very strong parametric assumptions. Sometimes when such assumptions are made, the method is still relatively robust to (mild) violations.  However, Heckman's correction's does not generally have this property, and violations of the set-up can cause seriously biased estimates \citep{Little_1986}, \citep{Bushway_2007}. 
+
 
 \section{Probability Weighting}
 
@@ -695,6 +696,37 @@ Much like the first theorem of \cite{Bareinboim_2014}, Geneletti goes about reco
 %\bibliographystyle{APA/apa-good}  % or
  % Comment the above two lines and uncomment the next line to use biblatex-chicago.
  %\printbibliography[heading=bibintoc]
+\appendix
+\chapter{Appendix}
 
+\section{Heckman}
+\subsection{Conditional Expectation of Bivariate Normal Distribution}
+
+We want to show that for $(\epsilon, \tau) \sim N((0,0), \boldsymbol{\Sigma})$ (where $\boldsymbol{\Sigma} = \begin{pmatrix}
+\sigma_\epsilon^2 &\ \rho \sigma_\epsilon \sigma_\tau \\
+\rho \sigma_\epsilon \sigma_\tau &\ \sigma_\tau^2
+\end{pmatrix}$ and $\rho$ is the correlation of $\epsilon$ and $\tau$) the conditional $E[\epsilon | \tau] = \rho \frac{\sigma_\epsilon}{\sigma_\tau} \tau$. The normal distribution has the property that the covariance (therefore correlation) of determines the dependence structure. Consider the random variable $\epsilon - \frac{\rho}{\sigma_\tau} \tau$. We want to show that this random variable is independent of $\tau$. This is true when their covariance is $0$, i.e. when $E[\tau (\epsilon -\rho \frac{\sigma_\epsilon}{\sigma_\tau}\tau)] - E[\tau] E[\epsilon - \rho \frac{\sigma_\epsilon}{\sigma_\tau}  \tau] = 0$. In fact, since $E[\tau]=0$ by assumption, we want to show that $E[\tau (\epsilon -\rho \frac{\sigma_\epsilon}{\sigma_\tau} \tau)] = 0$
+
+We have:
+
+\begin{align*}
+E[\tau (\epsilon - \rho \frac{\sigma_\epsilon}{\sigma_\tau} \tau)] &= E[\tau \epsilon] -  \rho \frac{\sigma_\epsilon}{\sigma_\tau} E[\tau^2] \\
+&=  \rho \sigma_\tau \sigma_\epsilon -  \rho \frac{\sigma_\epsilon}{\sigma_\tau}E[\tau^2] \\ 
+&= \rho \sigma_\tau \sigma_\epsilon -  \rho \sigma_\tau \\
+&= 0
+\end{align*}
+As desired. Then, applying independence, we have that:
+
+\begin{align*}
+E[\epsilon | \tau] &= E[\epsilon - \frac{\rho}{\sigma_\tau} \tau +  \frac{\rho}{\sigma_\tau} \tau | \tau] \\
+&= E[\epsilon - \rho \frac{\sigma_\epsilon}{\sigma_\tau} \tau | \tau] + E[\rho \frac{\sigma_\epsilon}{\sigma_\tau} \tau | \tau] \\
+&= E[\epsilon - \rho \frac{\sigma_\epsilon}{\sigma_\tau} \tau] +\rho \frac{\sigma_\epsilon}{\sigma_\tau}E[\tau | \tau] \\
+&= E[\epsilon] + \rho \frac{\sigma_\epsilon}{\sigma_\tau} \tau \\
+&= \rho \frac{\sigma_\epsilon}{\sigma_\tau} \tau. 
+\end{align*}
+
+\subsection{Truncated Normal and the Inverse Mills Ratio}
+
+We show that $E[\tau | \tau \geq t] = \sigma_\tau \frac{\phi(t)}{1 - \Phi(t)}$. 
 % Finally, an index would go here... but it is also optional.
 \end{document}
