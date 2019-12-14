@@ -539,11 +539,13 @@ Our independence assumption gives that $ E[\epsilon |  \mathbf{X}, S = 1] =  E[\
 
 $$E[\epsilon |  \mathbf{X}, S = 1] = E[\epsilon | \mathbf{W} \boldsymbol{\delta}+ \tau > 0] = E[\epsilon |  \tau > - \mathbf{W} \boldsymbol{\delta}].$$
 
-Since $(\epsilon, \tau)$ follows a bivariate normal distribution and each have a marginal mean of $0$, the conditional expectation $E[\epsilon | \tau] = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}} \tau$ where $\rho$ is the correlation between $\epsilon$ and $\tau$ and $\sigma^2_{\epsilon}$, $\sigma^2_{\tau}$ are the respective variances. Let $\gamma  = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}}$ giving $E[\epsilon | \tau] = \gamma \tau$. We may then write:	
+Since $(\epsilon, \tau)$ follows a bivariate normal distribution and each have a marginal mean of $0$, the conditional expectation $E[\epsilon | \tau] = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}} \tau$ where $\rho$ is the correlation between $\epsilon$ and $\tau$ and $\sigma^2_{\epsilon}$, $\sigma^2_{\tau}$ are the respective variances. Let $\gamma  = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}}$ giving $E[\epsilon | \tau] = \gamma \tau$. We may then apply the law of total expectation (sometimes call Adam's law):
 
+$$E[\epsilon | \tau] = E[E[\epsilon | \tau] | \tau] = E[\gamma \tau | \tau] = \gamma E[\tau | \tau]$$	
 
+So, when $\tau > - \mathbf{W} \boldsymbol{\delta}$, $E[\tau | \tau] = E[\tau | \tau > - \mathbf{W} \boldsymbol{\delta}]$ and we have that:
 
-$$E[\epsilon | \tau >  - \mathbf{W} \boldsymbol{\delta}] = E[\gamma \tau | \tau >   - \mathbf{W} \boldsymbol{\delta}] = \gamma E[ \tau | \tau >   - \mathbf{W} \boldsymbol{\delta}]$$																																																												
+$$E[\epsilon | \tau >  - \mathbf{W} \boldsymbol{\delta}]  = \gamma E[ \tau | \tau >   - \mathbf{W} \boldsymbol{\delta}]$$																																																												
 We recognize this as the expectation of a truncated normal, which is given by the inverse Mills ratio $E[X | X > x] = \sigma \frac{\phi(\frac{x- \mu}{\sigma})}{1 - \Phi(\frac{x - \mu}{\sigma})}$ for $X \sim N(\mu, \sigma^2)$. As usual, $\phi$ is the density function for the standard normal and $\Phi$ is the distribution function. By assumption, $\mu = 0$. Therefore,						
 
 $$E[\epsilon | \tau > -\mathbf{W} \boldsymbol{\delta}] = \gamma \sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}.$$				
@@ -727,6 +729,24 @@ E[\epsilon | \tau] &= E[\epsilon - \frac{\rho}{\sigma_\tau} \tau +  \frac{\rho}{
 
 \subsection{Truncated Normal and the Inverse Mills Ratio}
 
-We show that $E[\tau | \tau \geq t] = \sigma_\tau \frac{\phi(t)}{1 - \Phi(t)}$. 
+We show that $E[\tau | \tau \geq t] = \sigma_\tau \frac{\phi(t)}{1 - \Phi(t)}$. By the definition of truncated density, the truncated PDF $f_{\tau | \tau > t}$ is:
+
+$$f_{\tau | \tau > t}(x) = \frac{f_\tau(x)}{1 - F_\tau(t)} \text{  for } x > t$$
+
+Where $f$ is the density function for $\tau$ and $F$ is the distribution function for $\tau$. In particular, these are $f(x) = \frac{1}{\sigma_\tau} \phi(\frac{x}{\sigma_\tau})$ and $F(x) = \Phi(\frac{x}{\sigma_\tau})$ giving $f_{\tau | \tau > t}(x) = \frac{\phi(\frac{x}{\sigma_\tau})}{\sigma_\tau(1 - \Phi(\frac{t}{\sigma_\tau}))} \text{  for } x > t$. To find the expected value, we integrate. 
+
+\begin{align*}
+E[\tau | \tau > - t] &= \int_t^\infty x f_{\tau | \tau > t}(x) \\
+&= \int_t^\infty \frac{\phi(\frac{x}{\sigma_\tau})}{\sigma_\tau(1 - \Phi(\frac{t}{\sigma_\tau}))} \\
+&= \frac{1}{\sigma_\tau(1 - \Phi(\frac{t}{\sigma_\tau}))} \int_t^\infty x \phi(\frac{x}{\sigma_\tau})  \\
+&= \frac{1}{\sigma_\tau(1 - \Phi(\frac{t}{\sigma_\tau}))} \int_t^\infty  \frac{x}{\sigma_\tau \sqrt{2 \pi}}e^{-\frac{x^2}{2 \sigma_\tau^2}} \\
+&= \frac{1}{\sigma_\tau(1 - \Phi(\frac{t}{\sigma_\tau}))} \left( -\dfrac{{\sigma_\tau}e^{-\frac{x^2}{2{\sigma_\tau}^2}}}{\sqrt{{2\pi}}} \bigg |_t^\infty \right) \\
+&= \frac{1}{\sigma_\tau(1 - \Phi(\frac{t}{\sigma_\tau}))} \dfrac{{\sigma_\tau}e^{-\frac{t^2}{2{\sigma_\tau}^2}}}{\sqrt{{2\pi}}}  \\
+&= \frac{\sigma_\tau^2 \phi(\frac{t}{\sigma_\tau})}{\sigma_\tau(1 - \Phi(\frac{t}{\sigma_\tau}))} \\
+&= \sigma_\tau  \frac{\phi(\frac{t}{\sigma_\tau})}{(1 - \Phi(\frac{t}{\sigma_\tau}))} 
+\end{align*}
+Which is the desired result.
+
+
 % Finally, an index would go here... but it is also optional.
 \end{document}
