@@ -1,4 +1,4 @@
-\begin{thebibliography}{15}
+\begin{thebibliography}{16}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{{\tt #1}}\fi
@@ -95,6 +95,12 @@ Squire, P. (1988).
 \newblock Why the 1936 literary digest poll failed.
 \newblock {\em The Public Opinion Quarterly\/}, {\em 52\/}(1), 125--133.
 \urlprefix\url{http://www.jstor.org/stable/2749114}
+
+\bibitem[{Winship \& Mare(1992)}]{Winship_Mare_1992}
+Winship, C., \& Mare, R.~D. (1992).
+\newblock Models for sample selection bias.
+\newblock {\em Annual Review of Sociology\/}, {\em 18\/}(1), 327--350.
+\urlprefix\url{https://doi.org/10.1146/annurev.so.18.080192.001551}
 
 \bibitem[{Woodward(1999)}]{Woodward_1999}
 Woodward, M. (1999).

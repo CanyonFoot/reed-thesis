@@ -3,51 +3,51 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: thesis.aux
 The style file: APA/apa-good.bst
 Multiple inclusions of entire database
----line 99 of file thesis.aux
+---line 107 of file thesis.aux
  : \citation{*
  :            }
 I'm skipping whatever remains of this command
 Database file #1: thesis.bib
 Warning--I didn't find a database entry for "Jin"
-You've used 15 entries,
+You've used 16 entries,
             2804 wiz_defined-function locations,
-            719 strings with 7789 characters,
-and the built_in function-call counts, 8553 in all, are:
-= -- 692
-> -- 292
-< -- 11
-+ -- 113
-- -- 94
-* -- 662
-:= -- 1319
-add.period$ -- 47
-call.type$ -- 15
-change.case$ -- 107
-chr.to.int$ -- 15
-cite$ -- 15
-duplicate$ -- 642
-empty$ -- 677
-format.name$ -- 136
-if$ -- 1668
+            728 strings with 7985 characters,
+and the built_in function-call counts, 9137 in all, are:
+= -- 740
+> -- 311
+< -- 12
++ -- 120
+- -- 100
+* -- 710
+:= -- 1406
+add.period$ -- 50
+call.type$ -- 16
+change.case$ -- 114
+chr.to.int$ -- 16
+cite$ -- 16
+duplicate$ -- 686
+empty$ -- 723
+format.name$ -- 147
+if$ -- 1783
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 137
-newline$ -- 91
-num.names$ -- 62
-pop$ -- 232
+missing$ -- 146
+newline$ -- 97
+num.names$ -- 66
+pop$ -- 247
 preamble$ -- 1
-purify$ -- 90
+purify$ -- 96
 quote$ -- 0
-skip$ -- 221
+skip$ -- 235
 stack$ -- 0
-substring$ -- 445
-swap$ -- 361
+substring$ -- 477
+swap$ -- 387
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 129
+type$ -- 138
 warning$ -- 0
-while$ -- 66
+while$ -- 70
 width$ -- 0
-write$ -- 210
+write$ -- 224
 (There was 1 error message)

@@ -40,14 +40,13 @@ m_adjusted
 
 # Estimate sigma_tau from squared residuals of model
 sigma_mod <- lm(Z ~ W)
-estimated_sigma_tau <- sqrt(sum((sigma_mod$residuals)^2) / (n - 2))
 
 # Estimate deltas as probit coefficents scaled by sigma_tau
 sampling_probit <- glm(sample_vec ~ W, family = binomial(link = "probit"))
-estimated_deltas <- unname(sampling_probit$coefficients[2:3]) * estimated_sigma_tau
+estimated_deltas <- unname(sampling_probit$coefficients[2:3])
 
 # Estimate bias term 
-estimated_V <- -(W %*% estimated_deltas) / estimated_sigma_tau
+estimated_V <- -(W %*% estimated_deltas)
 estimated_bias <- estimated_sigma_tau * (dnorm(estimated_V) / ( (1 - pnorm(estimated_V))))
 
 estimated_bias[estimated_bias == Inf] <- max(estimated_bias[estimated_bias != Inf])

@@ -519,11 +519,11 @@ Assume that we have access to the distributions of a dependent variable $Y$, a v
 
 $$Y = \mathbf{X} \boldsymbol{\beta} + \epsilon.$$
 
-Now, assuming we have the joint distribution $P(y, \mathbf{x}, \epsilon)$ we can get $\mathbf{\beta}$ using standard techniques. However, if a selection mechanism is present, this may not be possible. Heckman's correction can be applied when the selection mechanism follows a specific form. Particularly, assume that we have access to another set of random variables that also follow the linear model pattern: 
+Now, assuming we have the joint distribution $P(y, \mathbf{x}, \epsilon)$ we can get $\mathbf{\beta}$ using standard techniques. However, if a selection mechanism is present, this may not be possible. Unlike the selection mechanisms we saw in the previous chapter, the mechanism only causes values for $Y$ to be missing - i.e. $X$ is measured in the population but $Y$. Heckman's correction can be applied when the selection mechanism follows a specific form. Particularly, assume that there is another set of random variables that also follow the linear model pattern: 
 
 $$Z = \mathbf{W} \boldsymbol{\delta} + \tau.$$
 
-Again, $\mathbf{W}$ is a vector of regressors, $\boldsymbol{\delta}$ is a coefficient vector and $\tau$ is normally distributed and independent of $\mathbf{W}$. Oftentimes, it is assumed that $X \subset W$, but this is not needed. We also require that the joint $P(\tau, \epsilon)$ follows the bivariate normal distribution. Heckman's correction can be applied when the selection mechanism is of the form:
+Again, $\mathbf{W}$ is a vector of regressors, $\boldsymbol{\delta}$ is a coefficient vector and $\tau$ is normally distributed and independent of $\mathbf{W}$. Oftentimes, it is the case  that $\mathbf{W}$ contains the regressors in $\mathbf{X}$, but this is not needed. In general, $Z$ is not measured at all, but as with $\mathbf{X}$, $\mathbf{W}$ is measured in the population. We also require that the joint $P(\tau, \epsilon)$ follows the bivariate normal distribution. Heckman's correction can be applied when the selection mechanism is of the form:
 
 $$S = I(Z > c) = I( \mathbf{W} \boldsymbol{\delta} + \tau > c).$$ 
 
@@ -539,7 +539,7 @@ Our independence assumption gives that $ E[\epsilon |  \mathbf{X}, S = 1] =  E[\
 
 $$E[\epsilon |  \mathbf{X}, S = 1] = E[\epsilon | \mathbf{W} \boldsymbol{\delta}+ \tau > 0] = E[\epsilon |  \tau > - \mathbf{W} \boldsymbol{\delta}].$$
 
-Since $(\epsilon, \tau)$ follows a bivariate normal distribution and each have a marginal mean of $0$, the conditional expectation $E[\epsilon | \tau] = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}} \tau$ where $\rho$ is the correlation between $\epsilon$ and $\tau$ and $\sigma^2_{\epsilon}$, $\sigma^2_{\tau}$ are the respective variances. Let $\gamma  = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}}$ giving $E[\epsilon | \tau] = \gamma \tau$. We may then apply the law of total expectation (sometimes call Adam's law):
+Since $(\epsilon, \tau)$ follows a bivariate normal distribution and each have a marginal mean of $0$, the conditional expectation $E[\epsilon | \tau] = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}} \tau$ where $\rho$ is the correlation between $\epsilon$ and $\tau$ and $\sigma^2_{\epsilon}$, $\sigma^2_{\tau}$ are the respective variances. Let $\gamma  = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}}$ giving $E[\epsilon | \tau] = \gamma \tau$. Notice that when $\rho = 0$ (meaning $\epsilon$ and $\tau$ are independent), the $\gamma$ term is equal to $0$ and therefore the selection does not bias the estimate.  We may then apply the law of total expectation (sometimes call Adam's law):
 
 $$E[\epsilon | \tau] = E[E[\epsilon | \tau] | \tau] = E[\gamma \tau | \tau] = \gamma E[\tau | \tau]$$	
 
@@ -550,17 +550,85 @@ We recognize this as the expectation of a truncated normal, which is given by th
 
 $$E[\epsilon | \tau > -\mathbf{W} \boldsymbol{\delta}] = \gamma \sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}.$$				
 
-So the bias term  we want to estimate is $\gamma\sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$. This is done in two parts:
+So the bias term  we want to estimate is $\gamma\sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$. This is done in several parts \cite{Heckman_1979}.
 
 \begin{enumerate}
-\item First, a linear model for $E[Z | W]$ is constructed and $\hat \sigma_{\tau}$ is estimated from the squared sum of the residuals. Then, probit model is employed to estimate $\boldsymbol{\delta}$, i.e. $P(S = 1 | \mathbf{W}) = \Phi(\frac{ \mathbf{W} \boldsymbol{\delta}}{\sigma_{\tau}})$. The estimate $\boldsymbol{\hat \delta}$ is calculated as $\boldsymbol{\hat \delta} = \boldsymbol{\tilde{\delta}} \hat \sigma_{\tau}$ where $\boldsymbol{\tilde{\delta}}$ are the model coefficients of the probit model.
+\item  First, a probit model is employed to estimate $\frac{\boldsymbol{\delta}}{\sigma_\tau}$, i.e. $P(S = 1 | \mathbf{W}) = \Phi(\frac{ \mathbf{W} \boldsymbol{\delta}}{\sigma_{\tau}})$. 
 
-\item This estimated quantity is used to get an estimate of  $\sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$.
+\item This estimated quantity is used to get an estimate of  $\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$.
 
-\item The estimate of $\sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$ is included in the corrected model $Y = \mathbf{X} \boldsymbol{\beta} + \sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})} + \epsilon$. The coefficient on $\sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$ is then an estimate of $\gamma$. 
+\item The estimate of $\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$ is included in the corrected model $Y = \mathbf{X} \boldsymbol{\beta} + \frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})} + \epsilon$. The coefficient on $\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$ is then an estimate of $\gamma \sigma_\tau = \rho \sqrt{\sigma_\epsilon}$. In this model, the estimate of the intercept,$\hat \beta_0$, is now consistent, meaning that as the sample size increases $\hat \beta_0 \rightarrow \beta_0$ in probability.
 \end{enumerate}
-						
-Something to note: unlike the approach we see in the more contemporary selection bias literature, Heckman's method asks for external information on the selection mechanism itself, not the variables being measured. In addition to this, Heckman makes very strong parametric assumptions. Sometimes when such assumptions are made, the method is still relatively robust to (mild) violations.  However, Heckman's correction's does not generally have this property, and violations of the set-up can cause seriously biased estimates \citep{Little_1986}, \citep{Bushway_2007}. 
+
+Something to note: unlike the approach we see in the more contemporary selection bias literature, Heckman's method asks for external information on the selection mechanism itself, not the variables being measured. In addition to this, Heckman makes very strong parametric assumptions. Sometimes when such assumptions are made, the method is still relatively robust to (mild) violations.  However, Heckman's correction's does not generally have this property, and violations of the set-up can cause seriously biased estimates \citep{Little_1986}. This lack of robustness has led to Heckman's method becoming less popular in recent years \citep{Bushway_2007}.
+
+
+\subsection{Graphing Heckman}
+Although Heckman's method makes assumptions which are not captured by a causal graph (such as normality of $\epsilon$, $\tau$), it is still instructive to supply the graph that Heckman's setup induces. 
+
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 2pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+\node[shape=circle,draw=black] (X) at (0,0) {X};
+\node[shape=circle,draw=black] (Y) at (4,.5) {Y};
+\node[shape=circle,draw=black] (Z) at (9,0) {Z};
+\node[shape=circle,draw=black] (S) at (7,-2) {S};
+\node[shape=circle,draw=black] (W) at (5,-1) {W};
+\node[shape=circle,draw=black] (E) at (0,2) {$\epsilon$};
+\node[shape=circle,draw=black] (T) at (5,2) {$\tau$};
+
+ \path [->] (X) edge node[left] {} (Y);
+ \path [->] (E) edge node[left] {} (Y);
+  \path [->] (T) edge node[left] {} (Z);
+    \path [->] (W) edge node[left] {} (Z);
+        \path [->] (Z) edge node[left] {} (S);
+   \path [-] (T) edge node[left] {} (E);
+   \path [-] (X) edge node[left] {} (W);
+\end{tikzpicture}
+\end{center}
+\caption{PDAG corresponding to the structural equations in Heckman's set up. We leave arrows off the edges between $\epsilon$ and $\tau$ and between $X$ and $W$ since the directions are not given by the structural equations.}
+\end{figure}
+
+One fact we observed earlier that this image makes clear is that when the edge between $\epsilon$ and $\tau$ is inactive, the sampling procedure will not affect the estimates since $Y \dsep_G S | X$ and so $P(y| x) = P(y|x, S = 1)$. Visualization the structure this way also leads to the conclusion that if the joint distribution $(\mathbf{X},Z)$ is measured in the population, we can use Barenboim's second theorem to recover $P(y|x)$. Of course, this is not the usual case since $Z$ is typically not measured at all, much less in the population.
+
+
+
+\subsection{Examples}
+
+Heckman developed his technique in the context of economic research, and its implementation typically relies on further assumptions justified by economic theory. Particularly, $Z$ is often understood as an \emph{unmeasured} continuous random variable following the linear regression assumptions \citep{Winship_Mare_1992}. Sometimes,  this variable is not directly measurable - such as an individual propensity or ability - that is nonetheless assumed to exist. We quickly review a number of  fairly standard  examples used to introduce Heckman's method \citep{Heckman_1979}, \citep{Guo_2015}.
+
+\begin{enumerate}
+\item Estimating the wages women not in the workforce would make if they entered the workforce using data for women currently in the workforce. Selection occurs because the women in the workforce differ from those who are not.
+
+\item Estimating the effect of unionization of worker wages - similar to the last example, unionized workers might have joined the union because they were unsatisfied with their wages pre-unionization.
+
+\item Estimating effects of schooling/training programs of worker productivity. Once again, the problem is that the people who choose to participate in such programs cannot be used to represent the workers who did not make that 
+\end{enumerate}
+
+In the spirit of some of these examples, we describe a relevant variation in more detail. Suppose that we are working with Reed College academic services to measure the effect of tutoring on student homework grades in the introductory chemistry sequence. We have collected a collected a set of relevant covariates ($\mathbf{X}$) on all students in the course such as major, high school grades, basic demographics, etc. The response variable ($\text{Grade Change}$) is the difference between the student's average homework scores before their first tutoring appointment and the average score after. Since some students do not seek tutoring, their value of $Y$ is missing. We assume that the response variable follows the linear regression assumptions:
+
+$$\text{Grade Change} =   \mathbf{X}\boldsymbol{\beta} + \epsilon$$
+
+For normally distributed $\epsilon$ with mean $0$. As students who participate in tutoring might differ from students who do not, it would be incorrect to use the model created using data for students that did seek tutoring to estimate the impact that tutoring would have on students who did not chose to be tutored. So, we must create a model for a student's probability of going to tutoring. To do this though Heckman's technique, we must further assume that a student seeks tutoring a when some unmeasured value crosses a threshold. There are multiple options here, and in practice this a stage that requires existing economic theory to be justified. In our case, these details are not important we assume that $\text{Tutoring Value}$ is, for each student, the perceived value of going to tutoring minus the students value of an equal amount of time for a different activity, such that a student goes to tutoring if  $\text{Tutoring Value}$ is positive. We have further collected from each student covariates capturing their motivation to do well in their courses, their perception of the usefulness of tutoring, and the amount of free time they have. Together with the covariates we measured for $X$, these variables constitute $\mathbf{\mathbf{W}}$,  and again we require linear regression assumptions are satisfied:
+
+$$\text{Tutoring Desire} = \mathbf{W}  \boldsymbol{\delta} + \tau$$
+
+With $\tau$ being normally distributed with mean $0$ such that $\epsilon$ and $\tau$ are jointly bivariate normal with correlation $\rho$. We can then implement the correction as follows:
+
+\begin{enumerate}
+\item Define the selection variable $S$ as $1$ for student with data for $\text{Grade Change}$ and $0$ for those who do not.
+
+\item Create a probit model $P(S=1 | W)$ which yields as estimate of $\frac{\boldsymbol{\delta}}{\sigma_\tau}$ as the coefficients on $\mathbf{W}$.
+
+\item We then estimate the inverse Mill's ratio $\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$ and include the term in the regression equation, giving consistent estimates of $E[\text{Grade Change} | \mathbf{X}]$.
+\end{enumerate}
+
 
 
 \section{Probability Weighting}
@@ -588,11 +656,35 @@ Another technique worth mentioning is a very general approach called inverse pro
 \end{figure}
 
 
-Now, instead of assuming that we have access to the population distribution $P(x)$ as in the external data section, but rather that we know or can estimate  $P(S = 1)$.  One context in which this is plausible is in drop-out over the course of a longitudinal study \citep{Hernan_2004}. Particularly, selection into the final analysis is the result of \emph{not} dropping out at some point over the course of the study. If drop out does not occur at random, selection bias is likely. However, it would be possible to estimate drop-out probability by comparing the body of participants at the outset of the study to the group that remains. Since we have $P(x,y | S = 1)$, knowing $P(S = 1)$ gives $P(x,y, S = 1) = P(x,y | S = 1)P(S = 1)$ and thereby use Baye's rule to get:
+Now, instead of assuming that we have access to the population distribution $P(x)$ as in the external data section, but rather that we know or can estimate  $P(S = 1)$ and $P(S=1 | x)$.  One context in which this is plausible is in drop-out over the course of a longitudinal study \citep{Hernan_2004}. Particularly, selection into the final analysis is the result of \emph{not} dropping out at some point over the course of the study. If drop out does not occur at random, selection bias is likely. However, it would be possible to estimate drop-out probability by comparing the body of participants at the outset of the study to the group that remains.
 
 $$P(x,y) = \frac{P(x,y | S = 1) P(S = 1)}{P(S = 1 | x,y)} = \frac{P(S = 1)}{P(S = 1 | x )}P(x,y | S = 1).$$
 
-So clearly knowing $P(S = 1)$ is quite powerful. As with Heckman, this method requires information about the selection mechanism, but doesn't assume population level information about the other variables. This is a real difference between inverse probability weighting or the Heckman correction and the graphical approaches we examine next.
+So clearly knowing $P(S = 1)$ and $P(S = 1|x)$ is quite powerful. As with Heckman, this method requires information about the selection mechanism, but doesn't assume population level information about the other variables. This is a real difference between inverse probability weighting or the Heckman correction and the graphical approaches we examine next. However, unlike Heckman, inverse probability weighting does not require  assumptions about the parametric structure of the data and instead works with non-parametric values.   We give a brief example drawing on our previous discussion of the 1936 Literary Digest survey.
+
+\subsection{}
+
+Consider the first explanation of the Literary Digest's survey failure: that selection based on income was solely responsible for the non-representivity of the sample. So, we could first estimate $P(S = 1)$ by dividing number the survey respondents by the size total population of interest - eligible voters. Next we would like to estimate $P(S= 1 | w)$. If we had $P(w)$ as external data we could do this using Baye's rule: $P(S = 1 | w)=  \frac{P(w|S=1)P(S=1)}{P(w)}$. However, as we saw in Chapter $2$ we could recover $P(c,w)$ using $P(w)$ without estimating values
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 2pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+\node[shape=circle,draw=black] (C) at (0,0) {C};
+\node[shape=circle,draw=black] (W) at (4,0) {W};
+\node[shape=circle,draw=black] (S) at (2,-2) {S};
+
+ \path [->] (W) edge node[left] {} (S);
+ \path [->] (W) edge node[left] {} (C);
+
+\end{tikzpicture}
+\end{center}
+\caption{Graph corresponding to selection bias based on income} 
+\end{figure}
 
 \section{Getting Graphical}
 

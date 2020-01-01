@@ -16,13 +16,16 @@
 \contentsline {section}{\numberline {3.1}Old Stuff}{15}{section.3.1}
 \contentsline {section}{\numberline {3.2}The Heckman Correction}{15}{section.3.2}
 \contentsline {subsection}{\numberline {3.2.1}Premise}{16}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Implementing the Correction}{16}{subsection.3.2.2}
-\contentsline {section}{\numberline {3.3}Probability Weighting}{18}{section.3.3}
-\contentsline {section}{\numberline {3.4}Getting Graphical}{18}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}Hern\'an et. al}{19}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}Geneletti et. al}{20}{subsection.3.4.2}
-\contentsline {chapter}{Bibliography}{23}{chapter*.10}
-\contentsline {chapter}{Appendix}{25}{appendix*.11}
-\contentsline {section}{\numberline {.1}Heckman}{25}{section.Alph0.1}
-\contentsline {subsection}{\numberline {.1.1}Conditional Expectation of Bivariate Normal Distribution}{25}{subsection.Alph0.1.1}
-\contentsline {subsection}{\numberline {.1.2}Truncated Normal and the Inverse Mills Ratio}{25}{subsection.Alph0.1.2}
+\contentsline {subsection}{\numberline {3.2.2}Implementing the Correction}{17}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Graphing Heckman}{18}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}Examples}{18}{subsection.3.2.4}
+\contentsline {section}{\numberline {3.3}Probability Weighting}{20}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}}{21}{subsection.3.3.1}
+\contentsline {section}{\numberline {3.4}Getting Graphical}{21}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Hern\'an et. al}{21}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Geneletti et. al}{22}{subsection.3.4.2}
+\contentsline {chapter}{Bibliography}{25}{chapter*.10}
+\contentsline {chapter}{Appendix}{27}{appendix*.11}
+\contentsline {section}{\numberline {.1}Heckman}{27}{section.Alph0.1}
+\contentsline {subsection}{\numberline {.1.1}Conditional Expectation of Bivariate Normal Distribution}{27}{subsection.Alph0.1.1}
+\contentsline {subsection}{\numberline {.1.2}Truncated Normal and the Inverse Mills Ratio}{27}{subsection.Alph0.1.2}

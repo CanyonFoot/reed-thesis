@@ -6,7 +6,9 @@
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Graph corresponding to selection bias based on income}}{11}{figure.2.1}
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Graph corresponding to selection bias based on income and party registration}}{12}{figure.2.2}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Basic DAG for inverse probability weighting example}}{18}{figure.3.1}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Study design for the Hern\'n's example}}{19}{figure.3.2}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Study design for the Geneletti's example}}{21}{figure.3.3}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces PDAG corresponding to the structural equations in Heckman's set up. We leave arrows off the edges between $\epsilon $ and $\tau $ and between $X$ and $W$ since the directions are not given by the structural equations.}}{18}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Basic DAG for inverse probability weighting example}}{20}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Graph corresponding to selection bias based on income}}{21}{figure.3.3}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Study design for the Hern\'n's example}}{22}{figure.3.4}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Study design for the Geneletti's example}}{23}{figure.3.5}
 \addvspace {10\p@ }

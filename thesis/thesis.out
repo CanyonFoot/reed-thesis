@@ -16,12 +16,15 @@
 \BOOKMARK [1][-]{section.3.2}{The Heckman Correction}{chapter.3}% 16
 \BOOKMARK [2][-]{subsection.3.2.1}{Premise}{section.3.2}% 17
 \BOOKMARK [2][-]{subsection.3.2.2}{Implementing the Correction}{section.3.2}% 18
-\BOOKMARK [1][-]{section.3.3}{Probability Weighting}{chapter.3}% 19
-\BOOKMARK [1][-]{section.3.4}{Getting Graphical}{chapter.3}% 20
-\BOOKMARK [2][-]{subsection.3.4.1}{Hern\341n et. al}{section.3.4}% 21
-\BOOKMARK [2][-]{subsection.3.4.2}{Geneletti et. al}{section.3.4}% 22
-\BOOKMARK [0][-]{chapter*.10}{Bibliography}{}% 23
-\BOOKMARK [0][-]{appendix*.11}{Appendix}{}% 24
-\BOOKMARK [1][-]{section.Alph0.1}{Heckman}{appendix*.11}% 25
-\BOOKMARK [2][-]{subsection.Alph0.1.1}{Conditional Expectation of Bivariate Normal Distribution}{section.Alph0.1}% 26
-\BOOKMARK [2][-]{subsection.Alph0.1.2}{Truncated Normal and the Inverse Mills Ratio}{section.Alph0.1}% 27
+\BOOKMARK [2][-]{subsection.3.2.3}{Graphing Heckman}{section.3.2}% 19
+\BOOKMARK [2][-]{subsection.3.2.4}{Examples}{section.3.2}% 20
+\BOOKMARK [1][-]{section.3.3}{Probability Weighting}{chapter.3}% 21
+\BOOKMARK [2][-]{subsection.3.3.1}{}{section.3.3}% 22
+\BOOKMARK [1][-]{section.3.4}{Getting Graphical}{chapter.3}% 23
+\BOOKMARK [2][-]{subsection.3.4.1}{Hern\341n et. al}{section.3.4}% 24
+\BOOKMARK [2][-]{subsection.3.4.2}{Geneletti et. al}{section.3.4}% 25
+\BOOKMARK [0][-]{chapter*.10}{Bibliography}{}% 26
+\BOOKMARK [0][-]{appendix*.11}{Appendix}{}% 27
+\BOOKMARK [1][-]{section.Alph0.1}{Heckman}{appendix*.11}% 28
+\BOOKMARK [2][-]{subsection.Alph0.1.1}{Conditional Expectation of Bivariate Normal Distribution}{section.Alph0.1}% 29
+\BOOKMARK [2][-]{subsection.Alph0.1.2}{Truncated Normal and the Inverse Mills Ratio}{section.Alph0.1}% 30
