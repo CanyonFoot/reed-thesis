@@ -1,4 +1,4 @@
-\begin{thebibliography}{16}
+\begin{thebibliography}{24}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{{\tt #1}}\fi
@@ -9,6 +9,12 @@ Bareinboim, E., Tian, J., \& Pearl, J. (2014).
 \newblock Recovering from selection bias in causal and statistical inference.
 \newblock {\em Proceedings of the National Conference on Artificial
   Intelligence\/}, {\em 4\/}, 2410--2416.
+
+\bibitem[{Bishop et~al.(2018)Bishop, Leite, \& Snyder}]{Bishop_2018}
+Bishop, C., Leite, W., \& Snyder, P. (2018).
+\newblock Using propensity score weighting to reduce selection bias in
+  large-scale data sets.
+\newblock {\em Journal of Early Intervention\/}, {\em 40\/}, 105381511879343.
 
 \bibitem[{Bushway et~al.(2007)Bushway, Johnson, \& Slocum}]{Bushway_2007}
 Bushway, S., Johnson, B.~D., \& Slocum, L.~A. (2007).
@@ -48,6 +54,21 @@ Geneletti, S., Richardson, S., \& Best, N. (2008).
 \newblock {\em Biostatistics\/}, {\em 10\/}(1), 17--31.
 \urlprefix\url{https://doi.org/10.1093/biostatistics/kxn010}
 
+\bibitem[{Guo \& Fraser(2015)}]{Guo_2015}
+Guo, S., \& Fraser, M. (2015).
+\newblock {\em Propensity Score Analysis\/}.
+\newblock Advanced Quantitative Techniques in the Social Sciences. SAGE
+  Publications.
+\urlprefix\url{https://books.google.com/books?id=V3c2ngEACAAJ}
+
+\bibitem[{Haneuse et~al.(2009)Haneuse, Schildcrout, Crane, Sonnen, Breitner, \&
+  Larson}]{Haneuse_2009}
+Haneuse, S., Schildcrout, J., Crane, P., Sonnen, J., Breitner, J., \& Larson,
+  E. (2009).
+\newblock Adjustment for selection bias in observational studies with
+  application to the analysis of autopsy data.
+\newblock {\em Neuroepidemiology\/}, {\em 32\/}, 229--39.
+
 \bibitem[{Heckman(1979)}]{Heckman_1979}
 Heckman, J.~J. (1979).
 \newblock Sample selection bias as a specification error.
@@ -79,6 +100,17 @@ Lusinchi, D. (2012).
   automobile and telephone owners to blame?
 \newblock {\em Social Science History\/}, {\em 36\/}(1), 23–54.
 
+\bibitem[{Mohan \& Pearl(2019)}]{Mohan_2019}
+Mohan, K., \& Pearl, J. (2019).
+\newblock Graphical models for processing missing data.
+
+\bibitem[{Mohan et~al.(2013)Mohan, Pearl, \& Tian}]{Mohan_2013}
+Mohan, K., Pearl, J., \& Tian, J. (2013).
+\newblock Graphical models for inference with missing data.
+\newblock In {\em Proceedings of the 26th International Conference on Neural
+  Information Processing Systems - Volume 1\/}, NIPS’13, (p. 1277–1285).
+  Red Hook, NY, USA: Curran Associates Inc.
+
 \bibitem[{Pearl(1995)}]{Pearl_1995}
 Pearl, J. (1995).
 \newblock Causal diagrams for empirical research.
@@ -89,6 +121,23 @@ Pearl, J. (1995).
 Robins, J.~M. (2001).
 \newblock Data, design, and background knowledge in etiologic inference.
 \newblock {\em Epidemiology\/}, {\em 12\/}(3).
+
+\bibitem[{Rubin(1976)}]{Rubin_1976}
+Rubin, D.~B. (1976).
+\newblock Inference and missing data.
+\newblock {\em Biometrika\/}, {\em 63\/}(3), 581--592.
+\urlprefix\url{http://www.jstor.org/stable/2335739}
+
+\bibitem[{Schafer \& Graham(2002)}]{Schafer_2002}
+Schafer, J., \& Graham, J. (2002).
+\newblock Missing data: Our view of the state of the art.
+\newblock {\em Psychological Methods\/}, {\em 7\/}, 147--177.
+
+\bibitem[{Seaman \& White(2011)}]{Seaman_2011}
+Seaman, S., \& White, I. (2011).
+\newblock Review of inverse probability weighting for dealing with missing
+  data.
+\newblock {\em Statistical methods in medical research\/}, {\em 22\/}.
 
 \bibitem[{Squire(1988)}]{Squire1988}
 Squire, P. (1988).

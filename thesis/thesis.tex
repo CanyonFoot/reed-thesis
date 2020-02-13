@@ -324,9 +324,6 @@ $$\begin{tikzpicture}[
 
 
  \path [->] (S) edge node[left] {} (L);
-
-
-
 \end{tikzpicture}$$
 
 However, historically, this causal structure was not the only one suggested to explain the association between lung cancer and smoking. One particularly illustrious detractor of this theory was British statistician R. A. Fisher, a foundational figure in modern statistics (and a heavy smoker) [ref Fisher]. In Fisher's view, there was no causal effect of smoking on lung cancer, rather, an underlying genetic factor was responsible for both a predisposition to smoking and a higher risk of developing lung cancer. So Fisher's causal model would have looked like:
@@ -495,19 +492,186 @@ More generally, we can formulate this result as a theorem, although it is not li
 If there exists a set $\mathbf{X} \subseteq V$ such that $P(y|\mathbf{x})$ is s-recoverable and $P(\mathbf{x})$ is available externally, then $P(y)$ is recoverable as $P(y) = \sum_{\mathbf{x}} P(y|\mathbf{x})P(\mathbf{x})$.
 \end{theorem}
 
+\chapter{Graphical Approaches to Missing Data}
 
-\chapter{Earlier Approaches to Selection Bias}
+We have seen that selection bias is one way that the way that data is collected can cause the available distribution to differ from the desired distribution. A closely related problem (which is occasionally referred to as selection bias) is the problem of missing data \citep{Heckman_1979}. This happens often in statistical practice - survey non-response, study drop-out, and failing to record data are all well known forms of missingness that affect scientific research. 
+
+Missing data occurs when some variables are not observed for each unit (row). In the standard missing data notation, $R_{Y_i}=1$ corresponds to the $i^{\text{th}}$ observation of a random variable $Y$ being missing. Missingness can follow a very simple structure where a particular variable is not always observed (often the response variable), but covariates are available for each unit. The table below gives an example of what is meant by this. 
+
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+Y     & $X_1$  & $X_2$  & $X_3$  & $X_4$  & $R_Y$ \\ \hline
+$y_1$ & $x_{11}$ & $x_{12}$ & $x_{13}$ & $x_{14}$ & 0 \\
+   -   & $x_{21}$ & $x_{22}$ & $x_{23}$ & $x_{24}$ & 1 \\
+   -   & $x_{31}$ & $x_{32}$ & $x_{33}$ & $x_{34}$ & 1 \\
+$y_2$ & $x_{41}$ & $x_{42}$ & $x_{43}$ & $x_{44}$ & 0
+\end{tabular}
+\caption{Hypothetical table representing missing data with one partially observed variable} 
+\end{table}
+
+One example of this effect is found in studies that observe units over a long period time. In these cases, researchers often have to deal with dropout: the tendency for some participants to stop participating in the study before it finishes, and therefore the final outcome is not recorded for these units. Since the pre-treatment covariates are recorded for all participants before dropout occurs, only the outcome variable is missing for the units affected by dropout. This situation is a prime candidate for a technique called inverse probability weighting, which we explore in the next chapter \citep{Hernan_2004}.
+
+Sometimes the missingness structure is more complex in that different variables are missing from different units. A range of approaches have been developed: sometimes, rows with missing variables may be safely deleted, other times, imputation base methods are more appropriate.  For instance, survey respondents may choose not to answer some questions, but unlike in the example above, which question go unanswered in any particular non-complete case can differ (table 3.2). In cases like this, missing data are often imputed - that is - the missing values are predicted on the basis of non-missing values, but weighting based approaches can also be applied \citep{Little_1986}, \citep{Seaman_2011}. 
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|l|l|l|l|l}
+$X_1$    & $X_2$    & $X_3$    & $R_{X_1}$ & $R_{X_2}$ & $R_{X_3}$ \\ \hline
+-        & -        & $x_{13}$ & 1         & 1         & 0         \\
+-        & $x_{22}$ & $x_{23}$ & 1         & 0         & 0         \\
+$x_{31}$ & $x_{32}$ & $x_{33}$ & 0         & 0         & 0         \\
+-        & $x_{42}$ & -        & 1         & 0         & 1        
+\end{tabular}
+\caption{Hypothetical table representing missing data with all variables partially observed}
+\end{table}
+
+Since such a wide range of missingness structures are possible, a large  literature has developed to address the problem in various contexts \citep{Schafer_2002}.  However, a taxonomy developed to capture the basic structures under which missingness occurs has had a particularly notable impact. We review these definitions now, since our graphical framework will also make use of them. 
+\section{Rubin's Taxonomy of Missing Data}
+
+Donald Rubin's work on the missing data problem is likely the most influential out of any researcher on the topic. Rubin developed several notable techniques to address missing data including multiple imputation, the expectation-maximization algorithm, and the theory of propensity scores \citep{Little_1986}. We will discuss these methods in more details later in the next chapter, but Rubin's taxonomy of the structure of missingness is important enough to introduce now \citep{Rubin_1976}. Consider a simple two variable case with a set of variables $V_m$ subject to missingness, a set $V_o$ of  fully observed variables, and a set $U$ of unmeasured variables \citep{Mohan_2013}. Define $R$ as the set containing the variables that dictates missingness among the elements of $V_m$. So if $V_m = \{Y_1, Y_2\}$ then $R = \{R_{Y_1}, R_{Y_2}\}$ where $R_{Y_i} = 1$ when $Y_i$ is missing. We consider three cases:
+
+\begin{itemize}
+\item The best case is when missingness is unrelated to all the variables, i.e. $R \dsep V_m \cup V_o \cup U$. In this case, the data are called \emph{missing completely at random} (MCAR). When this condition holds, analysis can safely be conducted on only the rows which are fully recorded.
+
+\item If missingness depends only on the fully observed variables, i.e.  $R \dsep V_m \cup U | V_o$ we say that the data are \emph{missing at random} (MAR). Many techniques have been developed for data satisfying this condition. Overall, these techniques are more complex that those appropriate for MCAR data but are highly effective \citep{Schafer_2002}. This type of missingness is sometimes called 'ignorable' not becuase it can actually be ignored, but because it does not pose a threat with the right techniques \citep{Pearl_2019}.
+
+\item When  the previous condition does not apply, the data are said to be \emph{missing not at random} (MNAR). This is the worst case, and is sometimes called 'non-ignorable' since the techniques used to effectively adjust for MAR data cannot generally be applied. However, as we will see, the graphical approach shows that some MNAR situations are in fact recoverable.
+\end{itemize}
+
+These definitions are actually slightly adapted from Rubin's original formulation because they refer to conditional independencies among the variables rather than independencies at the unit level. That is, Rubin's original definitions allowed for data to be considered MAR when in each \emph{row}, the missingness of whichever variables were observed for the particular unit depended only on the observed values for that unit. This means that our definition is slightly more restrictive than Rubin's but this alteration makes it much more conducive to graphical representation \citep{Mohan_2013} \citep{Schafer_2002}.
+
+To further develop the intuition, we describe variations on survey non-response satisfying each of these conditions.  Consider a very simple survey that asks each respondent for their education $E$ and their annual income $I$. Assume that age is fully observed but that income is not.
+
+\begin{itemize}
+\item (MCAR) A bug in the software used to conduct the survey means that a uniformly random selection of respondents do not receive the income question with probability $p$. Everyone who receives the income question answers it. 
+
+\item (MAR) Respondents with higher levels of education are more likely to respond to the income question that those with lower education. However, within strata of education, the question is answer with equal probability.
+
+\item (MNAR) High income respondents less likely to respond to the income question than those with lower income. It does not matter if within strata of income education is associated with non-response.  
+\end{itemize}
+
+However, although we can describe particular situations under which each condition would hold, the task becomes more difficult in practice. For one, it can be shown that it is generally not possible to test for whether or not data satisfy the missing at random condition \citep{Schafer_2002}. 
+\section{Graphical Innovations}
+
+These difficulties in establishing the precise conditions under which the definitions apply as well as the conditions which allow for distributions of interest to be recovered led to the recent formulation of the missing data problem in graphical terms. As with the analogous literature we have explored on selection bias, this work also was headed by Judea Pearl and one of his graduate students, Karthika Mohan \citep{Mohan_2013} \citep{Mohan_2019}. Fortunately, familiarity with Barenboim's framework makes understanding Mohan and Pearl's straightforward. 
+
+As above, we consider four sets of variables: fully observed variables $V_o$, partially observed variables $V_m$, unobserved variables $U$, and the missingness variables $R$. To make the missingness process more explicit, we add to this a set of "proxy" variables $V^*_m$ which reflect what we actually observe. For $Y_i \in V_m$, we define $Y^*_i$ as:
+
+$$y^*_i = \begin{cases} \text{"missing" if } r_{y_i} = 1 \\ y_i \text{ if } r_{y_i} = 0  \end{cases}$$
+
+Notice that $Y^*_i$  is a function of $R_{Y_i}$ and $Y_i$. Since we are working with causal models, this fact implies that $PA_{Y^*_i} = \{R_{Y_i}, Y_i\}$. In this sense, $R_{Y_i}$ is not just an indicator of missingness, but the variable which enforces missingness of $Y^*$ in the causal model. With these sets constructed we define the missingness graph:
+
+\begin{definition}
+A missingness graph, denoted \textbf{m-graph}, is a causal graph $(\mathbf{V}, E)$ where $\mathbf{V} = V_o \cup V_m \cup V^* \cup U \cup R$ and $E$ is the set of edges in the graph.
+\end{definition}
+
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 2pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+\node[shape=circle,draw=black] (X) at (0,0) {X};
+\node[shape=circle,draw=black, style=dashed] (Y) at (4,0) {Y};
+\node[shape=circle,draw=black] (Y^*) at (2,-4) {$Y^*$};
+\node[shape=circle,draw=black] (R_Y) at (2,-2) {$R_Y$};
+\node[] (c) at (2,-6) {$(a)$};
+
+
+ \path [->] (X) edge node[left] {} (Y);
+ \path [->] (R_Y) edge node[left] {} (Y^*);
+ \path [->] (Y) edge node[left] {} (Y^*);        
+        
+\node[shape=circle,draw=black] (X) at (6,0) {X};
+\node[shape=circle,draw=black, style=dashed] (Y) at (10,0) {Y};
+\node[shape=circle,draw=black] (Y^*) at (8, -4) {$Y^*$};
+\node[shape=circle,draw=black] (R_Y) at (8,-2) {$R_Y$};
+\node[] (c) at (8,-6) {$(b)$};
+
+ \path [->] (X) edge node[left] {} (Y);
+ \path [->] (R_Y) edge node[left] {} (Y^*);
+  \path [->] (X) edge node[left] {} (R_Y);
+  \path [->] (Y) edge node[left] {} (Y^*);
+
+\node[shape=circle,draw=black] (X) at (12,0) {X};
+\node[shape=circle,draw=black, style=dashed] (Y) at (16,0) {Y};
+\node[shape=circle,draw=black] (Y^*) at (14,-4) {$Y^*$};
+\node[shape=circle,draw=black] (R_Y) at (14,-2) {$R_Y$};
+\node[] (c) at (14,-6) {$(c)$};
+
+
+ \path [->] (X) edge node[left] {} (Y);
+ \path [->] (R_Y) edge node[left] {} (Y^*);
+  \path [->] (Y) edge node[left] {} (R_Y);
+  \path [->] (Y) edge node[left] {} (Y^*);
+\end{tikzpicture}
+
+\caption{From left to right, bivariate cases of MCAR, MAR, and MCAR missing data patterns} \label{fig:Ms1}
+\end{figure}
+
+Looking at figure 3.1 (a) and (b) we have the following d-separation relationships: (a) $R_Y \dsep Y$ and (b) $R_Y \dsep Y | X$. This corresponds to the missing completely at random and the missing at random conditions, respectively. However, in the final scenario, (c), there is no set that d-separates $R_Y$ from $Y$. In each case, we have access to the joint $P(X,Y^*, R_Y)$.  By definition of $Y^*$, when we condition on $R_Y = 0$ we get $P(x,y | R_Y = 0)$, the distribution of "complete cases".
+
+Suppose we wish to know the full joint $P(x,y)$.  In cases (a) we have that $P(x,y | R_Y = 0) = P(x,y)$ and we are done. In case (b), the d-separation in the graph imply that $P(Y|X) = P(Y| X, R_Y = 0)$ and so we apply the chain rule to get $P(x,y) = P(y|x)P(x) = P(y | x, R_Y = 0)$ and again we succeed. Indeed, our definitions of MCAR and MAR mean this method works for any such missingness structure. However, the lack of independence in the final case means that we cannot separate $Y$ from its missingness mechanism, and therefore we cannot factor out the conditional. In fact recovery is not possible in this case because $Y$ and $R_Y$ are neighbors \citep{Mohan_2013}. 
+
+\section{Recovering Distributions Under MNAR}
+
+With missing data, as with selection bias, what we really care about is not the distribution we have - the one subject to missingness or selection - but the population level distribution. We have seen that under the MCAR and MAR missingness conditions, the population distribution is straightforward to obtain. However, when missingness can be affected by the variables that are missing, the problem becomes much more difficult. The major task of Mohan and Pearl's papers is providing graphical characterizations for those situations in which recovery of a particular joint or condition distribution are possible or impossible. Conveniently,  definition of recovery given in Mohan et. al 2013 is equivalent to the defintion used in Barenboim 2014,  making moving between the two easy. 
+
+The first theorem provides a general condition under which a "query" $Q$ - meaning a probabilistic quantity such as a joint or conditional distribution - can be recovered. 
+
+\begin{theorem}
+Given a m-graph $G$ and an observed distribution $P(v^*, v_o, R)$ a query $Q$ is recoverable if $Q$ can be decomposed into an ordered factorization or a sum of such factorizations, suc h that every factor $Q_i = P(y_i | x_i)$ satisfies $Y_i \dsep (R_{X_i}, R_{Y_i}) | X_i$. Then, each $Q_i$ can be recovered as $P(y^*_i | x^*_i, R_{Y_i} = 0,R_{X_i} = 0) = P(y_i | x_i)$ \citep{Mohan_2013}. 
+\end{theorem}
+
+What this theorem is saying is fairly simple:  $Q$ can be recovered when it can be expressed as a sum or product of quantities that can be recovered individually.
+
+\begin{example}
+Will add my own example
+\end{example}
+
+The second theorem aims a little higher: necessary \emph{and} sufficient conditions for recovering the full joint distribution $P(v_o, v_m)$.
+
+\begin{theorem}
+Given a m-graph G with no edges between $R$ nodes the joint distribution $P(v_o, v_m)$ can be recovered if and only if there is no variable $X \in V_m$ such that:
+\begin{enumerate}
+\item $X$ and $R_X$ are neighbors
+
+\item $X$ and $R_X$ are connected by a path in which all intermediate nodes are colliders and elements of $V_m \cup V_o$ (i.e. not unobserved).
+\end{enumerate}
+
+When neither of these conditions apply, the joint $P(v_m, v_o)$ is recovered as:
+
+$$\frac{P(v, R=0)}{\prod_i P(R_i = 0 | Mb(R_i), R_{Mb(R_i)} = 0)}$$
+
+Where $Mb(R_i)$ is any \textbf{Markov blanket} for $R_i$: a set of nodes $Mb(R_i)$ such that $R_i \dsep \mathbf{V} \backslash \{R_i, Mb(R_i)\} | Mb(R_i)$. In many cases, this will simply be $PA_{R_i}$. Similarly, $R_{Mb(R_i)}$ is the set of $R$ variables associated with the elements of $Mb(R_i)$ \citep{Mohan_2019}.
+\end{theorem}
+
+This final expression is a little difficult to parse, so we clarify what each component means in the following example.
+\begin{example}
+Will build of previous example
+\end{example}
+
+\chapter{Earlier Approaches to Selection Bias and the Missing Data Problem}
 
 In statistics and many related fields, forms of the effect we are calling "selection bias" have gone by many names. As we have seen,  the tendency for types of survey recipients to respond more or less than others - (non) response bias - falls neatly into the framework of selection bias. In epidemiology and biostatistics, Berkson's bias (sometimes Berkson's paradox) describes a phenomenon in which two conditions that are independent at the population level become dependent within a sample as a result of both conditions affecting the likelihood of sample inclusion. This too is a kind of selection bias, as is Neyman's bias which results from survivors of a disease being selected for study but not those who died from the disease. In fact there are far more names for particular selection biases than we can describe here \citep{Delgado_2008}. One explanation for this extensive and overlapping nomenclature is that prior to the widespread use of graphical models, it was difficult to give any concise definition of selection bias that was specific enough to be useful. Selection bias is essentially about a sample with a different distribution than the population, but when that non-representivity can come from so many places this characterization is hardly useful.
 
-In this section we will review a handful of notable earlier approaches to defining, correcting, and recognizing selection bias that have appeared within the literature. The purpose here is two-fold. For one, the historical background is generally useful to anyone looking for a thorough treatment of the subject. More pointedly, we will use the examples of previous methods to argue for the utility of the causal/graphical formulation used in this paper, as well as interpreting the techniques in that light (haven't really done this part yet).
+In this section we will review a handful of notable earlier approaches to defining, correcting, and recognizing selection bias that have appeared within the literature. The purpose here is two-fold. For one, the historical background is generally useful to anyone looking for a thorough treatment of the subject. More pointedly, we will use the examples of previous methods to argue for the utility of the causal/graphical formulation used in this paper, as well as interpreting the techniques in that light.
+
 
 \section{Old Stuff}
 
 I want this section to be review of the really old content on selection bias (like the origin of the term and so on), but so far I have not found much.
 
+
 \section{The Heckman Correction}
-James Heckman's well-cited 1979 paper "Sample Selection Bias as a Specification Error" proposes a method for overcoming selection bias that is among the most prominent selection adjustment techniques \citep{Heckman_1979}. Heckman was an economist, and his correction technique comes in the context of economic modeling, particularly linear regression models. Because it is situated within this framework, the correction is parametric - it requires the  assumption of normally distributed noise. We consider the familiar situation in which a non-representative sample is drawn from a population. Since we are interested modeling the population values and coefficients, this poses a potential problem. The title of Heckman's paper gives a hint to his strategy: specification error refers to the omission of a relevant variable from a model. 
+James Heckman's well-cited 1979 paper "Sample Selection Bias as a Specification Error" proposes a method for overcoming selection bias that is among the most prominent selection adjustment techniques \citep{Heckman_1979}. Heckman was an economist, and his correction technique comes in the context of economic modeling, particularly linear regression models. Because it is situated within this framework, the correction is parametric - it requires the  assumption of normally distributed noise. We consider the situation in the response variable is missing for some observations. Since we are interested modeling the population values and coefficients, this poses a potential problem. The title of Heckman's paper gives a hint to his strategy: specification error refers to the omission of a relevant variable from a model. 
 
 The method proceeds in two parts: first, a model is constructed for sample inclusion and second, an expected error term is calculated such that it can be included in the regression model to remove the bias associated with its exclusion. We now describe Heckman's method in detail.
 
@@ -519,11 +683,11 @@ Assume that we have access to the distributions of a dependent variable $Y$, a v
 
 $$Y = \mathbf{X} \boldsymbol{\beta} + \epsilon.$$
 
-Now, assuming we have the joint distribution $P(y, \mathbf{x}, \epsilon)$ we can get $\mathbf{\beta}$ using standard techniques. However, if a selection mechanism is present, this may not be possible. Unlike the selection mechanisms we saw in the previous chapter, the mechanism only causes values for $Y$ to be missing - i.e. $X$ is measured in the population but $Y$. Heckman's correction can be applied when the selection mechanism follows a specific form. Particularly, assume that there is another set of random variables that also follow the linear model pattern: 
+Now, assuming we have the joint distribution $P(y, \mathbf{x}, \epsilon)$ we can get $\mathbf{\beta}$ using standard techniques. However, if a selection mechanism is present, this may not be possible. Unlike the selection mechanisms we saw in the previous chapter, the mechanism only causes values for $Y$ to be missing - i.e. $(X, s)$ is measured in the population but $Y$ is only measured when $S = 1$. Heckman's correction can be applied when the selection mechanism follows a specific form. Particularly, assume that there is another set of random variables that also follow the linear model pattern: 
 
 $$Z = \mathbf{W} \boldsymbol{\delta} + \tau.$$
 
-Again, $\mathbf{W}$ is a vector of regressors, $\boldsymbol{\delta}$ is a coefficient vector and $\tau$ is normally distributed and independent of $\mathbf{W}$. Oftentimes, it is the case  that $\mathbf{W}$ contains the regressors in $\mathbf{X}$, but this is not needed. In general, $Z$ is not measured at all, but as with $\mathbf{X}$, $\mathbf{W}$ is measured in the population. We also require that the joint $P(\tau, \epsilon)$ follows the bivariate normal distribution. Heckman's correction can be applied when the selection mechanism is of the form:
+Again, $\mathbf{W}$ is a vector of regressors, $\boldsymbol{\delta}$ is a coefficient vector and $\tau$ is normally distributed and independent of $\mathbf{W}$. Oftentimes, it is the case  that $\mathbf{W}$ contains the regressors in $\mathbf{X}$, but this is not needed. In general, $Z$ is not measured at all, but as with $\mathbf{X}$, $(\mathbf{W}, s)$ is measured in the population. We also require that the joint $P(\tau, \epsilon)$ follows the bivariate normal distribution. Heckman's correction can be applied when the selection mechanism is of the form:
 
 $$S = I(Z > c) = I( \mathbf{W} \boldsymbol{\delta} + \tau > c).$$ 
 
@@ -631,40 +795,40 @@ With $\tau$ being normally distributed with mean $0$ such that $\epsilon$ and $\
 
 
 
-\section{Probability Weighting}
+\section{Probability and Propensity Weighting}
 
-Another technique worth mentioning is a very general approach called inverse probability weighting. Versions of the technique are old  and have uses well outside of adjusting for selection bias \citep{Horvitz_1952}, but we give an interpretation particularly suited for this task. Given a particular (potentially non-representative) sample, the goal is to construct a 'new' sample which follows the population distribution. Doing this requires knowing something about the selection rule, particularly knowing the probability that any particular set of values is sampled \cite{Cortes_2008}. Inverse probability weighting admits a particularly clear interpretation using our graphical notation. Consider a simple two variable case following the DAG below.
-\begin{figure}[H]
-\begin{center}
-\begin{tikzpicture}[
-            > = stealth, % arrow head style
-            shorten > = 2pt, % don't touch arrow head to node
-            auto,
-            node distance = 3cm, % distance between nodes
-            semithick % line style
-        ]
-\node[shape=circle,draw=black] (X) at (0,0) {X};
-\node[shape=circle,draw=black] (Y) at (4,0) {Y};
-\node[shape=circle,draw=black] (S) at (2,-2) {S};
+Another technique worth mentioning is a very general approach called inverse probability weighting (IPW). Versions of the technique are old  and have uses well outside of adjusting for selection bias \citep{Horvitz_1952}, but we give an interpretation particularly suited for this task. Given a particular (potentially non-representative) sample, the goal is to construct a 'new' sample which follows the population distribution by weighting each element of the existing sample by its probability of having been sampled. Doing this requires knowing something about the selection rule, particularly knowing the probability that any particular set of values is sampled \cite{Cortes_2008}. Like Heckman's method, IPW is for correcting the bias of an estimator rather than a distribution. However, as we will see, a related technique can be used to recover biased distributions. 
+
+Probability weighting techniques are associated with adjusting for confounding bias for causal inference, but methods have been developed that address selection bias as well \citep{Correa_2017}.
+
+To build intuition, consider the simple case of trying to estimate mean of a finite set of values  $x_1,x_2,...,x_n$ using a sample. We take a sample (i.i.d. with replacement) $X_1,...,X_n$ but the values are not sampled with equal probabilities, rather, $P(X_1 = x_i) = p_i > 0$ for all $j$ (with $\sum p_i = 1$). By the definition of expectation, $E[X_i] = \sum_{i=1}^n p_i x_i$ which in general is not equal to $\frac{1}{n}\sum_{i=1}^n x_i$. For our purposes, the uniform distribution $P(X_1 = x_i) = \frac{1}{n}$ for all $i$ is the \emph{target distribution} - or the distribution that we would like to be sampling from. However, if we know the values of $p_i$, we can re-weight each $x_i$ by multiplying by the product of the probabilities under the target distribution and the probabilities under the sampling distribution giving $x_i' = \frac{x_i}{np_i}$. Then, when we sample from $x_1', x_2', ..., x_n'$ according to $p_1,...,p_n$ as $X_1', X_2', ..., X_n'$ we get $E[X_i'] = \sum_{i=1}^n x_i' p_i = \sum_{i=1}^n  \frac{x_i}{n p_i} p_i = \frac{1}{n} \sum_{i=1}^n x_i$. 
+
+This method of estimating the mean from a biased sample is one of the earliest methods of adjusting for selection bias and is called the Horvitz-Thompsom estimator \citep{Little_1986}. Of course, inverse probability weighting can be applied in a more general context than estimating the mean of a population. When an estimator is
 
 
- \path [->] (X) edge node[left] {} (S);
- \path [->] (Y) edge node[left] {} (X);
-\end{tikzpicture}
-\end{center}
-\caption{Basic DAG for inverse probability weighting example}
-\end{figure}
+\subsection{Propensity Scores}
+
+As with Heckman's two-step estimator, inverse probability weighting is can be used to address the "missing data" problem in which covariates are measured for some observations but the response is missing for some units. Inverse probability weighting is also sometimes used when treatments are assigned non-randomly \citep{Haneuse_2009}.  In both of these cases, a model (such as probit or logit) can be constructed to estimate probability of missingness or treatment for any particular entry, and thereby the weights may be estimated. The estimated probability of being sampled, $\hat\{P(S = 1 | \mathbf{x})\}$ is referred to as a \emph{propensity score}. In this case, the method is typically called propensity score weighting \citep{Bishop_2018}. 
 
 
-Now, instead of assuming that we have access to the population distribution $P(x)$ as in the external data section, but rather that we know or can estimate  $P(S = 1)$ and $P(S=1 | x)$.  One context in which this is plausible is in drop-out over the course of a longitudinal study \citep{Hernan_2004}. Particularly, selection into the final analysis is the result of \emph{not} dropping out at some point over the course of the study. If drop out does not occur at random, selection bias is likely. However, it would be possible to estimate drop-out probability by comparing the body of participants at the outset of the study to the group that remains.
+\subsection{Inverse Probability Weighting for Distributions}
 
-$$P(x,y) = \frac{P(x,y | S = 1) P(S = 1)}{P(S = 1 | x,y)} = \frac{P(S = 1)}{P(S = 1 | x )}P(x,y | S = 1).$$
+For most of this paper, our primary concern is recovering entire distributions affected by selection bias rather than making a particular estimator consistent. In this case, a similar technique which also relies on $P(S=1 | \mathbf{v})$ can be applied. 
+
+When dealing with distributions affected by selection bias, our target distribution is $P(\mathbf{v})$ and we have access to $P(\mathbf{v} | S = 1)$. Then, Bayes rule gives that \citep{Cortes_2008}:
+
+$$P(\mathbf{v}) = \frac{P(\mathbf{v}  | S = 1)P(S = 1)}{P(S=1 | \mathbf{v})} = P(\mathbf{v}  | S = 1) \frac{P(S = 1)}{P(S=1 | PA_{S})}$$
+
+So, with knowledge of $P(S=1 | PA_S)$ and $P(S = 1)$ we can fully recover $P(\mathbf{v})$ by again multiplying by the target distribution. 
+
 
 So clearly knowing $P(S = 1)$ and $P(S = 1|x)$ is quite powerful. As with Heckman, this method requires information about the selection mechanism, but doesn't assume population level information about the other variables. This is a real difference between inverse probability weighting or the Heckman correction and the graphical approaches we examine next. However, unlike Heckman, inverse probability weighting does not require  assumptions about the parametric structure of the data and instead works with non-parametric values.   We give a brief example drawing on our previous discussion of the 1936 Literary Digest survey.
 
 \subsection{}
 
-Consider the first explanation of the Literary Digest's survey failure: that selection based on income was solely responsible for the non-representivity of the sample. So, we could first estimate $P(S = 1)$ by dividing number the survey respondents by the size total population of interest - eligible voters. Next we would like to estimate $P(S= 1 | w)$. If we had $P(w)$ as external data we could do this using Baye's rule: $P(S = 1 | w)=  \frac{P(w|S=1)P(S=1)}{P(w)}$. However, as we saw in Chapter $2$ we could recover $P(c,w)$ using $P(w)$ without estimating values
+Consider the first explanation of the Literary Digest's survey failure: that selection based on SES (via ownership of a telephone/car) was solely responsible for the non-representivity of the sample. We are interested in the mean of $C$, that is, the probability that a randomly selected voter will cast their ballot for Roosevelt. 
+
+
 \begin{figure}
 \begin{center}
 \begin{tikzpicture}[
@@ -695,7 +859,7 @@ By the first decade of the 2000's, Pearl's causality framework had become well-k
 
 Miguel Hern\'an's 2004 paper "A Structural Approach to Selection Bias" sets out to distinguish between selection bias and other problematic features of studies using the logic of causality. Although some other work had used DAGs to represent selection into a study \citep{Robbins_2001}, \citep{Pearl_1995}, Hern\'an's paper went further in that it gave an explicitly graphical interpretation of presence bias caused by selection. Hern\'an, an epidemiologist, is particularly concerned with presence of selection bias within case-control and cohort studies, and his paper proceeds primarily by drawing on examples of such studies in which selection bias is a problem. As is often the case in medical studies, the random variables considered are mostly binary, meaning that instead of looking for conditional distributions in general, related quantities such as risk ratios or odds ratios are considered. However, the concepts are very similar.
 
-The core of Hern\'an's argument is that selection bias occurs when we \emph{condition on common effects} of the exposure (treatment) and the outcome through selection. This can be contrasted with confounding, which has its roots in common \emph{causes}. Hern\'an gives an simple example illustrating what is meant by this which we reproduce.
+The core of Hern\'an's argument is that selection bias occurs when we \emph{condition on common effects} of the exposure (treatment) and the outcome through selection. That is, the effect of the treatment $X$ on the outcome $Y$ is affected by selection bias when both selection and the treatment depend on $X$ or an ancestor (cause) of $X$.  In Barenboim's  2014 paper, we saw a version of this statement in theorem 1: $P(y|\mathbf{x})$ is recoverable as $P(y|\mathbf{x}, S = 1)$ when $Y \dsep_G S | X$. By the definition of d-separation,  This definition can be contrasted with confounding, which has its roots in common \emph{causes}. Hern\'an gives an simple example illustrating what is meant by this which we reproduce. 
 
 \begin{figure}[H]
 \begin{center}
@@ -720,21 +884,19 @@ The core of Hern\'an's argument is that selection bias occurs when we \emph{cond
 \caption{Study design for the Hern\'n's example}
 \end{figure}
 
-Here, $E$ is the treatment, estrogen supplements, $F$ denotes women who fractured their hips, and $D$ represents having a heart attack. We want to know if estrogen use increases the risk of having a heart attack. The study participants were gathered in such that the controls, the women who did not have a heart attack, were disproportionately women who had fractured their hips. This could be because the sample was taken from a particular hospital. Since estrogen use decreases a woman's risk of breaking her hip, this means that women taking estrogen are underrepresented within the controls. So, if we look at $P(d | e, S = 1)$ then we will find a positive relationship between $F$ and $E$ since selection into the study is a caused by both estrogen use (indirectly through decreased hip factors) and having a heart attack. So by selecting our sample in the way that we have, we have conditioned on a common effect of both the treatment and the outcome, biasing our inferences. 
+Here, $E$ is the treatment, estrogen supplements, $F$ denotes women who fractured their hips, and $D$ represents having a heart attack. We want to know if estrogen use increases the risk of having a heart attack. The study participants were gathered in such that the controls, the women who did not have a heart attack, were disproportionately women who had fractured their hips. This could be because the sample was taken from a particular hospital. Since estrogen use decreases a woman's risk of breaking her hip, this means that women taking estrogen are underrepresented within the controls. So, if we look at $P(d | e, S = 1)$ then we will find a positive relationship between $F$ and $E$ since selection into the study is a caused by both estrogen use (indirectly through decreased hip factors) and having a heart attack. So by selecting our sample in the way that we have, we have conditioned on a common effect of both the treatment and the outcome, biasing our inferences. In the reader's digest survey, 
 
-Although Hern\'an's work was important in categorizing selection bias through graph structure, the paper was not primarily concerned with correcting for selection bias. There is a short section on how to overcome such bias, but it was limited to inverse probability weighting, a technique not based in the conditional independences implied by the causal structure. Fortunately, the next paper we examine does. 
+Although Hern\'an's work was important in categorizing selection bias through graph structure, the paper was not primarily concerned with correcting for selection bias. There is a short section on how to overcome such bias, but it was limited to inverse probability weighting, a technique we have already discussed. Fortunately, the next paper we examine does. 
 
 
 
 \subsection{Geneletti et. al}
 
-(This section is unfinished, it's late)
-
 Following up on Hern\'an's work characterizing selection bias, another epidemiologist, Sara Geneletti and her co-authors give a method for correcting selection bias in retrospective case-control studies using DAGs and conditional independence \citep{Geneletti_2008}. In spirit this is very similar to Bareinboim's work but limited to a specific study design such that further assumptions can be leveraged.  We now briefly review the structure of a retrospective case-control study. 
 
 Unlike experiments where treatments are assigned randomly and outcomes measured after treatment, or cohort studies where individuals are tracked over a long period to see if they develop a disease, retrospective case-control studies (often just called case-control studies) select individuals for sample inclusion \emph{after} they have contracted a disease \citep{Woodward_1999}. Two groups are selected: one which has a particular disease/condition and one which does not. Then, covariates are gathered for both groups, with the hope of discovering some factors which are more common in one group that the other. So for instance, we could gather a sample of lung cancer patients and another of adults without lung cancer. We would likely discover that after adjusting for relevant demographic factors (age, sex, SES, etc.) smoking was more common in the lung cancer group and then construct an estimate of the risk ratio for smoking and lung cancer. However, this kind of study is particularly susceptible to selection bias \citep{Woodward_1999} \citep{Geneletti_2008}. This can happen for different reasons, but one of most prominent is that the treatment (smoking, in our example) might cause patients to be admitted to the hospital for a reason unrelated to lung cancer, but upon their admission be discovered to have lung cancer. In this way, we might see a dependence between lung cancer and smoking that is caused by smoker's greater likelihood to be diagnosed.  Similarly, when both cases and controls are selected from the hospital Berkson's bias could create a false negative association \citep{Hernan_2004}.  
 
-Much like the first theorem of \cite{Bareinboim_2014}, Geneletti goes about recovering a conditional distribution by constructing a "bias breaking" set that d-separates (though she does not use the term) the selection node from treatment. The paper uses nearly the same example as Hern\'an's but here 
+Much like the first theorem of \cite{Bareinboim_2014}, Geneletti goes about recovering a conditional distribution by constructing a "bias breaking" set that d-separates (though she does not use the term) the selection node from treatment. The paper uses nearly the same example as Hern\'an's but here an edge exists between $E$ and $D$, meaning e
 
 
 \begin{figure}[H]
@@ -762,6 +924,10 @@ Much like the first theorem of \cite{Bareinboim_2014}, Geneletti goes about reco
 \end{figure}
 
 
+
+\section{Set-up}
+
+In Chapter 2 we discussed the contributions of a group of current researchers on the topic of selection bias. Barenboim, Correa, Tian, and Pearl have made decisive progress in characterizing selection bias graphically and giving conditions for recoverability with or without unbiased (population level) data. However, there are cases in which 
 %If you feel it necessary to include an appendix, it goes here.
 
 

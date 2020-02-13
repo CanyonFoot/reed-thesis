@@ -12,20 +12,27 @@
 \contentsline {section}{\numberline {2.4}Recovering $P(y|x)$ Without External Data}{10}{section.2.4}
 \contentsline {section}{\numberline {2.5}Recovery With External Data}{12}{section.2.5}
 \contentsline {section}{\numberline {2.6}A Useful Extension}{13}{section.2.6}
-\contentsline {chapter}{Chapter 3: Earlier Approaches to Selection Bias}{15}{chapter.3}
-\contentsline {section}{\numberline {3.1}Old Stuff}{15}{section.3.1}
-\contentsline {section}{\numberline {3.2}The Heckman Correction}{15}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}Premise}{16}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Implementing the Correction}{17}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Graphing Heckman}{18}{subsection.3.2.3}
-\contentsline {subsection}{\numberline {3.2.4}Examples}{18}{subsection.3.2.4}
-\contentsline {section}{\numberline {3.3}Probability Weighting}{20}{section.3.3}
-\contentsline {subsection}{\numberline {3.3.1}}{21}{subsection.3.3.1}
-\contentsline {section}{\numberline {3.4}Getting Graphical}{21}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}Hern\'an et. al}{21}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}Geneletti et. al}{22}{subsection.3.4.2}
-\contentsline {chapter}{Bibliography}{25}{chapter*.10}
-\contentsline {chapter}{Appendix}{27}{appendix*.11}
-\contentsline {section}{\numberline {.1}Heckman}{27}{section.Alph0.1}
-\contentsline {subsection}{\numberline {.1.1}Conditional Expectation of Bivariate Normal Distribution}{27}{subsection.Alph0.1.1}
-\contentsline {subsection}{\numberline {.1.2}Truncated Normal and the Inverse Mills Ratio}{27}{subsection.Alph0.1.2}
+\contentsline {chapter}{Chapter 3: Graphical Approaches to Missing Data}{15}{chapter.3}
+\contentsline {section}{\numberline {3.1}Rubin's Taxonomy of Missing Data}{16}{section.3.1}
+\contentsline {section}{\numberline {3.2}Graphical Innovations}{17}{section.3.2}
+\contentsline {section}{\numberline {3.3}Recovering Distributions Under MNAR}{19}{section.3.3}
+\contentsline {chapter}{Chapter 4: Earlier Approaches to Selection Bias and the Missing Data Problem}{21}{chapter.4}
+\contentsline {section}{\numberline {4.1}Old Stuff}{21}{section.4.1}
+\contentsline {section}{\numberline {4.2}The Heckman Correction}{22}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Premise}{22}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Implementing the Correction}{23}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Graphing Heckman}{24}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.4}Examples}{24}{subsection.4.2.4}
+\contentsline {section}{\numberline {4.3}Probability and Propensity Weighting}{26}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Propensity Scores}{26}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Inverse Probability Weighting for Distributions}{27}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.3}}{27}{subsection.4.3.3}
+\contentsline {section}{\numberline {4.4}Getting Graphical}{28}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Hern\'an et. al}{28}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Geneletti et. al}{29}{subsection.4.4.2}
+\contentsline {section}{\numberline {4.5}Set-up}{30}{section.4.5}
+\contentsline {chapter}{Bibliography}{31}{chapter*.10}
+\contentsline {chapter}{Appendix}{33}{appendix*.11}
+\contentsline {section}{\numberline {.1}Heckman}{33}{section.Alph0.1}
+\contentsline {subsection}{\numberline {.1.1}Conditional Expectation of Bivariate Normal Distribution}{33}{subsection.Alph0.1.1}
+\contentsline {subsection}{\numberline {.1.2}Truncated Normal and the Inverse Mills Ratio}{33}{subsection.Alph0.1.2}
