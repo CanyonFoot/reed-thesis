@@ -494,9 +494,9 @@ If there exists a set $\mathbf{X} \subseteq V$ such that $P(y|\mathbf{x})$ is s-
 
 \chapter{Graphical Approaches to Missing Data}
 
-We have seen that selection bias is one way that the way that data is collected can cause the available distribution to differ from the desired distribution. A closely related problem (which is occasionally referred to as selection bias) is the problem of missing data \citep{Heckman_1979}. This happens often in statistical practice - survey non-response, study drop-out, and failing to record data are all well known forms of missingness that affect scientific research. 
+We have seen that selection bias is one way that the data collection process can cause the available distribution to differ from the desired distribution. A closely related problem (which is occasionally referred to as selection bias) is the problem of missing data \citep{Heckman_1979}. This happens often in statistical practice: survey question non-response, study drop-out, and failing to record data are all well known forms of missingness that affect scientific research. 
 
-Missing data occurs when some variables are not observed for each unit (row). In the standard missing data notation, $R_{Y_i}=1$ corresponds to the $i^{\text{th}}$ observation of a random variable $Y$ being missing. Missingness can follow a very simple structure where a particular variable is not always observed (often the response variable), but covariates are available for each unit. The table below gives an example of what is meant by this. 
+Missing data occurs when some variables are not observed for each unit (row). In the standard missing data notation, $R_{Y_i}=1$ corresponds to the $i^{\text{th}}$ observation of a random variable $Y$ being missing. Missingness can follow a very simple structure where a particular variable is not always observed (often the response variable), but covariates are available for each unit. Table 3.1 gives an example of what is meant by this. 
 
 
 \begin{table}[]
@@ -508,12 +508,12 @@ $y_1$ & $x_{11}$ & $x_{12}$ & $x_{13}$ & $x_{14}$ & 0 \\
    -   & $x_{31}$ & $x_{32}$ & $x_{33}$ & $x_{34}$ & 1 \\
 $y_2$ & $x_{41}$ & $x_{42}$ & $x_{43}$ & $x_{44}$ & 0
 \end{tabular}
-\caption{Hypothetical table representing missing data with one partially observed variable} 
+\caption{Hypothetical table representing missing data with one partially observed variable.} 
 \end{table}
 
-One example of this effect is found in studies that observe units over a long period time. In these cases, researchers often have to deal with dropout: the tendency for some participants to stop participating in the study before it finishes, and therefore the final outcome is not recorded for these units. Since the pre-treatment covariates are recorded for all participants before dropout occurs, only the outcome variable is missing for the units affected by dropout. This situation is a prime candidate for a technique called inverse probability weighting, which we explore in the next chapter \citep{Hernan_2004}.
+One example of this effect is found in studies that observe units over a long period of time. In these cases, researchers often have to deal with drop-out: some participants stop participating in the study before it finishes, and therefore the final outcome is not recorded for these units. Since the pre-treatment covariates are recorded for all participants before dropout occurs, only the outcome variable is missing for the units affected by dropout. This situation is a prime candidate for a technique called inverse probability weighting, which we explore in the next chapter \citep{Hernan_2004}.
 
-Sometimes the missingness structure is more complex in that different variables are missing from different units. A range of approaches have been developed: sometimes, rows with missing variables may be safely deleted, other times, imputation base methods are more appropriate.  For instance, survey respondents may choose not to answer some questions, but unlike in the example above, which question go unanswered in any particular non-complete case can differ (table 3.2). In cases like this, missing data are often imputed - that is - the missing values are predicted on the basis of non-missing values, but weighting based approaches can also be applied \citep{Little_1986}, \citep{Seaman_2011}. 
+Sometimes the missingness structure is more complex in that different variables are missing from different units. A range of approaches have been developed: sometimes, rows with missing variables may be safely deleted, other times, imputation base methods are more appropriate \citep{Schafer_2002}.  For instance, survey respondents may choose not to answer some questions, but unlike in the example above, the unanswered questions can differ between units (table 3.2). In cases like this, missing data are often imputed: that is, the missing values are predicted on the basis of non-missing values, but weight based approaches like inverse probability weighting can also be applied \citep{Little_1986} ,\citep{Seaman_2011}. 
 
 \begin{table}[]
 \centering
@@ -524,20 +524,21 @@ $X_1$    & $X_2$    & $X_3$    & $R_{X_1}$ & $R_{X_2}$ & $R_{X_3}$ \\ \hline
 $x_{31}$ & $x_{32}$ & $x_{33}$ & 0         & 0         & 0         \\
 -        & $x_{42}$ & -        & 1         & 0         & 1        
 \end{tabular}
-\caption{Hypothetical table representing missing data with all variables partially observed}
+\caption{Hypothetical table representing missing data with all variables partially observed.}
 \end{table}
 
-Since such a wide range of missingness structures are possible, a large  literature has developed to address the problem in various contexts \citep{Schafer_2002}.  However, a taxonomy developed to capture the basic structures under which missingness occurs has had a particularly notable impact. We review these definitions now, since our graphical framework will also make use of them. 
+Since such a wide range of missingness structures are possible, a large  literature has developed to address the problem in various contexts \citep{Schafer_2002}.  However, a taxonomy developed  by Donald Rubin to capture the basic structures under which missingness occurs has had a particularly notable impact. We review these definitions now, since our graphical framework will also make use of them. 
+
 \section{Rubin's Taxonomy of Missing Data}
 
-Donald Rubin's work on the missing data problem is likely the most influential out of any researcher on the topic. Rubin developed several notable techniques to address missing data including multiple imputation, the expectation-maximization algorithm, and the theory of propensity scores \citep{Little_1986}. We will discuss these methods in more details later in the next chapter, but Rubin's taxonomy of the structure of missingness is important enough to introduce now \citep{Rubin_1976}. Consider a simple two variable case with a set of variables $V_m$ subject to missingness, a set $V_o$ of  fully observed variables, and a set $U$ of unmeasured variables \citep{Mohan_2013}. Define $R$ as the set containing the variables that dictates missingness among the elements of $V_m$. So if $V_m = \{Y_1, Y_2\}$ then $R = \{R_{Y_1}, R_{Y_2}\}$ where $R_{Y_i} = 1$ when $Y_i$ is missing. We consider three cases:
+Donald Rubin's work on the missing data problem is likely the most influential out of any researcher on the topic. Rubin developed several notable techniques to address missing data including multiple imputation, the expectation-maximization algorithm, and the theory of propensity scores \citep{Little_1986}. We will discuss these methods in more details later in the next chapter, but Rubin's taxonomy \citep{Rubin_1976} of the structure of missingness is important enough to introduce now. Consider a  case with a set of variables $V_m$ potentially subject to missingness, a set $V_o$ of  fully observed variables, and a set $U$ of unmeasured variables \citep{Mohan_2013}. Define $R$ as the set containing the variables that dictates missingness among the elements of $V_m$. So if $V_m = \{Y_1, Y_2\}$ then $R = \{R_{Y_1}, R_{Y_2}\}$ where $R_{Y_i} = 1$ when $Y_i$ is missing \citep{Mohan_2013}. We consider three cases:
 
 \begin{itemize}
 \item The best case is when missingness is unrelated to all the variables, i.e. $R \dsep V_m \cup V_o \cup U$. In this case, the data are called \emph{missing completely at random} (MCAR). When this condition holds, analysis can safely be conducted on only the rows which are fully recorded.
 
-\item If missingness depends only on the fully observed variables, i.e.  $R \dsep V_m \cup U | V_o$ we say that the data are \emph{missing at random} (MAR). Many techniques have been developed for data satisfying this condition. Overall, these techniques are more complex that those appropriate for MCAR data but are highly effective \citep{Schafer_2002}. This type of missingness is sometimes called 'ignorable' not becuase it can actually be ignored, but because it does not pose a threat with the right techniques \citep{Pearl_2019}.
+\item If missingness depends only on the fully observed variables, i.e.  $R \dsep V_m \cup U | V_o$ we say that the data are \emph{missing at random} (MAR). Many techniques have been developed for data satisfying this condition. Overall, these techniques are more complex that those appropriate for MCAR data but are highly effective \citep{Schafer_2002}. This type of missingness is sometimes called "ignorable" not because it can actually be ignored, but because it does not pose a threat with the right techniques \citep{Pearl_2019}. Note that all MCAR data is also MAR.
 
-\item When  the previous condition does not apply, the data are said to be \emph{missing not at random} (MNAR). This is the worst case, and is sometimes called 'non-ignorable' since the techniques used to effectively adjust for MAR data cannot generally be applied. However, as we will see, the graphical approach shows that some MNAR situations are in fact recoverable.
+\item When  the previous condition does not apply, the data are said to be \emph{missing not at random} (MNAR). This is the worst case, and is sometimes called "non-ignorable" since the techniques used to effectively adjust for MAR data cannot generally be applied. However, as we will see, the graphical approach shows that some MNAR situations are in fact recoverable.
 \end{itemize}
 
 These definitions are actually slightly adapted from Rubin's original formulation because they refer to conditional independencies among the variables rather than independencies at the unit level. That is, Rubin's original definitions allowed for data to be considered MAR when in each \emph{row}, the missingness of whichever variables were observed for the particular unit depended only on the observed values for that unit. This means that our definition is slightly more restrictive than Rubin's but this alteration makes it much more conducive to graphical representation \citep{Mohan_2013} \citep{Schafer_2002}.
@@ -545,19 +546,21 @@ These definitions are actually slightly adapted from Rubin's original formulatio
 To further develop the intuition, we describe variations on survey non-response satisfying each of these conditions.  Consider a very simple survey that asks each respondent for their education $E$ and their annual income $I$. Assume that age is fully observed but that income is not.
 
 \begin{itemize}
-\item (MCAR) A bug in the software used to conduct the survey means that a uniformly random selection of respondents do not receive the income question with probability $p$. Everyone who receives the income question answers it. 
+\item (MCAR) A bug in the software used to conduct the survey means that a uniformly random selection of respondents do not receive the income question. Everyone who receives the income question answers it. 
 
-\item (MAR) Respondents with higher levels of education are more likely to respond to the income question that those with lower education. However, within strata of education, the question is answer with equal probability.
+\item (MAR) Respondents with higher levels of education are more likely to respond to the income question that those with lower education. However, within strata of education, the question is answered with equal probability.
 
-\item (MNAR) High income respondents less likely to respond to the income question than those with lower income. It does not matter if within strata of income education is associated with non-response.  
+\item (MNAR) High income respondents are less likely to respond to the income question than those with lower income. It does not matter if education is associated with non-response within the strata of income.  
 \end{itemize}
 
-However, although we can describe particular situations under which each condition would hold, the task becomes more difficult in practice. For one, it can be shown that it is generally not possible to test for whether or not data satisfy the missing at random condition \citep{Schafer_2002}. 
+
+
+However, although we can describe or display particular situations under which each condition would hold, the task becomes more difficult in practice. For one, it can be shown that it is generally not possible to test for whether or not data satisfy the missing at random condition \citep{Schafer_2002}. This limitation means that given a particular dataset containing missing values, it  (usually) is not possible to determine whether the missing values are missing at random or not without further assumptions.
 \section{Graphical Innovations}
 
-These difficulties in establishing the precise conditions under which the definitions apply as well as the conditions which allow for distributions of interest to be recovered led to the recent formulation of the missing data problem in graphical terms. As with the analogous literature we have explored on selection bias, this work also was headed by Judea Pearl and one of his graduate students, Karthika Mohan \citep{Mohan_2013} \citep{Mohan_2019}. Fortunately, familiarity with Barenboim's framework makes understanding Mohan and Pearl's straightforward. 
+These difficulties in establishing the precise conditions under which the definitions apply as well as the conditions which allow for distributions of interest to be recovered led to the recent formulation of the missing data problem in graphical terms. As with the analogous literature we have explored on selection bias, this work also was headed by Judea Pearl and one of his graduate students, Karthika Mohan \citep{Mohan_2013} \citep{Mohan_2019}. Fortunately, familiarity with Bareinboim's framework makes understanding Mohan and Pearl's straightforward. 
 
-As above, we consider four sets of variables: fully observed variables $V_o$, partially observed variables $V_m$, unobserved variables $U$, and the missingness variables $R$. To make the missingness process more explicit, we add to this a set of "proxy" variables $V^*_m$ which reflect what we actually observe. For $Y_i \in V_m$, we define $Y^*_i$ as:
+As above, we consider four sets of variables: fully observed variables $V_o$, partially observed variables $V_m$, unobserved variables $U$, and the missingness variables $R$. To make the missingness process more explicit, we add to this a set of "proxy" variables $V^*_m = \{Y_i^* | Y_i \in V_m\}$ which reflect what we actually observe, such that:
 
 $$y^*_i = \begin{cases} \text{"missing" if } r_{y_i} = 1 \\ y_i \text{ if } r_{y_i} = 0  \end{cases}$$
 
@@ -613,16 +616,16 @@ A missingness graph, denoted \textbf{m-graph}, is a causal graph $(\mathbf{V}, E
   \path [->] (Y) edge node[left] {} (Y^*);
 \end{tikzpicture}
 
-\caption{From left to right, bivariate cases of MCAR, MAR, and MCAR missing data patterns} \label{fig:Ms1}
+\caption{From left to right, bivariate cases of MCAR, MAR, and MNAR missing data patterns} \label{fig:Ms1}
 \end{figure}
 
 Looking at figure 3.1 (a) and (b) we have the following d-separation relationships: (a) $R_Y \dsep Y$ and (b) $R_Y \dsep Y | X$. This corresponds to the missing completely at random and the missing at random conditions, respectively. However, in the final scenario, (c), there is no set that d-separates $R_Y$ from $Y$. In each case, we have access to the joint $P(X,Y^*, R_Y)$.  By definition of $Y^*$, when we condition on $R_Y = 0$ we get $P(x,y | R_Y = 0)$, the distribution of "complete cases".
 
-Suppose we wish to know the full joint $P(x,y)$.  In cases (a) we have that $P(x,y | R_Y = 0) = P(x,y)$ and we are done. In case (b), the d-separation in the graph imply that $P(Y|X) = P(Y| X, R_Y = 0)$ and so we apply the chain rule to get $P(x,y) = P(y|x)P(x) = P(y | x, R_Y = 0)$ and again we succeed. Indeed, our definitions of MCAR and MAR mean this method works for any such missingness structure. However, the lack of independence in the final case means that we cannot separate $Y$ from its missingness mechanism, and therefore we cannot factor out the conditional. In fact recovery is not possible in this case because $Y$ and $R_Y$ are neighbors \citep{Mohan_2013}. 
+Suppose we wish to know the population level joint $P(x,y)$.  In cases (a) we have that $P(x,y | R_Y = 0) = P(x,y)$ and we are done. In case (b), the d-separation in the graph imply that $P(Y|x) = P(y| x, R_Y = 0)$ and so we apply the chain rule to get $P(x,y) = P(y|x)P(x) = P(y | x, R_Y = 0)$ and again we succeed. Indeed, our definitions of MCAR and MAR mean this method works for any such missingness structure. However, the lack of independence in the final case means that we cannot separate $Y$ from its missingness mechanism, and therefore we cannot factor out the conditional. In fact recovery is not possible in this case because $Y$ and $R_Y$ are neighbors \citep{Mohan_2013}. 
 
 \section{Recovering Distributions Under MNAR}
 
-With missing data, as with selection bias, what we really care about is not the distribution we have - the one subject to missingness or selection - but the population level distribution. We have seen that under the MCAR and MAR missingness conditions, the population distribution is straightforward to obtain. However, when missingness can be affected by the variables that are missing, the problem becomes much more difficult. The major task of Mohan and Pearl's papers is providing graphical characterizations for those situations in which recovery of a particular joint or condition distribution are possible or impossible. Conveniently,  definition of recovery given in Mohan et. al 2013 is equivalent to the defintion used in Barenboim 2014,  making moving between the two easy. 
+With missing data, as with selection bias, what we really care about is not the distribution we have - the one subject to missingness or selection - but the population level distribution. We have seen that under the MCAR and MAR missingness conditions, the population distribution is straightforward to obtain. However, when missingness can be affected by the variables that are missing, the problem becomes much more difficult. The major task of Mohan and Pearl's papers is providing graphical characterizations for those situations in which recovery of a particular joint or condition distribution are possible or impossible. Conveniently,  definition of recovery given in Mohan et. al 2013 is equivalent to the defintion used in Bareinboim 2014,  making moving between the two easy. 
 
 The first theorem provides a general condition under which a "query" $Q$ - meaning a probabilistic quantity such as a joint or conditional distribution - can be recovered. 
 
@@ -633,7 +636,56 @@ Given a m-graph $G$ and an observed distribution $P(v^*, v_o, R)$ a query $Q$ is
 What this theorem is saying is fairly simple:  $Q$ can be recovered when it can be expressed as a sum or product of quantities that can be recovered individually.
 
 \begin{example}
-Will add my own example
+\begin{figure}
+\centering
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 2pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+\node[shape=circle,draw=black] (R_Y) at (0,0) {$R_Y$};
+\node[shape=circle,draw=black, style=dashed] (Y) at (0,-3) {Y};
+\node[shape=circle,draw=black] (Y^*) at (-2,-1.5) {$Y^*$};
+\node[shape=circle,draw=black, style=dashed] (X) at (2,0) {X};
+\node[shape=circle,draw=black] (X^*) at (2,-1.5) {$X^*$};
+\node[shape=circle,draw=black] (R_X) at (2,-3) {$R_X$};
+\node[shape=circle,draw=black] (Z) at (3.5,-1.5) {Z};
+
+ \path [->] (X) edge node[left] {} (R_Y);
+ \path [->] (X) edge node[left] {} (Y);
+ \path [->] (Y) edge node[left] {} (Y^*);
+ \path [->] (R_Y) edge node[left] {} (Y^*);
+ \path [->] (X) edge node[left] {} (X^*);
+ \path [->] (R_X) edge node[left] {} (X^*);
+  \path [->] (Z) edge node[left] {} (X);
+   \path [->] (Z) edge node[left] {} (R_X);
+\end{tikzpicture}
+\caption{A three variable MNAR m-graph} \label{fig:MNAREX}
+\end{figure}
+
+Consider the m-graph in figure 3.2. We notice that the one fully observed variable $Z$ does not d-separate $(R_X, R_Y)$ from $(X,Y)$ and therefore conclude that this m-graph corresponds to an MNAR missingness structure. However, we do have some relevant d-separations:
+
+\begin{enumerate}
+\item $X \dsep R_X | Z$
+\item $Y \dsep (R_Y, R_X, Z) | X$
+\end{enumerate}
+
+Now, by the law of total probability and the chain rule for probability, we get that:
+
+\begin{align*}
+P(x,y) &= \sum_z P(x,y, z) \\
+&= \sum_z P(x,y | z) P(z) \\
+&= \sum_z P(y | x,z) P(x | z) P(z)
+\end{align*}
+
+When we apply our d-separations, we get that $P(y | x, z, R_Y = 0, R_X = 0) = P(y^*| x^*)$ and $P(x^*|z, R_X = 0) = P(x | z)$ and therefore:
+
+$$\sum_z P(y | x,z) P(x | z) P(z) = \sum_z P(y^* | x^*,z, R_Y = 0, R_X = 0) P(x^* | z, R_X = 0) P(z)$$
+
+So, we have succeed: the marginal distribution $P(x,y)$ is expressible as a sum and product of distributions which are recoverable simply using the d-separations, and so $P(x,y)$ is recoverable by theorem 4.
 \end{example}
 
 The second theorem aims a little higher: necessary \emph{and} sufficient conditions for recovering the full joint distribution $P(v_o, v_m)$.
@@ -643,32 +695,79 @@ Given a m-graph G with no edges between $R$ nodes the joint distribution $P(v_o,
 \begin{enumerate}
 \item $X$ and $R_X$ are neighbors
 
-\item $X$ and $R_X$ are connected by a path in which all intermediate nodes are colliders and elements of $V_m \cup V_o$ (i.e. not unobserved).
+\item $X$ and $R_X$ are connected by a path in which all intermediate nodes are colliders and elements of $V_m \cup V_o$ (i.e. at least partially observed, not an $R$ node, and not a proxy).
 \end{enumerate}
 
 When neither of these conditions apply, the joint $P(v_m, v_o)$ is recovered as:
 
 $$\frac{P(v, R=0)}{\prod_i P(R_i = 0 | Mb(R_i), R_{Mb(R_i)} = 0)}$$
 
-Where $Mb(R_i)$ is any \textbf{Markov blanket} for $R_i$: a set of nodes $Mb(R_i)$ such that $R_i \dsep \mathbf{V} \backslash \{R_i, Mb(R_i)\} | Mb(R_i)$. In many cases, this will simply be $PA_{R_i}$. Similarly, $R_{Mb(R_i)}$ is the set of $R$ variables associated with the elements of $Mb(R_i)$ \citep{Mohan_2019}.
+Where $Mb(R_i)$ is any \textbf{Markov blanket} for $R_i$: a set of nodes $Mb(R_i)$ such that \newline $R_i \dsep \mathbf{V} \backslash \{R_i, Mb(R_i)\} | Mb(R_i)$. In many cases, this will simply be $PA_{R_i}$. Similarly, $R_{Mb(R_i)}$ is the set of $R$ variables associated with the elements of $Mb(R_i)$ \citep{Mohan_2019}.
 \end{theorem}
 
 This final expression is a little difficult to parse, so we clarify what each component means in the following example.
 \begin{example}
-Will build of previous example
+Lets return to the m-graph described in the previous example (figure 3.4). We check the two conditions laid out in the theorem:
+
+\begin{enumerate}
+\item The two variables subject to missingness, $Y$ and $X$ both lack an edge to their corresponding missingness node, and so the first condition is satisfied.
+
+\item The only colliders in the graph are the two proxy nodes: $X^*$ and $Y^*$. Therefore, no path contains a collider which is an element of $V_o \cup V_m$.
+\end{enumerate}
+
+So, the population level joint $P(x,y,z)$ may be recovered as given in the theorem. This gives:
+
+$$P(x,y,z) = \frac{P(x,y,z, R_X = 0, R_Y = 0)}{P(r_X | z)P(r_Y | x, R_x = 0)}$$
 \end{example}
 
 \chapter{Earlier Approaches to Selection Bias and the Missing Data Problem}
 
-In statistics and many related fields, forms of the effect we are calling "selection bias" have gone by many names. As we have seen,  the tendency for types of survey recipients to respond more or less than others - (non) response bias - falls neatly into the framework of selection bias. In epidemiology and biostatistics, Berkson's bias (sometimes Berkson's paradox) describes a phenomenon in which two conditions that are independent at the population level become dependent within a sample as a result of both conditions affecting the likelihood of sample inclusion. This too is a kind of selection bias, as is Neyman's bias which results from survivors of a disease being selected for study but not those who died from the disease. In fact there are far more names for particular selection biases than we can describe here \citep{Delgado_2008}. One explanation for this extensive and overlapping nomenclature is that prior to the widespread use of graphical models, it was difficult to give any concise definition of selection bias that was specific enough to be useful. Selection bias is essentially about a sample with a different distribution than the population, but when that non-representivity can come from so many places this characterization is hardly useful.
+In statistics and many related fields, forms of the effect we are calling "selection bias" and "missing data" have gone by many names. As we have seen,  the tendency for types of survey recipients to respond more or less than others - (non) response bias - falls neatly into the framework of selection bias. In epidemiology and biostatistics, Berkson's bias (sometimes Berkson's paradox) describes a phenomenon in which two conditions that are independent at the population level become dependent within a sample as a result of both conditions affecting the likelihood of sample inclusion. This too is a kind of selection bias, as is Neyman's bias which results from survivors of a disease being selected for study but not those who died from the disease. In fact there are far more names for particular selection biases than we can describe here \citep{Delgado_2008}. One explanation for this extensive and overlapping nomenclature is that prior to the widespread use of graphical models, it was difficult to give any concise definition of selection bias that was specific enough to be useful. Selection bias is essentially about a sample with a different distribution than the population, but when that non-representivity can come from so many places this characterization is hardly useful.
 
 In this section we will review a handful of notable earlier approaches to defining, correcting, and recognizing selection bias that have appeared within the literature. The purpose here is two-fold. For one, the historical background is generally useful to anyone looking for a thorough treatment of the subject. More pointedly, we will use the examples of previous methods to argue for the utility of the causal/graphical formulation used in this paper, as well as interpreting the techniques in that light.
 
 
-\section{Old Stuff}
+\section{Case Analysis}
 
-I want this section to be review of the really old content on selection bias (like the origin of the term and so on), but so far I have not found much.
+The easiest and most obvious way of "addressing" missing data is to ignore units which have missing values. There are a couple of techniques that take this approach. These techniques are widely used in practice despite significant undesirable theoretical properties \citep{Little_1986} which we discuss. In some cases, the adverse effects might be small - such as when missingness is very uncommon - but in other cases such techniques dramatically bias the results. 
 
+\subsection{Complete-case Analysis}
+In "complete-case" analysis only rows which are complete - not missing \emph{any} values - are included in the analysis. This can be thought of as deleting any row which has a missing value. There are two main problems with this approach. The first has to do with the structure of the missingness. In any case other than MCAR, the most restrictive of our taxonomy, complete case analysis produces distributions different from the population distribution \citep{Little_1986}. This is because complete case analysis is essentially a process by which data subject to missingness is made into data affected by selection bias. Since we remove any rows with missing values, we can think about complete case analysis as the process of constructing a complete data set subject to selection. Particularly, in the new data set, $S= \begin{cases}1 \text{ if } R=0 \\ 0 \text{ if } R = 1 \end{cases}$ and so in the corresponding graph, and edge would exist between each parent of an $R$ node and the selection node. Therefore, only under MCAR do we have a graph with no edges between the selection node and the rest of the graph.
+
+The second problem with complete-case analysis is that in many contexts, it is highly inefficient \citep{Little_1986}. Consider a survey with a large number of questions and suppose we wish to know the distribution of the respondents' answers to a particular question. To conduct a complete-case analysis in such a situation would mean throwing out every row in which the respondent had failed to answer any of the many questions, even if they had answered the question of interest. In such situations, complete-case analysis results in sample sizes which are far smaller than the sample size of the original data set. This, of course, has consequences for the power of statistical tests, the size of confidence intervals, etc. 
+
+Despite these drawbacks, complete-case analysis is very common. As above, this is mathematically appropriate when data are MCAR, but this is often not the case. Nonetheless, complete case analysis may be "good enough" for some purposes, especially when the number of excluded rows is small enough that any reasonable values for the missing data in the column of interest are unlikely to dramatically affect the analysis \citep{Schafer_2002}.
+
+\subsection{Available-case Analysis}
+
+The inefficiency of complete-case analysis has an obvious (partial) remedy. Instead of deleting every row which is subject to missingness in any column, we first select the variables of interest and then only delete rows which are missing values in the corresponding columns. This method is called "available-case" analysis or sometimes "pairwise deletion". Of course, when the number of variables of interest is close to the overall number of variables this doesn't help much, but when only a couple are needed much more data can be preserved. However, this method does nothing to address the main theoretical problem of bias: once again, data which is not MCAR is generally not appropriate for available case analysis.
+
+T
+
+\section{Imputation based Techniques} 
+
+Imputation is the process of "guessing" missing values such that an analysis can be performed on the imputed data set. Imputation methods vary widely in their simplicity and practicality \citep{Schafer_2002}. Broadly, imputation techniques fall into one of two categories: "single" imputation and "multiple" imputation. As the names suggest, the difference between the methods is that single imputation replaces missing values with a single imputed value whereas multiple imputation replaces missing values with multiple plausible values, effectively creating multiple datasets on which the analysis can be performed. We give an overview of both approaches.
+
+\subsection{Single Imputation}
+In single imputation, the task is to replace missing values with "reasonable" guesses. There are several techniques used to generate such values all of which rely on the missingness being MCAR or MAR. We summarize them below from simplest to most complex and then discuss their advantages and disadvantages. 
+
+\begin{itemize}
+\item Mean Imputation: For a variable $Y$ subject to missingness, the missing values are replaced with the mean of the observed values of $Y$ \citep{Little_1986}.
+
+\item Hot Deck Imputation: For a variable $Y$ subject to missingness, the missing values are replaced with the value from another row. Sometimes, this row is chosen randomly, whereas other times the row is selected based on similarity of observed covariates \citep{Little_1986}, \citep{Schafer_2002}.
+
+\item Regression Imputation: For a variable $Y$ subject to missingness, a model $f$ is formulated based on the fully observed variables $\mathbf{X}$ is formulated and trained on the rows in which $Y$ is observed. Then, the model prediction $\hat y_i = f(\mathbf{x}_i)$ is used to imputed each missing value of $Y$ \citep{Schafer_2002}.
+
+\item Random Regression Imputation: Same as regression imputation except rather than replacing missing $y_i$ with $\hat y_i$ we replace it with $\hat y_i + \epsilon$ where $\epsilon$ is drawn from the regression noise distribution (e.g. a normal distribution centered at $0$ in the case of linear regression). Alternatively, the replacement value can be sampled from the posterior distribution of a Bayesian model \citep{Rubin_1996}.
+\end{itemize}
+
+In general, the methods at the end of this list are preferable to the methods at the beginning. Starting with mean imputation, there are two main problems. The first is that unless the data is MCAR, the conditional (on fully observed $\mathbf{X}$) expected value  of the replacement $E[y| \mathbf{x}]$ will in general be different from the unconditional mean $E[y]$ which is used to impute. This means that when the data is not MCAR, the estimates based on the imputed data will be biased. The other problem is that because the imputed values are all the same (the mean) the variance of the imputed column will be deflated \citep{Gelman_2006}. This occurs regardless of three structure of the missingness.
+
+Hot-deck imputation attempts to solve this problem by adding noise in the form of 
+
+\subsection{Multiple Imputation}
+
+The problems with single imputation methods led researchers to search for more sophisticated techniques. Donald Rubin introduced first introduced the concept in 1977 \citep{Rubin_1977}but its classic treatment is Rubin's 1987 book on the topic. 
 
 \section{The Heckman Correction}
 James Heckman's well-cited 1979 paper "Sample Selection Bias as a Specification Error" proposes a method for overcoming selection bias that is among the most prominent selection adjustment techniques \citep{Heckman_1979}. Heckman was an economist, and his correction technique comes in the context of economic modeling, particularly linear regression models. Because it is situated within this framework, the correction is parametric - it requires the  assumption of normally distributed noise. We consider the situation in the response variable is missing for some observations. Since we are interested modeling the population values and coefficients, this poses a potential problem. The title of Heckman's paper gives a hint to his strategy: specification error refers to the omission of a relevant variable from a model. 
@@ -797,7 +896,7 @@ With $\tau$ being normally distributed with mean $0$ such that $\epsilon$ and $\
 
 \section{Probability and Propensity Weighting}
 
-Another technique worth mentioning is a very general approach called inverse probability weighting (IPW). Versions of the technique are old  and have uses well outside of adjusting for selection bias \citep{Horvitz_1952}, but we give an interpretation particularly suited for this task. Given a particular (potentially non-representative) sample, the goal is to construct a 'new' sample which follows the population distribution by weighting each element of the existing sample by its probability of having been sampled. Doing this requires knowing something about the selection rule, particularly knowing the probability that any particular set of values is sampled \cite{Cortes_2008}. Like Heckman's method, IPW is for correcting the bias of an estimator rather than a distribution. However, as we will see, a related technique can be used to recover biased distributions. 
+Another technique worth mentioning is a very general approach called inverse probability weighting (IPW) which has applications for both selection bias and missing data. Versions of the technique are old  and have uses well outside of adjusting for selection bias or missing data \citep{Horvitz_1952}, but we give an interpretation particularly suited for these tasks. Given a particular (non-representative or partially observed) sample, the goal is to construct a 'new' sample which follows the population distribution by weighting each element of the existing sample by its probability of having been sampled/missing. Doing this requires knowing something about the selection rule, particularly knowing the probability that any particular set of values is sampled \cite{Cortes_2008}. Like Heckman's method, IPW is for correcting the bias of an estimator rather than a distribution. However, as we will see, a related technique can be used to recover biased distributions. 
 
 Probability weighting techniques are associated with adjusting for confounding bias for causal inference, but methods have been developed that address selection bias as well \citep{Correa_2017}.
 

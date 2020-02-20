@@ -16,23 +16,28 @@
 \contentsline {section}{\numberline {3.1}Rubin's Taxonomy of Missing Data}{16}{section.3.1}
 \contentsline {section}{\numberline {3.2}Graphical Innovations}{17}{section.3.2}
 \contentsline {section}{\numberline {3.3}Recovering Distributions Under MNAR}{19}{section.3.3}
-\contentsline {chapter}{Chapter 4: Earlier Approaches to Selection Bias and the Missing Data Problem}{21}{chapter.4}
-\contentsline {section}{\numberline {4.1}Old Stuff}{21}{section.4.1}
-\contentsline {section}{\numberline {4.2}The Heckman Correction}{22}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Premise}{22}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Implementing the Correction}{23}{subsection.4.2.2}
-\contentsline {subsection}{\numberline {4.2.3}Graphing Heckman}{24}{subsection.4.2.3}
-\contentsline {subsection}{\numberline {4.2.4}Examples}{24}{subsection.4.2.4}
-\contentsline {section}{\numberline {4.3}Probability and Propensity Weighting}{26}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Propensity Scores}{26}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Inverse Probability Weighting for Distributions}{27}{subsection.4.3.2}
-\contentsline {subsection}{\numberline {4.3.3}}{27}{subsection.4.3.3}
-\contentsline {section}{\numberline {4.4}Getting Graphical}{28}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}Hern\'an et. al}{28}{subsection.4.4.1}
-\contentsline {subsection}{\numberline {4.4.2}Geneletti et. al}{29}{subsection.4.4.2}
-\contentsline {section}{\numberline {4.5}Set-up}{30}{section.4.5}
-\contentsline {chapter}{Bibliography}{31}{chapter*.10}
-\contentsline {chapter}{Appendix}{33}{appendix*.11}
-\contentsline {section}{\numberline {.1}Heckman}{33}{section.Alph0.1}
-\contentsline {subsection}{\numberline {.1.1}Conditional Expectation of Bivariate Normal Distribution}{33}{subsection.Alph0.1.1}
-\contentsline {subsection}{\numberline {.1.2}Truncated Normal and the Inverse Mills Ratio}{33}{subsection.Alph0.1.2}
+\contentsline {chapter}{Chapter 4: Earlier Approaches to Selection Bias and the Missing Data Problem}{23}{chapter.4}
+\contentsline {section}{\numberline {4.1}Case Analysis}{23}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Complete-case Analysis}{24}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Available-case Analysis}{24}{subsection.4.1.2}
+\contentsline {section}{\numberline {4.2}Imputation based Techniques}{25}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Single Imputation}{25}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Multiple Imputation}{26}{subsection.4.2.2}
+\contentsline {section}{\numberline {4.3}The Heckman Correction}{26}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Premise}{26}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Implementing the Correction}{27}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.3}Graphing Heckman}{28}{subsection.4.3.3}
+\contentsline {subsection}{\numberline {4.3.4}Examples}{29}{subsection.4.3.4}
+\contentsline {section}{\numberline {4.4}Probability and Propensity Weighting}{30}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Propensity Scores}{31}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Inverse Probability Weighting for Distributions}{31}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.3}}{31}{subsection.4.4.3}
+\contentsline {section}{\numberline {4.5}Getting Graphical}{31}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Hern\'an et. al}{32}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.2}Geneletti et. al}{33}{subsection.4.5.2}
+\contentsline {section}{\numberline {4.6}Set-up}{34}{section.4.6}
+\contentsline {chapter}{Bibliography}{35}{chapter*.10}
+\contentsline {chapter}{Appendix}{37}{appendix*.11}
+\contentsline {section}{\numberline {.1}Heckman}{37}{section.Alph0.1}
+\contentsline {subsection}{\numberline {.1.1}Conditional Expectation of Bivariate Normal Distribution}{37}{subsection.Alph0.1.1}
+\contentsline {subsection}{\numberline {.1.2}Truncated Normal and the Inverse Mills Ratio}{37}{subsection.Alph0.1.2}

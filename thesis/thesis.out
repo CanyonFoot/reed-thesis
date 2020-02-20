@@ -16,22 +16,27 @@
 \BOOKMARK [1][-]{section.3.2}{Graphical Innovations}{chapter.3}% 16
 \BOOKMARK [1][-]{section.3.3}{Recovering Distributions Under MNAR}{chapter.3}% 17
 \BOOKMARK [0][-]{chapter.4}{Chapter 4: Earlier Approaches to Selection Bias and the Missing Data Problem}{}% 18
-\BOOKMARK [1][-]{section.4.1}{Old Stuff}{chapter.4}% 19
-\BOOKMARK [1][-]{section.4.2}{The Heckman Correction}{chapter.4}% 20
-\BOOKMARK [2][-]{subsection.4.2.1}{Premise}{section.4.2}% 21
-\BOOKMARK [2][-]{subsection.4.2.2}{Implementing the Correction}{section.4.2}% 22
-\BOOKMARK [2][-]{subsection.4.2.3}{Graphing Heckman}{section.4.2}% 23
-\BOOKMARK [2][-]{subsection.4.2.4}{Examples}{section.4.2}% 24
-\BOOKMARK [1][-]{section.4.3}{Probability and Propensity Weighting}{chapter.4}% 25
-\BOOKMARK [2][-]{subsection.4.3.1}{Propensity Scores}{section.4.3}% 26
-\BOOKMARK [2][-]{subsection.4.3.2}{Inverse Probability Weighting for Distributions}{section.4.3}% 27
-\BOOKMARK [2][-]{subsection.4.3.3}{}{section.4.3}% 28
-\BOOKMARK [1][-]{section.4.4}{Getting Graphical}{chapter.4}% 29
-\BOOKMARK [2][-]{subsection.4.4.1}{Hern\341n et. al}{section.4.4}% 30
-\BOOKMARK [2][-]{subsection.4.4.2}{Geneletti et. al}{section.4.4}% 31
-\BOOKMARK [1][-]{section.4.5}{Set-up}{chapter.4}% 32
-\BOOKMARK [0][-]{chapter*.10}{Bibliography}{}% 33
-\BOOKMARK [0][-]{appendix*.11}{Appendix}{}% 34
-\BOOKMARK [1][-]{section.Alph0.1}{Heckman}{appendix*.11}% 35
-\BOOKMARK [2][-]{subsection.Alph0.1.1}{Conditional Expectation of Bivariate Normal Distribution}{section.Alph0.1}% 36
-\BOOKMARK [2][-]{subsection.Alph0.1.2}{Truncated Normal and the Inverse Mills Ratio}{section.Alph0.1}% 37
+\BOOKMARK [1][-]{section.4.1}{Case Analysis}{chapter.4}% 19
+\BOOKMARK [2][-]{subsection.4.1.1}{Complete-case Analysis}{section.4.1}% 20
+\BOOKMARK [2][-]{subsection.4.1.2}{Available-case Analysis}{section.4.1}% 21
+\BOOKMARK [1][-]{section.4.2}{Imputation based Techniques}{chapter.4}% 22
+\BOOKMARK [2][-]{subsection.4.2.1}{Single Imputation}{section.4.2}% 23
+\BOOKMARK [2][-]{subsection.4.2.2}{Multiple Imputation}{section.4.2}% 24
+\BOOKMARK [1][-]{section.4.3}{The Heckman Correction}{chapter.4}% 25
+\BOOKMARK [2][-]{subsection.4.3.1}{Premise}{section.4.3}% 26
+\BOOKMARK [2][-]{subsection.4.3.2}{Implementing the Correction}{section.4.3}% 27
+\BOOKMARK [2][-]{subsection.4.3.3}{Graphing Heckman}{section.4.3}% 28
+\BOOKMARK [2][-]{subsection.4.3.4}{Examples}{section.4.3}% 29
+\BOOKMARK [1][-]{section.4.4}{Probability and Propensity Weighting}{chapter.4}% 30
+\BOOKMARK [2][-]{subsection.4.4.1}{Propensity Scores}{section.4.4}% 31
+\BOOKMARK [2][-]{subsection.4.4.2}{Inverse Probability Weighting for Distributions}{section.4.4}% 32
+\BOOKMARK [2][-]{subsection.4.4.3}{}{section.4.4}% 33
+\BOOKMARK [1][-]{section.4.5}{Getting Graphical}{chapter.4}% 34
+\BOOKMARK [2][-]{subsection.4.5.1}{Hern\341n et. al}{section.4.5}% 35
+\BOOKMARK [2][-]{subsection.4.5.2}{Geneletti et. al}{section.4.5}% 36
+\BOOKMARK [1][-]{section.4.6}{Set-up}{chapter.4}% 37
+\BOOKMARK [0][-]{chapter*.10}{Bibliography}{}% 38
+\BOOKMARK [0][-]{appendix*.11}{Appendix}{}% 39
+\BOOKMARK [1][-]{section.Alph0.1}{Heckman}{appendix*.11}% 40
+\BOOKMARK [2][-]{subsection.Alph0.1.1}{Conditional Expectation of Bivariate Normal Distribution}{section.Alph0.1}% 41
+\BOOKMARK [2][-]{subsection.Alph0.1.2}{Truncated Normal and the Inverse Mills Ratio}{section.Alph0.1}% 42
