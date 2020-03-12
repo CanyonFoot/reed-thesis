@@ -35,8 +35,12 @@
 \BOOKMARK [2][-]{subsection.4.5.1}{Hern\341n et. al}{section.4.5}% 35
 \BOOKMARK [2][-]{subsection.4.5.2}{Geneletti et. al}{section.4.5}% 36
 \BOOKMARK [1][-]{section.4.6}{Set-up}{chapter.4}% 37
-\BOOKMARK [0][-]{chapter*.10}{Bibliography}{}% 38
-\BOOKMARK [0][-]{appendix*.11}{Appendix}{}% 39
-\BOOKMARK [1][-]{section.Alph0.1}{Heckman}{appendix*.11}% 40
-\BOOKMARK [2][-]{subsection.Alph0.1.1}{Conditional Expectation of Bivariate Normal Distribution}{section.Alph0.1}% 41
-\BOOKMARK [2][-]{subsection.Alph0.1.2}{Truncated Normal and the Inverse Mills Ratio}{section.Alph0.1}% 42
+\BOOKMARK [0][-]{chapter.5}{Chapter 5: Simultaneous Selection Bias and Missing Data}{}% 38
+\BOOKMARK [1][-]{section.5.1}{Basics}{chapter.5}% 39
+\BOOKMARK [1][-]{section.5.2}{Easy Facts}{chapter.5}% 40
+\BOOKMARK [1][-]{section.5.3}{External Data Recovery}{chapter.5}% 41
+\BOOKMARK [0][-]{chapter*.10}{Bibliography}{}% 42
+\BOOKMARK [0][-]{appendix*.11}{Appendix}{}% 43
+\BOOKMARK [1][-]{section.Alph0.1}{Heckman}{appendix*.11}% 44
+\BOOKMARK [2][-]{subsection.Alph0.1.1}{Conditional Expectation of Bivariate Normal Distribution}{section.Alph0.1}% 45
+\BOOKMARK [2][-]{subsection.Alph0.1.2}{Truncated Normal and the Inverse Mills Ratio}{section.Alph0.1}% 46

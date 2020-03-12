@@ -58,6 +58,8 @@
 \newtheorem{remark}{Remark}[section]
 \newtheorem{definition}{Definition}[section]
 \theoremstyle{definition}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
 \newcommand{\dsep}{\perp \!\!\!\perp}
 % Comment out the natbib line above and uncomment the following two lines to use the new 
 % biblatex-chicago style, for Chicago A. Also make some changes at the end where the 
@@ -1026,7 +1028,137 @@ Much like the first theorem of \cite{Bareinboim_2014}, Geneletti goes about reco
 
 \section{Set-up}
 
-In Chapter 2 we discussed the contributions of a group of current researchers on the topic of selection bias. Barenboim, Correa, Tian, and Pearl have made decisive progress in characterizing selection bias graphically and giving conditions for recoverability with or without unbiased (population level) data. However, there are cases in which 
+
+\chapter{Simultaneous Selection Bias and Missing Data}
+In Chapters 2 and 3 we discussed the contributions of two groups of researchers on the related topics of graphical characterizations of selection bias and  graphical characterizations of missing data. Although these literatures share terminology, approach, and even authors, there has been no effort to date to apply the machinery of graphical models to cases in which both selection bias and missing data are present. We feel that this is a gap in the research that should be filled. 
+
+
+As we have argued in the previous chapters, missing data and selection bias are fundamentally related. In both cases we have some available data which doesn't quite match with what the true population data would look like. Indeed, many of the situations in which selection bias is a major concern are also canonical cases for missing data. For instance, almost any survey must contend with selection bias: both the people who are approached for the survey and the people who when approached actually respond are likely to differ from those who are not. In many observational medical studies, the study group is taken from a hospital. This can present a couple problems: Berkson's bias means that such a sampling procedure can create spurious negative correlations between conditions, and in the United States, hospitalized people are likely to be higher income than those with similar conditions who are not in the hospital. Often, these studies observe units over a long period of time, leading to one of the other classic forms of missing data: study drop-out (censoring). Clearly, it would be desirable to have a framework which describes these related situations in unified terms.
+
+Fortunately, the existing graphical approaches to selection bias  and missing data  are highly compatible with each other. 
+
+\section{Basics}
+
+In fact, we can define a selection-missingness graph (sm-graph) exactly as we would want. Just as in the selection or missingness graphs, we define recoverability, sticking close to the definitions in \cite{Mohan_2013} and \citep{Bareinboim_2014}.
+
+\begin{definition}[sm-recoverability]
+A relation $Q$ (such as a conditional or marginal probability) is recoverable in $G$ if and only if $Q$ can be expressed in terms of the observed distribution $P(V^*_m, V_o, \mathbb{R}| S=1)$. Formally, for every two probability distributions $P_1$ and $P_2$ compatible with $G$, $P_1(V^*_m, V_o, \mathbf{R}| S=1) = P_2(V^*_m, V_o, \mathbf{R}| S=1)$ implies that $P_1(Q) = P_2(Q)$.
+\end{definition}
+\section{Easy Facts}
+
+
+This set-up lends itself to a handful of obvious but nonetheless potentially useful facts about recovery from an sm-graph. First of all, as we discussed in the section on complete-case analysis, "deleting" every row which has missing values can be thought of as imposing an additional selection condition on the data generating process. This gives us a simple sufficient (but far from necessary) condition for recovering a distribution. The graphical interpretation of this fact is encoded in the following definition.
+
+
+\begin{theorem}
+
+\end{theorem}
+
+A more useful idea comes from considering that we can essentially treat the missingness and selection mechanisms as separate. That is, if we can recover the joint from missing data when selection is not present, i.e. $P(v_m, v_o )$, then we can recover $P(v_m, v_o | S = 1)$ in the sm-graph. This means that in such cases we then look to the conditions for recovery in the selection graph while ignoring the missingness mechanisms.
+
+\begin{theorem}
+In an sm-graph $G$ with no edges between the $R$ variables and $S$ and such that $PA_S \subset V_o$, a quantity $Q$ derivable from $P(v_o, v_m)$ is recoverable if and only if $Q$ is s-recoverable in $G \backslash (\mathbf{R}  \cup V_m^*)$ and $Q$ is m-recoverable in $G \backslash S$.
+\end{theorem}
+
+\emph{Proof} (If) Assume that $Q$  is s-recoverable in $G \backslash (\mathbf{R}  \cup V_m^*)$ and $Q$ is m-recoverable in $G \backslash S$. First we decompose 
+
+\begin{align*}
+P(v_m^*, v_o, \mathbf{r} | S = 1) &= P(v_m^*, v_o, |  \mathbf{r}, S = 1) P( \mathbf{r} | S= 1) \\
+&= \frac{P( \mathbf{r}, S = 1 | v_m^*, v_o)P(v_m^*, v_m^*) P( \mathbf{r} | S= 1)}{ P(\mathbf{r} , S= 1)} \\
+&= \frac{P(S = 1 | v_m^*, v_o)P( \mathbf{r} | v_m^*, v_o)P(v_m^*, v_m^*) P( \mathbf{r} | S= 1)}{P( \mathbf{r} , S= 1)} \\
+&= \frac{P(S = 1 |  v_o)P( \mathbf{r}, v_m^*, v_o) P( \mathbf{r} | S= 1)}{P( \mathbf{r} , S= 1)} \\
+&= \frac{P(v_o | S = 1) P(S = 1) P( \mathbf{r}, v_m^*, v_o) P( \mathbf{r} | S= 1)}{P(v_o) P(\mathbf{r} | S= 1)P(S = 1)} \\
+&= \frac{P(v_o | S = 1) P( \mathbf{r}, v_m^*, v_o) }{P(v_o)}  
+\end{align*}
+
+Consider two probability distributions $P_1, P_2$ with $P_1(v_m^*, v_o, \mathbf{r} | S = 1) = P_2(v_m^*, v_o, \mathbf{r} | S = 1)$. By the above, 
+
+(Only if) Without loss of generality, assume that $Q$ is not s-recoverable in $G \backslash (\mathbf{R} \cup V_m^*)$. Then there exist two probability distributions $P_1$ and $P_2$ such that $P_1(v_m, v_o | S = 1) = P_2(v_m, v_o | S = 1)$ but $P_1(Q) \neq P_2(Q)$. Then, define $P'_1, P'_2$ as $P'_1(v_m, v_o, \mathbf{r} | S = 1) = P_1(v_m, v_o | S = 1)P(\mathbf{r})$ and $P'_2(v_m, v_o, \mathbf{r} | S = 1)P_2(\mathbf{r})$ are compatible with $G$ (when all edges to and from $\mathbf{R} \cup V_m^*$ are inactive), we have $P_1()$
+
+\begin{theorem}
+A distribution $P(X)$ is not m-recoverable if there exists $Y \in PA_{R_X}$ such that $Y$ is self-censoring ($Y \in PA_{R_Y}$) and $Y$ is a neighbor of $X$.
+\end{theorem}
+
+\emph{Proof} (Similar to  \cite{Mohan_2013} section 5.5)The proof requires a lemma proven in \cite{Mohan_2013}, copied below.
+
+\begin{lemma}
+If a quantity $Q$ is not m-recoverable in graph $G$, it will not be recoverable after the addition of any edge to the graph.
+\end{lemma}
+
+With this result in mind, consider figure 5.1.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 2pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+\node[shape=circle,draw=black] (X) at (0,0) {X};
+\node[shape=circle,draw=black] (Y) at (4,0) {Y};
+\node[shape=circle,draw=black] (R_X) at (5,-2) {$R_X$};
+\node[shape=circle,draw=black] (R_Y) at (2,-2) {$R_Y$};
+ 
+
+ \path [->] (X) edge node[left] {} (Y);
+ \path [->] (Y) edge node[left] {} (R_Y);        
+  \path [->] (Y) edge node[left] {} (R_X);      
+\end{tikzpicture}
+\caption{Case in which $P(X)$ is not recoverable} \label{fig:NonRec}
+\end{figure}
+
+The lemma gives that if $P(X)$ is not recoverable in the graph ($G$) displayed in figure 5.1, $P(X)$ is non-recoverable in \emph{any} missingness graph which contains $G$ as a subgraph. Then, it is sufficient to provide a direct counter-example. We construct two probability distributions, $P_1, P_2$ compatible with $G$ such that $P_1, P_2$ agree on the observed distributions but $P_1(x) \neq P_2(x)$. Since there is only one d-separation in $G$ ($X \dsep (R_X, R_Y) | Y$) the only condition that must hold for compatibility is that $P_i(x, y, r_x, r_y) = P(x | y)P(y, r_x, r_y)$.  
+
+
+\section{External Data Recovery}
+
+In overcoming selection bias,  access to population distributions for a subset of the variables has been shown to be useful. In the graphical methods outlined in chapter 2, separate graphical conditions were developed for recovery. Older methods for selection bias adjustment such as survey weighting also depend on knowing population distributions. However, none of the recent graphical work on missing data has addressed the utility of external data in that context. Intuitively, we can imagine it might: if data for one variable is missing, it makes sense that knowing what that data \emph{would} look like if it were not subject to missingness. In fact, this is true. Consider the following example:
+
+\begin{example}
+In figure 5.1, we display what is sometimes called a "hard" case of MNAR missingness: $Y$ contributes to its own missingness (self-censoring). Without external data, we could neither recover $P(x,y)$ or $P(y|x)$. We could recover $P(x | y)$ as $P(x | y) = P(x | y^*, R_Y = 0)$. However, if we assume that we know $P(y)$ then we simply apply Bayes' rule to get:
+
+$$P(y | x) = \frac{P(x|y)P(y)}{P(x)}$$
+
+We can also recover the joint $P(x,y)$ (and therefore the conditional) directly as $P(x| y)P(y)$.
+\begin{figure}
+\centering
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 2pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+\node[shape=circle,draw=black] (X) at (0,0) {X};
+\node[shape=circle,draw=black, style=dashed] (Y) at (4,0) {Y};
+\node[shape=circle,draw=black] (Y^*) at (2,-4) {$Y^*$};
+\node[shape=circle,draw=black] (R_Y) at (2,-2) {$R_Y$};
+ 
+
+ \path [->] (X) edge node[left] {} (Y);
+ \path [->] (R_Y) edge node[left] {} (Y^*);
+ \path [->] (Y) edge node[left] {} (Y^*);        
+\end{tikzpicture}
+\caption{"Hard" MNAR Case} \label{fig:MissingExternal}
+\end{figure}
+\end{example}
+
+Given that recovery under missingness is sometimes possible with external data, we want to establish conditions which describe all cases in which recovery must be possible. We will describe such conditions for recovering both joint distributions and conditionals with or without external data.
+
+ 
+\begin{theorem}
+A conditional distribution $P(y | x)$ with $X, Y \in V_o \cup V_m$ is recoverable if and only if at least one on of the following statements holds:
+
+\begin{enumerate}
+\item $Y \in Vo$ and 
+\end{enumerate}
+\end{theorem}
+
+
 %If you feel it necessary to include an appendix, it goes here.
 
 
