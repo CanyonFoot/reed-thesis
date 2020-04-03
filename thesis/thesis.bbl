@@ -1,8 +1,17 @@
-\begin{thebibliography}{24}
+\begin{thebibliography}{29}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{{\tt #1}}\fi
 \expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{}\fi
+
+\bibitem[{Bareinboim \& Pearl(2012)}]{Bareinboim_2012}
+Bareinboim, E., \& Pearl, J. (2012).
+\newblock Controlling selection bias in causal inference.
+\newblock In N.~D. Lawrence, \& M.~Girolami (Eds.), {\em Proceedings of the
+  Fifteenth International Conference on Artificial Intelligence and
+  Statistics\/}, vol.~22 of {\em Proceedings of Machine Learning Research\/},
+  (pp. 100--108). La Palma, Canary Islands: PMLR.
+\urlprefix\url{http://proceedings.mlr.press/v22/bareinboim12.html}
 
 \bibitem[{Bareinboim et~al.(2014)Bareinboim, Tian, \& Pearl}]{Bareinboim_2014}
 Bareinboim, E., Tian, J., \& Pearl, J. (2014).
@@ -37,6 +46,12 @@ Delgado-Rodr{\'\i}guez, M., \& Llorca, J. (2004).
 \newblock {\em Journal of Epidemiology \& Community Health\/}, {\em 58\/}(8),
   635--641.
 \urlprefix\url{https://jech.bmj.com/content/58/8/635}
+
+\bibitem[{Donders et~al.(2006)Donders, van~der Heijden, Stijnen, \&
+  Moons}]{Donders_2006}
+Donders, R., van~der Heijden, G., Stijnen, T., \& Moons, K. (2006).
+\newblock Review: A gentle introduction to imputation of missing values.
+\newblock {\em Journal of clinical epidemiology\/}, {\em 59\/}, 1087--91.
 
 \bibitem[{Fienberg \& Tanur(1996)}]{Fienberg_1996}
 Fienberg, S.~E., \& Tanur, J.~M. (1996).
@@ -111,11 +126,29 @@ Mohan, K., Pearl, J., \& Tian, J. (2013).
   Information Processing Systems - Volume 1\/}, NIPS’13, (p. 1277–1285).
   Red Hook, NY, USA: Curran Associates Inc.
 
+\bibitem[{Pearl(1985)}]{Pearl_1985}
+Pearl, J. (1985).
+\newblock {\em Bayesian Networks: A Model of Self-activated Memory for
+  Evidential Reasoning\/}.
+\newblock Report. UCLA, Computer Science Department.
+\urlprefix\url{https://books.google.com/books?id=1sfMOgAACAAJ}
+
 \bibitem[{Pearl(1995)}]{Pearl_1995}
 Pearl, J. (1995).
 \newblock Causal diagrams for empirical research.
 \newblock {\em Biometrika\/}, {\em 82\/}(4), 669--688.
 \urlprefix\url{http://www.jstor.org/stable/2337329}
+
+\bibitem[{Pearl(2009)}]{Pearl_2009}
+Pearl, J. (2009).
+\newblock {\em Causality: Models, Reasoning and Inference\/}.
+\newblock USA: Cambridge University Press, 2nd ed.
+
+\bibitem[{Pearl \& Bareinboim(2011)}]{Pearl_2011}
+Pearl, J., \& Bareinboim, E. (2011).
+\newblock Transportability of causal and statistical relations: A formal
+  approach.
+\newblock vol.~1.
 
 \bibitem[{Robins(2001)}]{Robbins_2001}
 Robins, J.~M. (2001).

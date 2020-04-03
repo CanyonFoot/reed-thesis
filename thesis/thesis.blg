@@ -3,54 +3,58 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: thesis.aux
 The style file: APA/apa-good.bst
 Multiple inclusions of entire database
----line 150 of file thesis.aux
+---line 195 of file thesis.aux
  : \citation{*
  :            }
 I'm skipping whatever remains of this command
 Database file #1: thesis.bib
 Warning--I didn't find a database entry for "Pearl_2019"
+Warning--I didn't find a database entry for "Rubin_1996"
+Warning--I didn't find a database entry for "Gelman_2006"
+Warning--I didn't find a database entry for "Rubin_1977"
 Warning--I didn't find a database entry for "Jin"
 Warning--I didn't find a database entry for "Correa_2017"
 Warning--empty booktitle in Mohan_2019
-You've used 24 entries,
+Warning--empty booktitle in Pearl_2011
+You've used 29 entries,
             2804 wiz_defined-function locations,
-            797 strings with 9482 characters,
-and the built_in function-call counts, 13981 in all, are:
-= -- 1141
-> -- 502
-< -- 18
-+ -- 191
-- -- 163
-* -- 1073
-:= -- 2141
-add.period$ -- 75
-call.type$ -- 24
-change.case$ -- 176
-chr.to.int$ -- 24
-cite$ -- 25
-duplicate$ -- 1045
-empty$ -- 1084
-format.name$ -- 240
-if$ -- 2754
+            842 strings with 10525 characters,
+and the built_in function-call counts, 16839 in all, are:
+= -- 1370
+> -- 602
+< -- 25
++ -- 228
+- -- 195
+* -- 1283
+:= -- 2577
+add.period$ -- 92
+call.type$ -- 29
+change.case$ -- 214
+chr.to.int$ -- 29
+cite$ -- 31
+duplicate$ -- 1263
+empty$ -- 1312
+format.name$ -- 288
+if$ -- 3329
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 220
-newline$ -- 138
-num.names$ -- 98
-pop$ -- 395
+missing$ -- 269
+newline$ -- 165
+num.names$ -- 120
+pop$ -- 493
 preamble$ -- 1
-purify$ -- 149
+purify$ -- 179
 quote$ -- 0
-skip$ -- 387
+skip$ -- 472
 stack$ -- 0
-substring$ -- 696
-swap$ -- 580
-text.length$ -- 2
+substring$ -- 804
+swap$ -- 697
+text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 207
-warning$ -- 1
-while$ -- 100
+type$ -- 246
+warning$ -- 2
+while$ -- 120
 width$ -- 0
-write$ -- 329
+write$ -- 397
 (There was 1 error message)

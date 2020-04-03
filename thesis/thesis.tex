@@ -147,17 +147,17 @@
 % \doublespacing
 	
 	
-    \chapter{The First}
+    \chapter{Background}
 
-\section{Background: Graphs, D-separation, Causality}
-The idea of cause and effect has been studied and discussed in philosophy for centuries, but  the formalization of causality in mathematics, statistics, and computer science is much more recent. One framework in particular, Judea Pearl's Structural Causal Models (SCMs),  [ref Pearl 1996] is flexible, widely used, and mathematically elegant. However, before we can give SCMs a serious treatment, it is helpful to introduce definitions for the graphical machinery that most analysis of SCMs rely on.
+\section{Graphs, D-separation, Causality}
+The idea of cause and effect has been studied and discussed in philosophy for centuries, but  the formalization of causality in mathematics, statistics, and computer science is much more recent. One framework in particular, Judea Pearl's Structural Causal Models (SCMs),  \citep{Pearl_2009} is flexible, widely used, and mathematically elegant. However, before we can give SCMs a serious treatment, it is helpful to introduce definitions for the graphical machinery that most analysis of SCMs rely on.
 
 \subsection{Directed Acylic Graphs}
 \theoremstyle{definition}
 \begin{definition}
 A $\mathbf{graph}$ $G$ is a pair $G = (V, E)$ where $V$ denotes a set of nodes (sometimes called vertices) and $E \subseteq \{(i,j) | i,j \in V\}$ denotes a set of edges between nodes.
 \end{definition}
-Conventions differ, but for our purposes, an edge $(i,j) \in E$ is considered to be a \textbf{edge},  read as "an edge from node $i$ to node $j$".  For easy reading, we write $i \rightarrow j$ whenever $(i,j) \in E$. In the figures that frequently accompany graphs, an edge $(i,j)$ is depicted as an arrow from node $i$ to node $j$.
+Conventions differ, but for our purposes, an ordered pair $(i,j) \in E$ is considered to be a \textbf{edge},  read as "an edge from node $i$ to node $j$".  For easy reading, we write $i \rightarrow j$ whenever $(i,j) \in E$. In the figures that frequently accompany graphs, an edge $(i,j)$ is depicted as an arrow from node $i$ to node $j$.
 
 \begin{figure}
 \centering
@@ -229,18 +229,73 @@ A directed graph $G = (V,E)$ is said to be an \emph{\textbf{directed acyclic gra
 
 Now that we have defined DAGs, we can advance to a relevant application, Bayesian networks.
 
-\subsection{Bayesian Networks}
+\subsection{Conditional Independence and Bayesian Networks}
 
-Before we do so, we review some basic definitions from probability.
+The idea of conditional independence is at the basis of graphical approaches to causality. Intuitively, conditional independence statements tell us what we can \emph{ignore}. When $X \dsep Y | Z$, the conditional probability $P(x  | y, z)$ can be replaced with $P(x  | z)$, i.e. we can ignore the value of $y$ as long as we know $z$. More formally:
 
-\begin{definition}
-For random variables $X_1, X_2, ..., X_n$, the \textbf{joint distribution} with associated joint probability function $P(x_1, x_2, ..., x_n)$ gives the probability of every possible combination of values for $X_1, X_2, ..., X_n$. For any subset $\{Y_1,...,Y_k\} \subseteq \{X_1, X_2, ..., X_n\}$, the probability distribution for $Y_1, Y_2, ..., Y_k$, is called the \textbf{marginal distribution}. Finally, for a subset 
+\begin{definition}[Conditional Independence]
+Two sets of random variables $\mathbf{X}$ and $\mathbf{Y}$ are said to be \emph{\textbf{conditionally independent}} given a third set $\mathbf{Z}$ when $P(\mathbf{x}, \mathbf{y} | \mathbf{z}) = P(\mathbf{x} | \mathbf{z})P(\mathbf{y} | \mathbf{z})$. Alternatively, this condition can be formulated as $P(\mathbf{x} | \mathbf{y}, \mathbf{z}) = P(\mathbf{x}| \mathbf{z})$. We symbolize this statement as $\mathbf{X} \dsep \mathbf{Y}  | \mathbf{Z}$.
 \end{definition}
 
+ This is useful because it allows us to dramatically simplify many probabilistic expressions, making them easier to evaluate. Bayesian networks  are a popular way of encoding a particular "factorization" of a joint distribution. This requires a quick review of the chain rule for probability, an extension of the definition of conditional probability that allows joint distribution to be factored into the product of conditionals. 
 
+\begin{definition}[Chain Rule]
+A joint distribution $P(x_1, x_2, ..., x_n)$ may be factored as $P(x_1, x_2, ..., x_n) = P(x_1 | x_2, ... , x_n) P(x_2  | x_3, ... x_n) \cdots P(x_{n-1} | x_n) P(x_n)$. 
+\end{definition}
+
+Since the variables may be ordered in any way, this allows for many distinct factorizations. So, for any particular factorization, conditional independences allow it to be simplified through the removal of extraneous conditioning variables. 
+
+\begin{example}
+For a joint distribution $P(x,y,z,w)$ with the independences $X \dsep (Y,W) | Z$ and $Y \dsep W | Z$, the chain rule and conditional independence allows us to expression the joint as follows:
+
+$$P(x,y,z,w) = P(x | y,z,w)P(y | z,w) P(z | w) P(w) = P(x | z)P(y | w)P(z | w) P(w)$$
+
+Notice that if we had started with a different factorization, such as $P(x, y, z, w) = P(w | x, y, z) P(y | x, z) P(x | z)P(z)$ the conditional independences do not allow us to further simplify the expression. 
+\end{example}
+
+For a particular (simplified) factorization, the associated Bayesian network is the DAG formed by drawing an edge from each variable being conditioned on to the variable on the left of the conditioning bar. For our two factorizations, the associated Bayesian networks are the DAGs displayed in figure 1.4.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 2pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+\node[shape=circle,draw=black] (Z) at (-2,-2) {Z};
+\node[shape=circle,draw=black] (X) at (-4,0) {X};
+\node[shape=circle,draw=black] (Y) at (2,-2) {Y};
+\node[shape=circle,draw=black] (W) at (0,0) {W};
+ 
+
+ \path [->] (Z) edge node[left] {} (X);
+ \path [->] (W) edge node[left] {} (Y);
+ \path [->] (W) edge node[left] {} (Z);        
+ 
+ \node[shape=circle,draw=black] (Z*) at (4,-2) {Z};
+\node[shape=circle,draw=black] (X*) at (2,0) {X};
+\node[shape=circle,draw=black] (Y*) at (8,-2) {Y};
+\node[shape=circle,draw=black] (W*) at (6,0) {W};
+ 
+
+ \path [->] (Z*) edge node[left] {} (X*);
+ \path [->] (Z*) edge node[left] {} (Y*);
+  \path [->] (Z*) edge node[left] {} (W*);
+  \path [->] (X*) edge node[left] {} (W*);
+\path [->] (Y*) edge node[left] {} (W*);
+\path [->] (X*) edge node[left] {} (Y*);
+\end{tikzpicture}
+\caption{Bayesian networks corresponding to $P(x | z)P(y | w)P(z | w)P(w)$ (left) and $P(w | x, y, z) P(y | x, z) P(x | z)P(z)$ (right)} \label{fig:BayesNet1}
+\end{figure}
+
+This process is reversible, and given a particular Bayesian network we may "read off" the associated joint distribution as $P(x_1, ..., x_n) = \prod_{i = 1}^n P(x_i | PA_{x_i})$ \citep{Pearl_2009}. However, the real usefulness of Bayesian networks comes from way that further conditional independence relationships are encoded graphically.
 
 \subsection{D-Separation}
-Graphical structure can allow us to reason about causal and statistical relationships. One of the essential tools is d-separation. To develop the intuition, consider the very basic DAG $A \rightarrow B \rightarrow C$. There is exactly one directed path from $A$ to $C$, and the path passes through $B$. So to get to $C$ from $A$ you need to pass through $B$. In this way, we say that $B$ blocks the directed path from $A$ to $C$. We extend this notion [ref Pearl 2008], [ref Peters 2017].
+
+Graphical structure can allow us to reason about causal and probabilistic relationships. One of the essential tools is d-separation. Graphically, d-separation statements formalize the idea that two sets of nodes can be "separated" from each other by a third set.  To develop the intuition, consider the very basic DAG $A \rightarrow B \rightarrow C$. There is exactly one directed path from $A$ to $C$, and the path passes through $B$. So to get to $C$ from $A$ you need to pass through $B$. In this way, we say that $B$ blocks the directed path from $A$ to $C$. This notion of blocking is extended to form the definition of d-separation \citep{Peters_2017}:.
 
 \begin{definition}
 Given a directed graph $G$, a path $p$ from node $v_1$ to node $v_n$ is said to be \textbf{\emph{blocked}} by a set $S$ (with $S \cap \{v_1, v_n\} = \emptyset$) if:
@@ -299,6 +354,14 @@ Consider the DAG $G$ below.
 
 Which nodes can be d-separated, and by which blocking sets? Nodes which are connected by an edge cannot be d-separated. To see why, take $A$ and $B$. Although some paths between $A$ and $B$ can be blocked, the path $A \rightarrow B$ contains no nodes other than $A$ and $B$ and therefore cannot be blocked. Since there is no set that can block the path, $A$ and $B$ are not able to be d-separated. So consider $A$ and $C$, two nodes which are not connected by an edge. There are two paths between $A$ and $C$, $A \rightarrow B \leftarrow D \leftarrow C$ and $A \rightarrow D \leftarrow C$. Both of these paths include a collider. Of the four possible blocking sets, $\emptyset, \{B\}, \{D\}, \{B,D\}$, all but $\emptyset$ include a collider node for paths that are not blocked by other means. Then $A \dsep_G C | \emptyset$ and no other sets will work. What about $B$ and $C$? Again there are two paths: $B \leftarrow D \leftarrow C$ and $B \leftarrow A \rightarrow D \leftarrow C$. The second path contains a collider, and therefore is blocked by $\emptyset$, but the first path cannot be. To block $B \leftarrow D \leftarrow C$ we must have $D$ in our blocking set. So, $B \dsep_G C | D$, but we can also include $A$ since doing so will not unblock a path with a collider. Then $B \dsep_G C | D,A$.
 
+The reason that the d-separation symbol $\dsep_G$ is so similar to the symbol for conditional independence $\dsep$ is that in any Bayesian network, the set of d-separation statement correspond to a set of conditional independences in the joint distribution. This allows us to define a notion of compatibility between particular Bayesian networks and some  joint distributions over the same variables.
+
+\begin{definition}
+For a Bayesian network $G$ over variables $X_1, ..., X_n$ and a joint distribution $P^*(x_1, ... , x_n)$ we say that $P^*$ is \emph{\textbf{compatible}} with $G$ if for every conditional d-separation statement $\mathbf{Y} \dsep_G \mathbf{Z}  | \mathbf{W}$ for $\mathbf{Y}, \mathbf{Z}, \mathbf{W} \subset \{X_1,...,X_n\}$ there is a corresponding conditional independence $\mathbf{Y} \dsep \mathbf{Z}  | \mathbf{W}$ in the distribution $P^*$.
+\end{definition}
+
+Importantly, this notion does not require that every conditional independence in $P^*$ has a corresponding d-separation in the graph. For instance, a probability distribution in which every variable in unconditionally independent from every other variable is compatible with any Bayesian network over those variables. However, the only probability distribution compatible with the Bayesian network without any edges is that fully independent distribution.  This notion of compatibility is useful for two reasons: it defines a class of distributions which are possible under a particular Bayesian network and it allows comparison between a suggested Bayesian network and available data which is alleged to conform to this network. This becomes particularly important when Bayesian networks represent a particular \emph{causal} order, as described in the next subsection.
+
 
 \subsection{Structural Causal Models}
 Many questions in the natural and social sciences involve understanding the way that one set of factors (e.g. genes, medicines, social policies) influence others (e.g. disease risk, mortality, childhood poverty rates). In these cases, the language and  of classical statistics is often inadequate. The tools of hypothesis testing, (linear) regression, interval estimation, etc. can tell us much about relationships in the data, but except in the highly constrained setting of randomized controlled trials, very little about cause and effect. These limitations are not just theoretical. Many longstanding controversies and debates within the sciences come down to disagreements over which factors associated with a particular outcome are causing the outcome. 
@@ -310,7 +373,7 @@ So, let $L$ be a random variable denoting whether or not a person contracts lung
 $$L :=f(S, N_L),$$
 $$S := N_S.$$ 
 
-Here, the use of $:=$ denotes an assignment rather that an algebraic relationship [ref Peters] and $N_L$ is a noise term capturing random effects on lung cancer risk, and $N_S$ a noise variable for cigarette smoking. Together, these two assignments are a  structural causal model.  Now that we have an SCM, we can express the structure as a DAG. Since $L$ is assigned as a function of smoking but $S$ is not caused by any factors in our model, we would express our model as a directed edge going from $S$ to L:
+Here, the use of $:=$ denotes an assignment rather that an algebraic relationship \citep{Peters_2017} and $N_L$ is a noise term capturing random effects on lung cancer risk, and $N_S$ a noise variable for cigarette smoking. Together, these two assignments are a  structural causal model.  Now that we have an SCM, we can express the structure as a DAG. Since $L$ is assigned as a function of smoking but $S$ is not caused by any factors in our model, we would express our model as a directed edge going from $S$ to L:
 
 
 
@@ -329,6 +392,7 @@ $$\begin{tikzpicture}[
 \end{tikzpicture}$$
 
 However, historically, this causal structure was not the only one suggested to explain the association between lung cancer and smoking. One particularly illustrious detractor of this theory was British statistician R. A. Fisher, a foundational figure in modern statistics (and a heavy smoker) [ref Fisher]. In Fisher's view, there was no causal effect of smoking on lung cancer, rather, an underlying genetic factor was responsible for both a predisposition to smoking and a higher risk of developing lung cancer. So Fisher's causal model would have looked like:
+
 $$L :=f(G, N_L),$$
 $$S := f(G, N_S),$$
 $$G := N_G.$$ 
@@ -356,34 +420,92 @@ In this way, every SCM entails a directed graph. Although it is entirely possibl
 In any SCM $C$ with entailed graph $G$, if $A \dsep_G B | S \implies A \dsep B | S$ for all disjoint sets of nodes $A,B,S$. That is, every d-separation in the graph corresponds to a conditional independence in the joint distribution. This fact is implied by the definition of SCMs and is called the \emph{\textbf{Markov Property}}.
 \end{definition}
 
-[This seems important enough to reproduce a proof but I will have to spend a little more time than I have tonight]
+In other words, structural assignments (without cycles) induce a Bayesian network over the involved variables that the observational distribution must be compatible with. This result is a powerful tool that allows us to test how well differing causal models comport with the observational data.  Returning to Fisher's suggestion that an underlying genetic cause was responsible for the association of smoking with lung cancer, consider that by the Markov property $S \dsep L | G$. Let's assume we have a population of identical twins, some of whom were smoking discordant. Since we know that identical twins are genetically identical  we could assess whether or not smoking and lung cancer are independent within twin pairs. If not, then something must be wrong with the model. 
 
-This result is a powerful tool that allows us to test how well differing causal models comport with the observational data.  Returning to Fisher's suggestion that an underlying genetic cause was responsible for the association of smoking with lung cancer, consider that by the Markov property $S \dsep L | G$. Let's assume we have a population of identical twins, some of whom were smoking discordant. Since we know that identical twins are genetically identical  we could assess whether or not smoking and lung cancer are independent within twin pairs. If not, then something must be wrong with the model. 
-	
 
- \chapter{Bareinboim et al 2014}
+
+\section{Selection Bias and Missing Data}
+
+Most statistical inference techniques  are designed for the case in which samples are 'representative' of the population. That is, for a finite population of size $N$, each unit in the population $X_1, ..., X_N$ are equally likely to appear in the sample. When the domain is continuous, we can extend this idea as saying that the distribution of a sampled value is the same as the "true" underlying distribution. However, this is often unattainable and therefore standard methods are inappropriate (see Chapter 4 for an overview of more appropriate methods). This problem is captured by two related phenomena: selection bias and missing data.
+
+
+\subsection{Selection Bias}
+
+Selection bias occurs whenever samples are non-representative. In the finite population case, this corresponds to some units being more likely to be sampled than others. The problem with this is serious. As a basic example, consider a sample $\tilde{\mathbf{X}}$ taken from $X_1, ..., X_N$ where each $X_i \sim \text{Bern}(p)$. If we want to estimate $p$ from a representative sample, all we need is to take the mean of our sample to get an unbiased estimator. However, if values of $X_1, ..., X_N$ are sampled such that the sampling probability of $X_i$ is larger when $X_i = 1$, then any sample, no matter how larger, will give biased estimated of $p$. 
+
+Selection bias occurs often in practice but can be difficult to identify. Unlike the case of missing data (described in section 1.2.2), selection bias is often invisible - we don't know anything about the units that weren't sampled. The problem presented by selection bias has been a thorn in the side of empirical research for decades.
+
+One classic example of selection bias is a 1936 presidential election poll  published in an American magazine called The Literary Digest. The election was between Franklin Delano Roosevelt, the democratic incumbent, and Alfred Landon, a republican. The Literary Digest conducted a poll drawing a sample from their readership and by telephone and using records of automobile ownership. The sample size was extremely large, with over 2 million survey respondents. Their prediction, that Landon would comfortably win the election, proved embarrassing. Not only did Landon lose, but he lost in one of the largest electoral landslides in American history:  523 electoral votes went to Roosevelt and 8 went to the Digest's predicted winner. Shortly after, the magazine ceased publication.
+
+The precise details of what caused this failure are not fully known. One view that has become the popular explanation was that although their survey had a plenty large sample size, it was non-representative of the population as a whole. Particularly, both being subscribed to The Literary Digest and owning a telephone or car were more common among more affluent people, and so their survey skewed wealthier than the population as a whole, and therefore underestimated the proportion of voters who would vote for Roosevelt, a candidate with largely working class support. In fact, although this explanation almost certainly accounts for a part of the failure, it is unlikely to be complete. Although it is true that the survey over-sampled more affluent voters who were more likely to support Landon, a separate poll  conducted by George Gallup in 1937 found that in even voters who owned both a telephone and a car were more likely to favor Roosevelt than Landon. This means that there must have been other factors at play, and in particular, that Landon voters were more likely to return the survey than Roosevelt voters \citep{Squire1988}, \cite{lusinchi_2012}. This is called (non) response bias, and we will see that it too falls under the selection bias framework proposed here.
+
+Selection bias can be even more subtle than this. Medical studies into the effects of a certain health conditions rely on samples of people with that condition. This can introduce a phenomenon called "survivorship bias" wherein the most severe cases are less likely to be included in the analysis because they are more likely to result in death \citep{Delgado_2008}. Of course, similar effects exist outside of medicine. 
+
+One such case which has made its way into statistical legend concerns the work done by Abraham Wald and the Statistical Research Group (SRG) of which he was a member. The SRG was a working group of statisticians and mathematicians based at Columbia who applied statistical methods to problems faced by the American military during World War II \citep{Wallis_1980a}. Asked to reduced the number of planes being taken down by enemy fire through discovering the areas of the plane most vulnerable to damage and reinforcing them, Wald pushed back on the military's suggestion to armor the areas which (within the returning aircraft) were most affected by gunfire. In fact, Wald believed that the opposite - reinforcing the areas \emph{not} damaged in the returning aircraft - would provide the best protection. His reasoning was simple: all regions of the aircraft were similarly likely to be hit, but only those planes hit in the regions which were not essential were able to return. In other words, the full set of aircraft would have damage uniformly throughout the body of the plane, but selection into the set of returning aircraft depended on the planes not being so badly damaged that they went down \citep{Wallis_1980b}. So, the areas not damaged in the returning set must have been the areas which, if damaged, would lead to the plane going down. In this way, Wald was used additional pieces of information (uniformity of hits to the plane and the fact that downed planes had been hit in vital regions) to effectively make use of selection-biased data which otherwise would have led to dangerously wrong conclusions. 
+
+The importance of establishing the mechanisms by which selection occurs has led to the development of graphical representations for the selection process. In the 2000s, a handful of papers were published using graphs to represent selection bias in the context of medical research \citep{Geneletti_2008} \citep{Hernan_2004} \citep{Haneuse_2009}. More recently, a group of computer scientists has generalized this work in terms of causal graphs to make substantial headway on the problem \citep{Pearl_2011} \citep{Bareinboim_2012} \citep{Bareinboim_2014}. This latter body of work is essential to our study of the problem and is reviewed in the next chapter.
+
+\subsection{Missing Data}
+
+Like selection bias, missing data occurs when some variables are not observed for each unit (row). Unlike selection bias, missing data can always be detected - missing values are not known, but the fact that they are missing is. In the standard missing data notation, $R_{Y_i}=1$ corresponds to the $i^{\text{th}}$ observation of a random variable $Y$ being missing. In some cases, missingness follows a very simple structure where a particular variable is not always observed (often the response variable), but covariates are available for each unit. Table 3.1 gives an example of what is meant by this. 
+
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+Y     & $X_1$  & $X_2$  & $X_3$  & $X_4$  & $R_Y$ \\ \hline
+$y_1$ & $x_{11}$ & $x_{12}$ & $x_{13}$ & $x_{14}$ & 0 \\
+   -   & $x_{21}$ & $x_{22}$ & $x_{23}$ & $x_{24}$ & 1 \\
+   -   & $x_{31}$ & $x_{32}$ & $x_{33}$ & $x_{34}$ & 1 \\
+$y_2$ & $x_{41}$ & $x_{42}$ & $x_{43}$ & $x_{44}$ & 0
+\end{tabular}
+\caption{Hypothetical table representing missing data with one partially observed variable.} 
+\end{table}
+
+One example of this effect is found in studies that observe units over a long period of time, such as longitudinal studies. In these cases, researchers  have to deal with drop-out: some participants stop participating in the study before it finishes, and therefore the final outcome is not recorded for these units. Since the pre-treatment covariates are recorded for all participants before dropout occurs, only the outcome variable is missing for the units affected by dropout. This situation is a prime candidate for a technique called inverse probability weighting, which we explore in the next chapter \citep{Hernan_2004}.
+
+Sometimes the missingness structure is more complex in that different variables are missing from different units. So while one survey respondent might answer a question on income but decline to answer a question about marital status, another might do just the opposite. A range of approaches have been developed: sometimes, rows with missing variables may be safely deleted, other times, imputation based methods are more appropriate \citep{Schafer_2002}.  For instance, survey respondents may choose not to answer some questions, but unlike in the example above, the unanswered questions can differ between units (table 3.2). In cases like this, missing data are often imputed: that is, the missing values are predicted on the basis of non-missing values, but weight based approaches like inverse probability weighting can also be applied \citep{Little_1986} ,\citep{Seaman_2011}. 
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|l|l|l|l|l}
+$X_1$    & $X_2$    & $X_3$    & $R_{X_1}$ & $R_{X_2}$ & $R_{X_3}$ \\ \hline
+-        & -        & $x_{13}$ & 1         & 1         & 0         \\
+-        & $x_{22}$ & $x_{23}$ & 1         & 0         & 0         \\
+$x_{31}$ & $x_{32}$ & $x_{33}$ & 0         & 0         & 0         \\
+-        & $x_{42}$ & -        & 1         & 0         & 1        
+\end{tabular}
+\caption{Hypothetical table representing missing data with all variables partially observed.}
+\end{table}
+
+The degree of the problem posed by missing data will depend on the form that the missingness takes. In the worst cases, a variable causes its own missingness, an effect called "self-censoring". When this happens, the problem becomes very hard for the same reason selection bias is so vexing: the sampling distribution for the missing variable will never align with the population distribution and without external data or added assumptions, there is no way to say anything about what this underlying distribution is likely to be. In more favorable cases, whether or not an entry is missing for a particular unit will only depend on the set of observed values for that unit.
+
+Since such a wide range of missingness structures are possible, a large  literature has developed to address the problem in various contexts \citep{Schafer_2002} \citep{Heckman_1979} \citep{Little_1986}, much more so than with selection bias. Indeed, missing data has several qualities that often make it easier to handle than selection bias.  When some (but not all) features for a particular unit are not measured, those features that are measured can often inform on the features that do not. In many cases, a model can be specified to replace or "impute" the missing values \citep{Donders_2006}. In the best case, the rows with missing data can be excluded from the analysis, but unless strict assumptions are met, this method will produce biased results and potentially greatly reduce sample size. Still, even with the wealth of methods developed for handling missing data, it can be difficult or even impossible to determine which are appropriate in a particular situation \citep{Mohan_2019}. Just as with selection bias, this fact motivates the recent formulation of the missing data problem in terms of causal graphs as discussed in chapter 3.
+
+
+
+\chapter{Graphical Representations of Selection Bias}
 
 
 \section{Introduction}
-Bareinboim, Tian, and Pearl's 2014 paper "Recovering from Selection Bias in Causal and Statistical Inference" provides a formulation of selection bias explicitly in terms of causal DAGs and d-separation, making it an especially important resource for developing our study of the topic. In particular, the paper provides graphical conditions (in terms of d-separations) under which a \emph{conditional} distribution $P(y | x)$ can be obtained despite selection bias. When this can be done, we say that the $P(y | x)$ can be "recovered", from a causal graph containing a selection mechanism. However, the content of the paper is highly abstracted and does not attempt to provide real-life cases in which their techniques are useful. For this reason, we will summarize the main results of the paper and interpret them in the context of some realistic examples. 
+In chapter 4, we give an overview of relevant methods for selection bias and missing data, including several older papers that describe sample selection graphically. However, these papers mostly made use of the graphs as conceptual models of selection for particular problems without digging into the implications of such structure in the context of particular study designs \citep{Hernan_2004}, \citep{Geneletti_2008}. Bareinboim, Tian, and Pearl's 2014 paper "Recovering from Selection Bias in Causal and Statistical Inference" provides a formulation of selection bias explicitly in terms of causal DAGs and d-separation, making it an especially important resource for developing our study of the topic. In particular, the paper provides graphical conditions (in terms of d-separations) under which a \emph{conditional} distribution $P(y | x)$ can be obtained despite selection bias. When this can be done, we say that the $P(y | x)$ can be "recovered", from a causal graph containing a selection mechanism. To illustrate the results in a practical context, we will apply the graphical approach to the Literary Digest election polling problem described in section 1.2.1.
 
-The paper is broken into three sections, the first two of which are the most substantial and the focus of our attention. The first gives conditions for when a distribution can be recovered if only the biased distribution is accessible, the second gives conditions for the case where population level data is available for some variables, and the last gives a brief discussion of recovering causal effects.
+Bareinboim et. al is broken into three sections, the first two of which are the most substantial and the focus of our attention. The first gives conditions for when a distribution can be recovered if only the biased distribution is accessible, the second gives conditions for the case where population level data is available for some variables. As we will see, the presence of external data turns out to be quite useful.
 
 \section{Representing Selection with DAGs}
 
-Although the topic of this paper is selection \emph{bias}, the graphical framework is really a model of selection itself. That is, it can model cases where selection does not induce bias as well as cases in which it does. Representing selection in this way requires augmenting  a structural causal model over a set of variables $\mathbf{V}$ with a node $S$ that represents inclusion in the sample. The biased distribution is then $P(\mathbf{v} | S = 1)$, that is, the joint for our variables $\mathbf{V}$ conditioned on inclusion within the sample.  
+Although the topic of this paper is selection \emph{bias}, the graphical framework is really a model of selection itself. That is, it can model cases where selection does not induce bias as well as cases in which it does. Representing selection in this way requires augmenting  a structural causal model over a set of variables $\mathbf{V}$ with a node $S$ that represents inclusion in the sample. The  "manifest" (or observed) distribution is then $P(\mathbf{v} | S = 1)$, that is, the joint over our variables $\mathbf{V}$ conditioned on inclusion within the sample.  
 
-\section{A Famous Case of Selection Bias}
-One classic example of selection bias is the 1936 presidential election poll  published in an American magazine called The Literary Digest. The election was between Franklin Delano Roosevelt, the democratic incumbent, and Alfred Landon, a republican. The Literary Digest conducted a poll, drawing from their readership and by telephone and using records of automobile ownership. The sample size was extremely large, with over 2 million survey respondents. Their prediction, that Landon would comfortably win the election, proved embarrassing. Not only did Landon lose, but he lost in one of the largest electoral landslides in American history:  523 electoral votes went to Roosevelt and 8 went to the Digest's predicted winner. Shortly after, the magazine ceased publication.
+In the finite population setting, we can think about this labeling every unit in the population with  $S=1$ if they are included in our sample and $S= 0$ otherwise. The advantage of this is that $S$ is can now be represented as another variable within the causal model, and therefore the d-separations within the associated causal graph give access conditional independences which allow selection to be ignored. This framework captures the non-biasing selection case as a selection graph in which there are no edges to $S$. In such a graph, $\mathbf{V} \dsep_G S | \emptyset$ and so $P(\mathbf{v} | S = 1) = P(\mathbf{v})$.
 
-The precise details of what caused this failure are not fully known. One view that has become the popular explanation was that although their survey had a plenty large sample size, it was non-representative of the population as a whole. Particularly, both being subscribed to The Literary Digest and owning a telephone or car were more common among more affluent people, and so their survey skewed wealthier than the population as a whole, and therefore underestimated the proportion of voters who would vote for Roosevelt, a candidate with largely working class support. In fact, this explanation is unlikely to be complete. Although it is true that the survey over-sampled more affluent voters who were more likely to support Landon, a separate poll  conducted by George Gallup in 1937 found that in even voters who owned both a telephone and a car were more likely to favor Roosevelt than Landon. This means that there must have been other factors at play, and in particular, that Landon voters were more likely to return the survey than Roosevelt voters \citep{Squire1988}, \cite{lusinchi_2012}. This is called (non) response bias, and we will see that it falls under the selection bias framework proposed here.
+Finally, it should be emphasized that this method completely ignores sample size. In the real world, any sample is going to be finite and therefore any estimate of the population distribution, regardless of selection mechanism, will be subject to sampling variation. Mitigating this kind of uncertainty is not a concern of this work. Instead, it focuses purely on the effect of selection on the distribution from which the sample is being drawn. In other words, the focus is on the effect of selection on the sample as the sample becomes infinitely large.
 
-For now, though, let's assume that income was the only variable that was responsible for the non-representative sample, and that this information was collected from respondents as part of the survey. However, we will return to this case later to add some depth.
 
-One of the important features of selection bias is that unlike sampling variation, it cannot be reduced with sufficiently large sample sizes. For this reason, in the rest of the paper we will discuss a selection biased joint distribution for this survey, and thereby ignore sample size.
+\section{Recovering Conditionals Without External Data}
+In the basic case, we only have access to a distribution corresponding to a causal graph $G$  with a set of nodes $\mathbf{V}$ equipped with a selection node $S$. The distribution $P(\mathbf{v} | S = 1)$ corresponds to the distribution of values that are selected for inclusion in the sample. 
+So, returning to our election example, in the simplest model in which only income affects selection probability, our graph would look like figure 2.1. In the figure, $C$ is a random variable for the candidate a person intends to vote for, $W$ is a measure of income and $S$, as usual, is the binary variable denoting inclusion in the sample. Although in practice we would probably like to know $P(c)$, the population level distribution of intended votes, for now we restrict ourselves to $P(c | w)$, the conditional distribution of intended vote given SES. 
 
-\section{Recovering $P(y|x)$ Without External Data}
-In the simplest case, we only have access to a distribution corresponding to a causal graph $G$  with a set of nodes $\mathbf{V}$ equipped with a selection node $S$. This means that we do not have access to the full joint distribution $P(\mathbf{v})$ but rather the conditional joint distribution $P(\mathbf{v} | S = 1)$. This corresponds to the joint distribution of values that are selected to be sampled. So, returning to our election example, our graph would look like:
+
 \begin{figure}
 \begin{center}
 \begin{tikzpicture}[
@@ -404,18 +526,19 @@ In the simplest case, we only have access to a distribution corresponding to a c
 \end{center}
 \caption{Graph corresponding to selection bias based on income} \label{fig:2.1}
 \end{figure}
-Where $C$ is a random variable for the candidate a person intends to vote for, $W$ is measures income and $S$ is a binary variable denoting inclusion in the study. Although in practice we would probably like to know $P(c)$, the population level distribution of intended votes, for now we restrict ourselves to $P(c | w)$, the conditional distribution of intended vote given SES. 
 
-In the vein, Bareinboim et al. define \textbf{s-recoverability} as the criterion which must be satisfied for a conditional distribution such as $P(c|w)$ to be obtainable under selection bias. We reproduce their definition exactly and give an explanation of why it makes sense.
+In this vein, Bareinboim et al. define \textbf{s-recoverability} as the criterion which must be satisfied for a conditional distribution such as $P(c|w)$ to be obtainable despite the selection mechanism. We reproduce their definition exactly and give an explanation of why it makes sense:
 
 \begin{definition}
 Given a causal graph $G_s$ augmented with a node $S$ encoding the selection mechanism, the distribution $Q = P(y | \mathbf{x})$ is said to be \textbf{s-recoverable} from selection biased data in $G_s$ if the assumptions embedded in the causal model render $Q$ expressible in terms of the distribution under selection bias $P(\mathbf{v} | S = 1)$. Formally, for every two probability distributions $P_1$ and $P_2$ compatible with $G_s$, $P_1(\mathbf{v} | S = 1) = P_2(\mathbf{v} | S = 1) > 0$ implies $P_1(y | \mathbf{x}) = P_2(y | \mathbf{x})$.
 \end{definition}
 
-If we have a selection biased distribution, we have access to a particular joint distribution, $P(\mathbf{v} | S = 1)$ where $\mathbf{V}$ is the set of all nodes other than $S$. So if we are to recover $P(y | \mathbf{x})$ ($\mathbf{X} \subset \mathbf{V}$, $Y \in \mathbf{V}$) we need to express $P(y | \mathbf{x})$ as values derivable from $P(\mathbf{v} | S = 1)$ and the conditional independences implied by the d-separations within the graph. This is what is meant by "if the assumptions embedded in the causal model render $Q$ expressible in terms of the distribution under selection bias $P(\mathbf{v} | S = 1)$", and it is worth exploring why this fairly intuitive formulation is equivalent to the formal definition given in the last sentence.
+In the example, if we are to recover $P(c | w)$  we need to express $P(c | w)$ as values derivable from $P(c, w | S = 1)$ and the conditional independences implied by the d-separations within the graph. This is what is meant by "if the assumptions embedded in the causal model render $Q$ expressible in terms of the distribution under selection bias $P(\mathbf{v} | S = 1)$", and it is worth exploring why this fairly intuitive formulation is equivalent to the formal definition given in the last sentence.
 
-Consider that the agreement of $P_1$ and $P_2$ on the joint distribution $P(\mathbf{v} | S = 1)$ means that $P_1$ and $P_2$ produce the same observational distribution under selection bias. Therefore, when $P_1(\mathbf{v} | S = 1) = P_2(\mathbf{v} | S = 1) \implies P_1(y | \mathbf{x}) = P_2(y | \mathbf{x})$ we know that no matter the differences between $P_1$ and $P_2$, they must produce the same conditional $P(y|\mathbf{x})$. So, if this is true for every $P_1$, $P_2$, then all distributions consistent with the observational $P(\mathbf{v} | S = 1)$ produce the same $P(y | \mathbf{x})$. 
-The first important result of the paper is the following theorem:
+The agreement of $P_1$ and $P_2$ on the joint distribution $P(\mathbf{v} | S = 1)$ means that $P_1$ and $P_2$ produce the same observational distribution under selection bias. Therefore, when $P_1(\mathbf{v} | S = 1) = P_2(\mathbf{v} | S = 1) \implies P_1(y | \mathbf{x}) = P_2(y | \mathbf{x})$ we know that no matter the differences between $P_1$ and $P_2$, they must produce the same conditional $P(y|\mathbf{x})$. So, if this is true for every $P_1$, $P_2$, then all distributions consistent with the observational $P(\mathbf{v} | S = 1)$ produce the same $P(y | \mathbf{x})$. 
+
+This leads to the first important result of the paper in the following theorem:
+
 \begin{theorem}
 The distribution $P(y | \mathbf{x})$ is s-recoverable from $G_s$ if and only if $S \dsep_{G_s} Y | \mathbf{X}$.
 \end{theorem}
@@ -426,11 +549,13 @@ The proof of $\impliedby$ is quite long, but $\implies$ is easy.
 Assume that $S \dsep_{G_s} Y | \mathbf{X}$. Then by the Markov property, $S \dsep Y | X$ and $P(y | \mathbf{x}, S = 1) = P(y | \mathbf{x})$. So the 'recovered' distribution is simply the biased distribution.
 \end{proof} 
 
-Clearly this is a useful result since it is easy to test whether two nodes are d-separated by a set. In our application, we can see that $V \dsep_G S | W$, and so $P(v|w) = P(v|w, S = 1)$. So our study gives us direct access to the conditional distribution for candidate preference by income. This is potentially useful but restricted. What if we wish to recover a conditional distribution but do not want to condition on the full separating set? To do so, we will need external measurements.
+Remarkably, this theorem means the \emph{only} time that $P(y | \mathbf{x})$ is recoverable is when $\mathbf{X}$ d-separates $S$ and $Y$ in the graph. In our application, we can see that $C \dsep_G S | W$, and so $P(c|w) = P(c|w, S = 1)$. So our study gives us direct access to the conditional distribution for candidate preference by income. This is potentially useful but restricted. What if we wish to recover a conditional distribution but do not want to condition on the full separating set? To do so, we will need external measurements.
 
 \section{Recovery With External Data}
 
-Sometimes a researcher will conduct a survey and collect variables on survey participants for which we know the population level distribution. For instance, the US Census collects and publishes data on occupation, race, income, and many other variables from the entire US population. If some of these variables are measured in our selection biased study, this information can be used to recover distributions that would otherwise be unavailable. To elaborate on this topic we will introduce a more complex model of the selection mechanism in our voter poll. As mentioned in the introduction, more recent research suggests that the assumption that income was the only variable affecting the probability of being included in the poll is not sufficient. A better explanation includes the fact that Roosevelt supporters who received the survey were much less likely to respond than Landon supporters \cite{lusinchi_2012}. This effect is called non-response bias, and is really another form of selection bias since it arises from the differing probabilities of being included in the final sample. The exact mechanism of the non-response effect in this poll is not and likely will never be known. In fact, if candidate preference directly influences the likelihood of survey response, (i.e. $C \rightarrow S$), the two nodes cannot be d-separated and we will be out of luck. Being optimistic, however, let's say we have reason to believe that another factor is the culprit. Particularly, the political party to which a survey respondent is registered could be mediating the relationship between voter preference and response probability. This model is represented in the figure below.
+Sometimes a researcher will conduct a survey and collect variables on survey participants for which we know the population level distribution. For instance, the US Census collects and publishes data on occupation, race, income, and many other variables from the entire US population. If some of these variables are measured in our selection biased study, this information can be used to recover distributions that would otherwise be unavailable. 
+
+To elaborate on this topic we will introduce a more complex model of the selection mechanism in our voter poll. As mentioned in the introduction, more recent research suggests that the assumption that income was the only variable affecting the probability of being included in the poll is not sufficient. A better explanation includes the fact that Roosevelt supporters who received the survey were much less likely to respond than Landon supporters \cite{lusinchi_2012}. This effect is called non-response bias, and is really another form of selection bias since it arises from the differing probabilities of being included in the final sample. The exact mechanism of the non-response effect in this poll is not and likely will never be known. In fact, if candidate preference directly influences the likelihood of survey response, (i.e. $C \rightarrow S$), the two nodes cannot be d-separated and we will be out of luck. Being optimistic, however, let's say we have reason to believe that another factor is the culprit. Particularly, the political party to which a survey respondent is registered could be mediating the relationship between voter preference and response probability. This model is represented in the figure below.
 
 
 \begin{figure}
@@ -474,6 +599,7 @@ $$P(y | \mathbf{x}) = \sum_{\mathbf{c}} P(y | \mathbf{x}, \mathbf{c}, S = 1)P(\m
 \end{theorem}
 
 The theorem is a straightforward application of the law of total probability.
+
 \begin{proof}
 By assumption, we have the external distribution $P(\mathbf{c}, \mathbf{x})$ and therefore $P(\mathbf{c} | \mathbf{x})$, and as usual we have $P(\mathbf{v} | S =  1)$. So can apply the law of total probability and the conditional independence $Y \dsep S | \{C,X\}$ to write:
 
@@ -481,55 +607,24 @@ $$P(y | \mathbf{x}) = \sum_{\mathbf{c}} P(y | \mathbf{x}, \mathbf{c}) P(\mathbf{
 
 \end{proof}
 
-Therefore, if we wish to recover $P(c | w)$ party registration affects response probability, we can do so using the external data $P(p | w)$.
+Therefore, if we wish to recover $P(c | w)$ party registration affects response probability, we can do so using the external data $P(p , w)$.
 
 \section{A Useful Extension}
-As we have seen, Bareinboim et al. is focused on the recovery of conditional distributions, i.e. $P(v|w)$. However, we would often like to have the unconditional distribution $P(v)$. Although it is only mentioned obliquely at the end of the second section, the results they prove give a simple condition for when $P(v)$ is recoverable using external data. In both sections we have seen that $P(v|w)$ was recoverable. Then, assuming that we have the external data for $P(w)$, we can use the law of total probability to write:
+As we have seen, Bareinboim et al. is focused on the recovery of conditional distributions, i.e. $P(c|w)$. However, we would often like to have the unconditional distribution $P(v)$. Although it is only mentioned obliquely at the end of the second section, the results they prove give a simple condition for when $P(c)$ is recoverable using external data. In both sections we have seen that $P(c|w)$ was recoverable. Then, assuming that we have the external data for $P(w)$, we can use the law of total probability to write:
 
-$$P(v) = \sum_{w} P(v|w)P(w).$$
+$$P(c) = \sum_{w} P(c|w)P(w).$$
 
-More generally, we can formulate this result as a theorem, although it is not listed as such in the paper.
+More generally, we can formulate this result as a corollary, although it is not listed as such in the paper.
 
-\begin{theorem}
+\begin{corollary}
 If there exists a set $\mathbf{X} \subseteq V$ such that $P(y|\mathbf{x})$ is s-recoverable and $P(\mathbf{x})$ is available externally, then $P(y)$ is recoverable as $P(y) = \sum_{\mathbf{x}} P(y|\mathbf{x})P(\mathbf{x})$.
-\end{theorem}
+\end{corollary}
+
+Being able to recover marginal distributions (rather than conditionals) will come in handy later when we compare recovery from selection bias to recovery from missing data.
 
 \chapter{Graphical Approaches to Missing Data}
 
-We have seen that selection bias is one way that the data collection process can cause the available distribution to differ from the desired distribution. A closely related problem (which is occasionally referred to as selection bias) is the problem of missing data \citep{Heckman_1979}. This happens often in statistical practice: survey question non-response, study drop-out, and failing to record data are all well known forms of missingness that affect scientific research. 
-
-Missing data occurs when some variables are not observed for each unit (row). In the standard missing data notation, $R_{Y_i}=1$ corresponds to the $i^{\text{th}}$ observation of a random variable $Y$ being missing. Missingness can follow a very simple structure where a particular variable is not always observed (often the response variable), but covariates are available for each unit. Table 3.1 gives an example of what is meant by this. 
-
-
-\begin{table}[]
-\centering
-\begin{tabular}{|l|l|l|l|l|l|}
-Y     & $X_1$  & $X_2$  & $X_3$  & $X_4$  & $R_Y$ \\ \hline
-$y_1$ & $x_{11}$ & $x_{12}$ & $x_{13}$ & $x_{14}$ & 0 \\
-   -   & $x_{21}$ & $x_{22}$ & $x_{23}$ & $x_{24}$ & 1 \\
-   -   & $x_{31}$ & $x_{32}$ & $x_{33}$ & $x_{34}$ & 1 \\
-$y_2$ & $x_{41}$ & $x_{42}$ & $x_{43}$ & $x_{44}$ & 0
-\end{tabular}
-\caption{Hypothetical table representing missing data with one partially observed variable.} 
-\end{table}
-
-One example of this effect is found in studies that observe units over a long period of time. In these cases, researchers often have to deal with drop-out: some participants stop participating in the study before it finishes, and therefore the final outcome is not recorded for these units. Since the pre-treatment covariates are recorded for all participants before dropout occurs, only the outcome variable is missing for the units affected by dropout. This situation is a prime candidate for a technique called inverse probability weighting, which we explore in the next chapter \citep{Hernan_2004}.
-
-Sometimes the missingness structure is more complex in that different variables are missing from different units. A range of approaches have been developed: sometimes, rows with missing variables may be safely deleted, other times, imputation base methods are more appropriate \citep{Schafer_2002}.  For instance, survey respondents may choose not to answer some questions, but unlike in the example above, the unanswered questions can differ between units (table 3.2). In cases like this, missing data are often imputed: that is, the missing values are predicted on the basis of non-missing values, but weight based approaches like inverse probability weighting can also be applied \citep{Little_1986} ,\citep{Seaman_2011}. 
-
-\begin{table}[]
-\centering
-\begin{tabular}{|l|l|l|l|l|l}
-$X_1$    & $X_2$    & $X_3$    & $R_{X_1}$ & $R_{X_2}$ & $R_{X_3}$ \\ \hline
--        & -        & $x_{13}$ & 1         & 1         & 0         \\
--        & $x_{22}$ & $x_{23}$ & 1         & 0         & 0         \\
-$x_{31}$ & $x_{32}$ & $x_{33}$ & 0         & 0         & 0         \\
--        & $x_{42}$ & -        & 1         & 0         & 1        
-\end{tabular}
-\caption{Hypothetical table representing missing data with all variables partially observed.}
-\end{table}
-
-Since such a wide range of missingness structures are possible, a large  literature has developed to address the problem in various contexts \citep{Schafer_2002}.  However, a taxonomy developed  by Donald Rubin to capture the basic structures under which missingness occurs has had a particularly notable impact. We review these definitions now, since our graphical framework will also make use of them. 
+The advantages of graphical representations of selection are also found in graphical representations of missing data. As with selection, the dependence structure of missing data determines the whether a particular quantity is accessible despite missingness. This fact has long been recognized \citep{Mohan_2019}, \citep{Little_1986} and led to the widespread adoption of a classification system based on these relationships.
 
 \section{Rubin's Taxonomy of Missing Data}
 
@@ -555,12 +650,10 @@ To further develop the intuition, we describe variations on survey non-response 
 \item (MNAR) High income respondents are less likely to respond to the income question than those with lower income. It does not matter if education is associated with non-response within the strata of income.  
 \end{itemize}
 
-
-
 However, although we can describe or display particular situations under which each condition would hold, the task becomes more difficult in practice. For one, it can be shown that it is generally not possible to test for whether or not data satisfy the missing at random condition \citep{Schafer_2002}. This limitation means that given a particular dataset containing missing values, it  (usually) is not possible to determine whether the missing values are missing at random or not without further assumptions.
 \section{Graphical Innovations}
 
-These difficulties in establishing the precise conditions under which the definitions apply as well as the conditions which allow for distributions of interest to be recovered led to the recent formulation of the missing data problem in graphical terms. As with the analogous literature we have explored on selection bias, this work also was headed by Judea Pearl and one of his graduate students, Karthika Mohan \citep{Mohan_2013} \citep{Mohan_2019}. Fortunately, familiarity with Bareinboim's framework makes understanding Mohan and Pearl's straightforward. 
+The difficulties in establishing the precise conditions under which the definitions apply as well as the conditions which allow for distributions of interest to be recovered led to the recent formulation of the missing data problem in graphical terms. As with the analogous literature we have explored on selection bias, this work also was headed by Judea Pearl and one of his graduate students, Karthika Mohan \citep{Mohan_2013} \citep{Mohan_2019}. Fortunately, familiarity with Bareinboim's framework makes understanding Mohan and Pearl's straightforward. 
 
 As above, we consider four sets of variables: fully observed variables $V_o$, partially observed variables $V_m$, unobserved variables $U$, and the missingness variables $R$. To make the missingness process more explicit, we add to this a set of "proxy" variables $V^*_m = \{Y_i^* | Y_i \in V_m\}$ which reflect what we actually observe, such that:
 
@@ -722,6 +815,35 @@ So, the population level joint $P(x,y,z)$ may be recovered as given in the theor
 $$P(x,y,z) = \frac{P(x,y,z, R_X = 0, R_Y = 0)}{P(r_X | z)P(r_Y | x, R_x = 0)}$$
 \end{example}
 
+It is worth noting here how much stronger these results are than anything that was shown for selection bias. There, we saw that (without external data) the only distributions which can be recovered are conditionals $P(y | \mathbf{x})$ for which $Y \dsep_G S | \mathbf{X}$. When data is missing, a relatively weak condition, no self-censoring and no collider paths, is all that is needed to recover the full population distribution, as long as no edges exist between $R$ nodes. Intuitively, this gets back to the point that selection bias is much worse than missing data. With missingness, we know something about every unit, and we know what we don't know (that is, we can tell when a value is missing). Under selection bias, all we have is our biased data -  we know nothing about the units that were not sampled.
+
+\subsection{Conditions for Non-Recoverability}
+
+As important as it is to know when a particular quantity can be recovered, it is sometimes just as useful to know when a quantity cannot be. To this end, some attention has been paid to establishes those graphical conditions that prevent recoverability.  One of these we have already seen: theorem 5 gives that whenever $X$ and $R_X$ are neighbors or $X$ and $R_X$ are connected by a path in which all intermediate nodes are colliders and elements of $V_m \cup V_o$, the joint $P(V_m, V_o)$ is not recoverable. In fact, the necessity direction of this theorem is proven using two lemmas which are useful on their own. 
+
+We reproduce these lemmas below:
+
+\begin{lemma}
+In the graph $X \rightarrow R_X$, $P(X)$ is not recoverable.
+\end{lemma}
+
+\begin{lemma}
+If a quantity $Q$ is not m-recoverable in graph $G$, it will not be recoverable after the addition of any edge to the graph.
+\end{lemma}
+
+The second is especially useful because it says that if a quantity is not recoverable in a particular subgraph of our missingness graph, we can use lemma 2 and a simple induction to show that the quantity is not recoverable in the full graph, either. This is exactly what is done to prove that a single edge from a node $X$ to $R_X$ implies that $P(V_m, V_o)$ is not recoverable. Indeed, this makes clear that when an edge $X \rightarrow R_X$ exists, the marginal $P(\mathbf{S})$ cannot be recovered if $X \in \mathbf{S}$. 
+
+By similar reasoning, \cite{Mohan_2014} give a similar corollary for the non-recoverability of conditionals, which we also reproduce.
+
+\begin{corollary}
+For disjoint subsets $\mathbf{X}$ and $\mathbf{Y}$,  $P(\mathbf{Y} | \mathbf{X})$ is not recoverable if one of the following conditions is true:
+\item $Y$ and $R_Y$ are neighbors
+
+\item There is a collider path connecting $R_Y$ and $Y$ such that all intermediate nodes are in $\mathbf{X}$.
+\end{corollary}
+
+This condition is obviously similar to the condition for recovering the joint, and in chapter $5$, we continue in this direction to derive more conditions for non-recovery.
+
 \chapter{Earlier Approaches to Selection Bias and the Missing Data Problem}
 
 In statistics and many related fields, forms of the effect we are calling "selection bias" and "missing data" have gone by many names. As we have seen,  the tendency for types of survey recipients to respond more or less than others - (non) response bias - falls neatly into the framework of selection bias. In epidemiology and biostatistics, Berkson's bias (sometimes Berkson's paradox) describes a phenomenon in which two conditions that are independent at the population level become dependent within a sample as a result of both conditions affecting the likelihood of sample inclusion. This too is a kind of selection bias, as is Neyman's bias which results from survivors of a disease being selected for study but not those who died from the disease. In fact there are far more names for particular selection biases than we can describe here \citep{Delgado_2008}. One explanation for this extensive and overlapping nomenclature is that prior to the widespread use of graphical models, it was difficult to give any concise definition of selection bias that was specific enough to be useful. Selection bias is essentially about a sample with a different distribution than the population, but when that non-representivity can come from so many places this characterization is hardly useful.
@@ -744,7 +866,7 @@ Despite these drawbacks, complete-case analysis is very common. As above, this i
 
 The inefficiency of complete-case analysis has an obvious (partial) remedy. Instead of deleting every row which is subject to missingness in any column, we first select the variables of interest and then only delete rows which are missing values in the corresponding columns. This method is called "available-case" analysis or sometimes "pairwise deletion". Of course, when the number of variables of interest is close to the overall number of variables this doesn't help much, but when only a couple are needed much more data can be preserved. However, this method does nothing to address the main theoretical problem of bias: once again, data which is not MCAR is generally not appropriate for available case analysis.
 
-T
+
 
 \section{Imputation based Techniques} 
 
@@ -1081,9 +1203,6 @@ A distribution $P(X)$ is not m-recoverable if there exists $Y \in PA_{R_X}$ such
 
 \emph{Proof} (Similar to  \cite{Mohan_2013} section 5.5)The proof requires a lemma proven in \cite{Mohan_2013}, copied below.
 
-\begin{lemma}
-If a quantity $Q$ is not m-recoverable in graph $G$, it will not be recoverable after the addition of any edge to the graph.
-\end{lemma}
 
 With this result in mind, consider figure 5.1.
 

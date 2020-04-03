@@ -2,18 +2,19 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {1.1}{\ignorespaces Graphs corresponding to $V = \{A,B,C\}$, $E = \{(A,B), (B,C)\}$ }}{3}{figure.1.1}
 \contentsline {figure}{\numberline {1.2}{\ignorespaces Cyclic (left) and acyclic (right) graphs on the nodes $A,B,C$}}{4}{figure.1.2}
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Bayesian networks corresponding to $P(x | z)P(y | w)P(z | w)P(w)$ (left) and $P(w | x, y, z) P(y | x, z) P(x | z)P(z)$ (right)}}{5}{figure.1.3}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Graph corresponding to selection bias based on income}}{11}{figure.2.1}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Graph corresponding to selection bias based on income and party registration}}{12}{figure.2.2}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Graph corresponding to selection bias based on income}}{14}{figure.2.1}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Graph corresponding to selection bias based on income and party registration}}{16}{figure.2.2}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces From left to right, bivariate cases of MCAR, MAR, and MNAR missing data patterns}}{18}{figure.3.1}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces A three variable MNAR m-graph}}{19}{figure.3.2}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces From left to right, bivariate cases of MCAR, MAR, and MNAR missing data patterns}}{21}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces A three variable MNAR m-graph}}{22}{figure.3.2}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces PDAG corresponding to the structural equations in Heckman's set up. We leave arrows off the edges between $\epsilon $ and $\tau $ and between $X$ and $W$ since the directions are not given by the structural equations.}}{28}{figure.4.1}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Graph corresponding to selection bias based on income}}{32}{figure.4.2}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Study design for the Hern\'n's example}}{32}{figure.4.3}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Study design for the Geneletti's example}}{34}{figure.4.4}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces PDAG corresponding to the structural equations in Heckman's set up. We leave arrows off the edges between $\epsilon $ and $\tau $ and between $X$ and $W$ since the directions are not given by the structural equations.}}{32}{figure.4.1}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Graph corresponding to selection bias based on income}}{36}{figure.4.2}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Study design for the Hern\'n's example}}{36}{figure.4.3}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Study design for the Geneletti's example}}{38}{figure.4.4}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Case in which $P(X)$ is not recoverable}}{37}{figure.5.1}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces \csqQQ {34}Hard\csqQQ {34} MNAR Case}}{38}{figure.5.2}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Case in which $P(X)$ is not recoverable}}{41}{figure.5.1}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces \csqQQ {34}Hard\csqQQ {34} MNAR Case}}{42}{figure.5.2}
 \addvspace {10\p@ }
