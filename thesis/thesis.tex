@@ -505,7 +505,6 @@ Finally, it should be emphasized that this method completely ignores sample size
 In the basic case, we only have access to a distribution corresponding to a causal graph $G$  with a set of nodes $\mathbf{V}$ equipped with a selection node $S$. The distribution $P(\mathbf{v} | S = 1)$ corresponds to the distribution of values that are selected for inclusion in the sample. 
 So, returning to our election example, in the simplest model in which only income affects selection probability, our graph would look like figure 2.1. In the figure, $C$ is a random variable for the candidate a person intends to vote for, $W$ is a measure of income and $S$, as usual, is the binary variable denoting inclusion in the sample. Although in practice we would probably like to know $P(c)$, the population level distribution of intended votes, for now we restrict ourselves to $P(c | w)$, the conditional distribution of intended vote given SES. 
 
-
 \begin{figure}
 \begin{center}
 \begin{tikzpicture}[
@@ -846,9 +845,12 @@ This condition is obviously similar to the condition for recovering the joint, a
 
 \chapter{Earlier Approaches to Selection Bias and the Missing Data Problem}
 
-In statistics and many related fields, forms of the effect we are calling "selection bias" and "missing data" have gone by many names. As we have seen,  the tendency for types of survey recipients to respond more or less than others - (non) response bias - falls neatly into the framework of selection bias. In epidemiology and biostatistics, Berkson's bias (sometimes Berkson's paradox) describes a phenomenon in which two conditions that are independent at the population level become dependent within a sample as a result of both conditions affecting the likelihood of sample inclusion. This too is a kind of selection bias, as is Neyman's bias which results from survivors of a disease being selected for study but not those who died from the disease. In fact there are far more names for particular selection biases than we can describe here \citep{Delgado_2008}. One explanation for this extensive and overlapping nomenclature is that prior to the widespread use of graphical models, it was difficult to give any concise definition of selection bias that was specific enough to be useful. Selection bias is essentially about a sample with a different distribution than the population, but when that non-representivity can come from so many places this characterization is hardly useful.
+In statistics and many related fields, forms of the effect we are calling "selection bias" and "missing data" have gone by many names.  In epidemiology and biostatistics, Berkson's bias (sometimes Berkson's paradox) describes a phenomenon in which two conditions that are independent at the population level become dependent within a sample as a result of both conditions affecting the likelihood of sample inclusion. This too is a kind of selection bias, as is Neyman's bias which results from survivors of a disease being selected for study but not those who died from the disease. In fact there are far more names for particular selection biases than we can describe here \citep{Delgado_2008}. One explanation for this extensive and overlapping nomenclature is that prior to the widespread use of graphical models, it was difficult to give any concise definition of selection bias that was specific enough to be useful. Selection bias is essentially about a sample with a different distribution than the population, but when that non-representivity can come from so many places this characterization is hardly useful.
 
-In this section we will review a handful of notable earlier approaches to defining, correcting, and recognizing selection bias that have appeared within the literature. The purpose here is two-fold. For one, the historical background is generally useful to anyone looking for a thorough treatment of the subject. More pointedly, we will use the examples of previous methods to argue for the utility of the causal/graphical formulation used in this paper, as well as interpreting the techniques in that light.
+Unfortunately, the different threads within the literature has caused certain terms to be overloaded. As we have seen, the tendency for types of survey recipients to respond more or less than others - (non) response bias - falls neatly into the framework of selection bias, but the same phrase is used to describe the selective answering of particular questions, which is a problem of missing data. Even the terms "missing data" and "selection bias" have this problem. For instance, James Heckman's famous "Heckman Correction"
+ is widely described as a technique for dealing with selection bias. However, under our definitions, the method actually addresses missing data. 
+ 
+In this section we will review a handful of notable earlier approaches to defining, correcting, and recognizing selection bias and missing data that have appeared within the literature, being careful to note which problem is being addressed. The purpose here is two-fold. For one, the historical background is generally useful to anyone looking for a thorough treatment of the subject. More pointedly, we will use the examples of previous methods to argue for the utility of the causal/graphical formulation used in this paper, as well as interpreting the techniques in that light.
 
 
 \section{Case Analysis}
@@ -860,11 +862,11 @@ In "complete-case" analysis only rows which are complete - not missing \emph{any
 
 The second problem with complete-case analysis is that in many contexts, it is highly inefficient \citep{Little_1986}. Consider a survey with a large number of questions and suppose we wish to know the distribution of the respondents' answers to a particular question. To conduct a complete-case analysis in such a situation would mean throwing out every row in which the respondent had failed to answer any of the many questions, even if they had answered the question of interest. In such situations, complete-case analysis results in sample sizes which are far smaller than the sample size of the original data set. This, of course, has consequences for the power of statistical tests, the size of confidence intervals, etc. 
 
-Despite these drawbacks, complete-case analysis is very common. As above, this is mathematically appropriate when data are MCAR, but this is often not the case. Nonetheless, complete case analysis may be "good enough" for some purposes, especially when the number of excluded rows is small enough that any reasonable values for the missing data in the column of interest are unlikely to dramatically affect the analysis \citep{Schafer_2002}.
+Despite these drawbacks, complete-case analysis is very common. As above, this is mathematically appropriate when data are MCAR, but this is often not the case. Nonetheless, complete case analysis may be "good enough" for some purposes, especially when the number of excluded rows is small enough that any reasonable values for the missing data in the column of interest are unlikely to dramatically affect the analysis \citep{Schafer_2002}. 
 
 \subsection{Available-case Analysis}
 
-The inefficiency of complete-case analysis has an obvious (partial) remedy. Instead of deleting every row which is subject to missingness in any column, we first select the variables of interest and then only delete rows which are missing values in the corresponding columns. This method is called "available-case" analysis or sometimes "pairwise deletion". Of course, when the number of variables of interest is close to the overall number of variables this doesn't help much, but when only a couple are needed much more data can be preserved. However, this method does nothing to address the main theoretical problem of bias: once again, data which is not MCAR is generally not appropriate for available case analysis.
+The inefficiency of complete-case analysis has an obvious (partial) remedy. Instead of deleting every row which is subject to missingness in any column, we first select the variables of interest and then only delete rows which are missing values in the corresponding columns. This method is called "available-case" analysis or sometimes "pairwise deletion" \citep{Schafer_2002}. Of course, when the number of variables of interest is close to the overall number of variables this doesn't help much, but when only a couple are needed much more data can be preserved. However, this method does nothing to address the main theoretical problem of bias: once again, data which is not MCAR is generally not appropriate for available case analysis.
 
 
 
@@ -882,62 +884,64 @@ In single imputation, the task is to replace missing values with "reasonable" gu
 
 \item Regression Imputation: For a variable $Y$ subject to missingness, a model $f$ is formulated based on the fully observed variables $\mathbf{X}$ is formulated and trained on the rows in which $Y$ is observed. Then, the model prediction $\hat y_i = f(\mathbf{x}_i)$ is used to imputed each missing value of $Y$ \citep{Schafer_2002}.
 
-\item Random Regression Imputation: Same as regression imputation except rather than replacing missing $y_i$ with $\hat y_i$ we replace it with $\hat y_i + \epsilon$ where $\epsilon$ is drawn from the regression noise distribution (e.g. a normal distribution centered at $0$ in the case of linear regression). Alternatively, the replacement value can be sampled from the posterior distribution of a Bayesian model \citep{Rubin_1996}.
+\item Random Regression Imputation: Same as regression imputation except rather than replacing missing $y_i$ with $\hat y_i$ we sample it from the conditional distribution implied by the model.
 \end{itemize}
 
 In general, the methods at the end of this list are preferable to the methods at the beginning. Starting with mean imputation, there are two main problems. The first is that unless the data is MCAR, the conditional (on fully observed $\mathbf{X}$) expected value  of the replacement $E[y| \mathbf{x}]$ will in general be different from the unconditional mean $E[y]$ which is used to impute. This means that when the data is not MCAR, the estimates based on the imputed data will be biased. The other problem is that because the imputed values are all the same (the mean) the variance of the imputed column will be deflated \citep{Gelman_2006}. This occurs regardless of three structure of the missingness.
 
-Hot-deck imputation attempts to solve this problem by adding noise in the form of 
+Hot-deck imputation attempts to solve this problem by adding noise in the form of a random value taken from the observed values of $Y$. So, if $Y = [1,0,1,0,0, m]$ (where $m$ indicates missingness) than the missing value would be imputed as $1$ with probability $2/5$ and $0$ with probability $3/5$. This is generally preferable to mean imputation because while both methods preserve the (unconditional, observed) expected value of $Y$, but hot-deck imputation also preserves  the (unconditional, observed) variance of $Y$. However, the major problem is unaffected: as long and $Y$ and $\mathbf{X}$ are not independent, the information contained in the observed variables is wasted and estimates become biased. This means that the required assumption is very strong: for both mean imputation and hot-deck imputation are appropriate only when $Y \dsep (\mathbf{X}, R_Y)$. This means that not even MCAR missingness is enough: there cannot be any dependence between $Y$ and $\mathbf{X}$ (by the same token, MAR data could be appropriate as long as $Y \dsep \mathbf{X}$).
 
+The solution to this problem is fairly clear: a model of the form $Y \sim X$ should be constructed to predict the missing values of $Y$ and then used to impute those values. Accordingly, this approach is called regression imputation. In the standard case, this is done using an estimate for $E[y | x]$, meaning that two rows (with $Y$ missing) which agree on $X$ will always be imputed with the same value. Analogous to the problem with mean imputation, the lack of randomness has the effect of producing exaggerating the covariance between $X$ and $Y$ \citep{Schafer_2002}. 
+
+Fortunately, most models provide a way of adding their uncertainty back in. In the case of linear regression, the error term is assumed to be normally distributed and center at $0$ with variance that can be estimated from the residuals. In Bayesian modeling, a posterior distribution is estimated, and can be sampled from directly \citep{Gelman_2006}. Either way, missing values can be drawn according to these distributions,  fixing the covariance problems that arise in non-random regression imputation. Both of these methods require that the data is MAR rather than MCAR, meaning that with a correctly specified model, they can be justified in situations in which hot-deck and mean imputation will be inappropriate. Nonetheless, the estimation of quantities such as correlation, and especially confidence interval coverage, can still suffer even if MAR holds \citep{Schafer_2002}.
+ 
+ 
 \subsection{Multiple Imputation}
 
-The problems with single imputation methods led researchers to search for more sophisticated techniques. Donald Rubin introduced first introduced the concept in 1977 \citep{Rubin_1977}but its classic treatment is Rubin's 1987 book on the topic. 
+The problems with single imputation methods led researchers to search for more sophisticated techniques. Donald Rubin introduced first introduced the concept of "multiple" imputation (MI) in 1977 \citep{Rubin_1977} but its classic treatment is Rubin's 1987 book on the topic.  The method has become widespread is and regarded as the best technique for imputation and among the best technique for the analysis of missing data \citep{Rubin_2019}, \citep{Schafer_2002}. Because of the large literature on the subject, attempting to fully describe the theory behind MI would go beyond the scope of this work. 
 
+Nonetheless, we hope to give a reasonable summary of how MI works and why it is considered generally superior to single imputation. The reason that MI is referred to as "multiple" imputation is that rather than replacing each missing value with a single guess, each is replaced with a vector of length $M > 1$. In effect, this means $M$ datasets are created and analyzed separately before being combined. 
+
+Some subtlety is involved in the way that these $M$ imputations are made. It would be possible to draw each from the posterior distribution same model (or with noise term in linear regression), however, this method would not account for the uncertainty in the terms associated with the model. To do this properly is easiest in the Bayesian  context. In that case, each parameter associated with the model has its own distribution. To construct the $M$ imputed values, we first take $M$ draws from the distribution of each parameter, creating $M$ models from which we can impute the missing values \citep{Gelman_1995}. 
+
+The most common way of combining the $M$ datasets is simply to take the arithmetic mean of the estimates constructed in each analysis. So, in the basic setting where $Y$ is subject to missingness and $\mathbf{X}$ is fully observed such that we can model $P(R_Y = 0 | \mathbf{x}, \boldsymbol{\delta})$ with some parameters $\boldsymbol{\delta}$, the standard proceedure for constructing an estimator $\hat \theta$ with a model using multiple imputation is as follows :
+
+\begin{enumerate}
+\item Draw $\hat{\boldsymbol{\delta}}_i$ for $i \in \{1, ..., M\}$ from the distribution associated with $\boldsymbol{\delta}$.
+
+\item For each missing value of $y$, draw $\hat y_i$ from $P(y | \mathbf{x}, \hat{\boldsymbol{\delta}}_i)$ for $i \in \{1, ..., M\}$.
+
+\item In each of the $M$ datasets, compute $\hat \theta_i = T(y_i, \mathbf{x}_i)$ for the estimator function $T$.
+
+\item Average the estimates as: $\hat \theta = \frac{1}{M} \sum_{i=1}^M \hat \theta_i$.
+\end{enumerate} 
+ 
+In theory, many of the desirable properties of MI rely on taking $M \rightarrow \infty$ \citep{Rubin_1996}. However, in practice, fairly small values of  $M$ (such as $20$) can work well \citep{Schafer_2002}. 
+ 
 \section{The Heckman Correction}
-James Heckman's well-cited 1979 paper "Sample Selection Bias as a Specification Error" proposes a method for overcoming selection bias that is among the most prominent selection adjustment techniques \citep{Heckman_1979}. Heckman was an economist, and his correction technique comes in the context of economic modeling, particularly linear regression models. Because it is situated within this framework, the correction is parametric - it requires the  assumption of normally distributed noise. We consider the situation in the response variable is missing for some observations. Since we are interested modeling the population values and coefficients, this poses a potential problem. The title of Heckman's paper gives a hint to his strategy: specification error refers to the omission of a relevant variable from a model. 
+James Heckman's well-cited 1979 paper "Sample Selection Bias as a Specification Error" proposes a method for overcoming "sample selection bias" that is among the most prominent selection adjustment techniques \citep{Heckman_1979}. Heckman was an economist, and his correction technique comes in the context of economic modeling, particularly linear regression models. Because it is situated within this framework, the correction is parametric - it requires the  assumption of normally distributed noise. We consider the situation in the response variable is missing for some observations. Since we are interested modeling the population values and coefficients, this poses a potential problem. The title of Heckman's paper gives a hint to his strategy: specification error refers to the omission of a relevant variable from a model. 
 
-The method proceeds in two parts: first, a model is constructed for sample inclusion and second, an expected error term is calculated such that it can be included in the regression model to remove the bias associated with its exclusion. We now describe Heckman's method in detail.
+The method proceeds in two parts: first, a model is constructed for sample inclusion and second, an expected error term is calculated such that it can be included in the regression model to remove the bias associated with its exclusion. Understanding the specifics of Heckman's method requires substantial elaboration that is mostly irrelevant to our discussion, so in this section, we outline the approach without delving into the derivations. However, interested readers can find a detailed discussion of the technique (slightly adapted from the original to ignore finite sample concerns) in the appendix, or read Heckman's paper \citep{Heckman_1979}.
 
 \subsection{Premise}
 
-Heckman's original paper is concerned with estimating model coefficients in the context of a finite sample. So far, we have been considering distributions rather than samples, and for the sake of continuity (as well as avoiding excess indexing) we will present the method in the context of distributions. Fortunately, the math is essentially the same.
+Although presented as a method for addressing selection bias, Heckman's technique fits better into the missing data literature. In the traditional formulation, Heckman is attempting to estimate model coefficients in the context of a finite sample. So far, we have been considering distributions rather than samples, and for the sake of continuity (as well as avoiding excessive indexing) we will present the method in the context of distributions. Fortunately, the ideas are essentially the same.
 
-Assume that we have access to the distributions of a dependent variable $Y$, a vector of regressor variables $\mathbf{X}$, and a normally distributed noise term $\epsilon$ which is independent of $\mathbf{X}$. Further assume that the linear regression assumption holds, i.e.
+The problem is as follows: a response variable $Y$ is partially observed and assumed to fit the linear regression assumptions:
 
-$$Y = \mathbf{X} \boldsymbol{\beta} + \epsilon.$$
+$$Y = \mathbf{X} \boldsymbol{\beta} + \epsilon$$
 
-Now, assuming we have the joint distribution $P(y, \mathbf{x}, \epsilon)$ we can get $\mathbf{\beta}$ using standard techniques. However, if a selection mechanism is present, this may not be possible. Unlike the selection mechanisms we saw in the previous chapter, the mechanism only causes values for $Y$ to be missing - i.e. $(X, s)$ is measured in the population but $Y$ is only measured when $S = 1$. Heckman's correction can be applied when the selection mechanism follows a specific form. Particularly, assume that there is another set of random variables that also follow the linear model pattern: 
+Where as usual $\epsilon \sim N(0, \sigma^2)$.
 
-$$Z = \mathbf{W} \boldsymbol{\delta} + \tau.$$
+ for an observed vector of variables $X$. The missingness of $Y$ is governed by a variable $Z$ which is not observed but also assumed to follow the linear regression assumptions for another  set of fully observed covariates $\mathbf{W}$ (often assumed to be a superset of $\mathbf{X}$) such that:
+ 
+$$Y = \mathbf{W} \boldsymbol{\delta} + \tau$$
 
-Again, $\mathbf{W}$ is a vector of regressors, $\boldsymbol{\delta}$ is a coefficient vector and $\tau$ is normally distributed and independent of $\mathbf{W}$. Oftentimes, it is the case  that $\mathbf{W}$ contains the regressors in $\mathbf{X}$, but this is not needed. In general, $Z$ is not measured at all, but as with $\mathbf{X}$, $(\mathbf{W}, s)$ is measured in the population. We also require that the joint $P(\tau, \epsilon)$ follows the bivariate normal distribution. Heckman's correction can be applied when the selection mechanism is of the form:
+With $(\epsilon, \tau) \sim N(\mathbf{0}, \boldsymbol{\Sigma})$ for some covariance matrix $\boldsymbol{\Sigma}$.  Particularly, missingness occurs when $Z$ exceeds some particular value $c$, i.e. $R_Y = 1$ when $Z > c$. Without losing generality, it is often assumed that $c = 0$. 
 
-$$S = I(Z > c) = I( \mathbf{W} \boldsymbol{\delta} + \tau > c).$$ 
+Heckman's insight was that under this set-up, the biased estimate of $\beta_0$ produced by running a regression on only the fully observed rows can be treated as a "specification error" - the failure to include a relevant variable. This value can be computed analytically as $\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$ where $\sigma_\tau$ is the standard deviation of $\tau$, $\phi$ is the standard normal pdf and $\Phi$ is the standard normal cdf. The details of this calculation are somewhat involved and therefore are located in the appendix alongside some examples. 
 
-For some constant $c$. Without losing generality, we assume that $c = 0$. So selection occurs when a second random variable, $Z$,  passes a particular threshold. 
-
-\subsection{Implementing the Correction}
-
-Heckman is viewing selection bias as being the result of an omitted variable which we can obtain. Here we give the derivation of what this variable actually is, closely following the original paper but with some clarifications and changes to notation as in \citep{Jin}. We know that:
-
-$$E[Y | \mathbf{X}, S = 1] = E[ \mathbf{X} \boldsymbol{\beta} + \epsilon | \mathbf{X}, S = 1] = \mathbf{X} \boldsymbol{\beta} + E[\epsilon |  \mathbf{X}, S = 1].$$
-
-Our independence assumption gives that $ E[\epsilon |  \mathbf{X}, S = 1] =  E[\epsilon |  S = 1]$ and so this is the quantity we wish to estimate. Now, $S=1 \implies  \mathbf{W} \boldsymbol{\delta} + \tau > 0$ and we write:  
-
-$$E[\epsilon |  \mathbf{X}, S = 1] = E[\epsilon | \mathbf{W} \boldsymbol{\delta}+ \tau > 0] = E[\epsilon |  \tau > - \mathbf{W} \boldsymbol{\delta}].$$
-
-Since $(\epsilon, \tau)$ follows a bivariate normal distribution and each have a marginal mean of $0$, the conditional expectation $E[\epsilon | \tau] = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}} \tau$ where $\rho$ is the correlation between $\epsilon$ and $\tau$ and $\sigma^2_{\epsilon}$, $\sigma^2_{\tau}$ are the respective variances. Let $\gamma  = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}}$ giving $E[\epsilon | \tau] = \gamma \tau$. Notice that when $\rho = 0$ (meaning $\epsilon$ and $\tau$ are independent), the $\gamma$ term is equal to $0$ and therefore the selection does not bias the estimate.  We may then apply the law of total expectation (sometimes call Adam's law):
-
-$$E[\epsilon | \tau] = E[E[\epsilon | \tau] | \tau] = E[\gamma \tau | \tau] = \gamma E[\tau | \tau]$$	
-
-So, when $\tau > - \mathbf{W} \boldsymbol{\delta}$, $E[\tau | \tau] = E[\tau | \tau > - \mathbf{W} \boldsymbol{\delta}]$ and we have that:
-
-$$E[\epsilon | \tau >  - \mathbf{W} \boldsymbol{\delta}]  = \gamma E[ \tau | \tau >   - \mathbf{W} \boldsymbol{\delta}]$$																																																												
-We recognize this as the expectation of a truncated normal, which is given by the inverse Mills ratio $E[X | X > x] = \sigma \frac{\phi(\frac{x- \mu}{\sigma})}{1 - \Phi(\frac{x - \mu}{\sigma})}$ for $X \sim N(\mu, \sigma^2)$. As usual, $\phi$ is the density function for the standard normal and $\Phi$ is the distribution function. By assumption, $\mu = 0$. Therefore,						
-
-$$E[\epsilon | \tau > -\mathbf{W} \boldsymbol{\delta}] = \gamma \sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}.$$				
-
-So the bias term  we want to estimate is $\gamma\sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$. This is done in several parts \cite{Heckman_1979}.
+However, with this out of the way, the method is simple to implement. There are three steps:
 
 \begin{enumerate}
 \item  First, a probit model is employed to estimate $\frac{\boldsymbol{\delta}}{\sigma_\tau}$, i.e. $P(S = 1 | \mathbf{W}) = \Phi(\frac{ \mathbf{W} \boldsymbol{\delta}}{\sigma_{\tau}})$. 
@@ -947,11 +951,9 @@ So the bias term  we want to estimate is $\gamma\sigma_{\tau}\frac{\phi(\frac{-\
 \item The estimate of $\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$ is included in the corrected model $Y = \mathbf{X} \boldsymbol{\beta} + \frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})} + \epsilon$. The coefficient on $\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$ is then an estimate of $\gamma \sigma_\tau = \rho \sqrt{\sigma_\epsilon}$. In this model, the estimate of the intercept,$\hat \beta_0$, is now consistent, meaning that as the sample size increases $\hat \beta_0 \rightarrow \beta_0$ in probability.
 \end{enumerate}
 
-Something to note: unlike the approach we see in the more contemporary selection bias literature, Heckman's method asks for external information on the selection mechanism itself, not the variables being measured. In addition to this, Heckman makes very strong parametric assumptions. Sometimes when such assumptions are made, the method is still relatively robust to (mild) violations.  However, Heckman's correction's does not generally have this property, and violations of the set-up can cause seriously biased estimates \citep{Little_1986}. This lack of robustness has led to Heckman's method becoming less popular in recent years \citep{Bushway_2007}.
-
 
 \subsection{Graphing Heckman}
-Although Heckman's method makes assumptions which are not captured by a causal graph (such as normality of $\epsilon$, $\tau$), it is still instructive to supply the graph that Heckman's setup induces. 
+Although Heckman's method makes assumptions which are not captured by a causal graph (such as normality of $\epsilon$, $\tau$), it is still instructive to supply the graph that Heckman's setup induces. One thing to note: when $Y$ is not observed, its residual cannot be calculated. Therefore, we include $R_\epsilon$ as a node in the graph as a child of $Z$ with the idea that $\epsilon$ is not observed when $Z  > c$.
 
 \begin{figure}[H]
 \begin{center}
@@ -964,79 +966,50 @@ Although Heckman's method makes assumptions which are not captured by a causal g
         ]
 \node[shape=circle,draw=black] (X) at (0,0) {X};
 \node[shape=circle,draw=black] (Y) at (4,.5) {Y};
-\node[shape=circle,draw=black] (Z) at (9,0) {Z};
-\node[shape=circle,draw=black] (S) at (7,-2) {S};
+\node[shape=circle,draw=black, style=dashed] (Z) at (9,0) {Z};
+\node[shape=circle,draw=black] (S) at (7,-2) {$R_Y$};
 \node[shape=circle,draw=black] (W) at (5,-1) {W};
 \node[shape=circle,draw=black] (E) at (0,2) {$\epsilon$};
-\node[shape=circle,draw=black] (T) at (5,2) {$\tau$};
+\node[shape=circle,draw=black] (R_E) at (11,-2) {$R_\epsilon$};
+\node[shape=circle,draw=black, style=dashed] (T) at (5,2) {$\tau$};
 
  \path [->] (X) edge node[left] {} (Y);
  \path [->] (E) edge node[left] {} (Y);
   \path [->] (T) edge node[left] {} (Z);
     \path [->] (W) edge node[left] {} (Z);
         \path [->] (Z) edge node[left] {} (S);
+                \path [->] (Z) edge node[left] {} (R_E);
    \path [-] (T) edge node[left] {} (E);
    \path [-] (X) edge node[left] {} (W);
 \end{tikzpicture}
 \end{center}
-\caption{PDAG corresponding to the structural equations in Heckman's set up. We leave arrows off the edges between $\epsilon$ and $\tau$ and between $X$ and $W$ since the directions are not given by the structural equations.}
+\caption{PDAG corresponding to the structural equations in Heckman's set up. We leave arrows off the edges between $\epsilon$ and $\tau$ and between $X$ and $W$ since the directions are not given by the structural equations. Dashed circles indicate unobserved variables.}
 \end{figure}
 
-One fact we observed earlier that this image makes clear is that when the edge between $\epsilon$ and $\tau$ is inactive, the sampling procedure will not affect the estimates since $Y \dsep_G S | X$ and so $P(y| x) = P(y|x, S = 1)$. Visualization the structure this way also leads to the conclusion that if the joint distribution $(\mathbf{X},Z)$ is measured in the population, we can use Barenboim's second theorem to recover $P(y|x)$. Of course, this is not the usual case since $Z$ is typically not measured at all, much less in the population.
+Several insights can be gained from viewing this graph in the light of more recent methods. First, since $Y \dsep_G R_Y | Z$, if $Z$ were observed it would be possible to recover $P(y | x)$ (and therefore $E[y | x]$) from $P(x,y) = \sum_z P(x,y | z)P(z) = \sum_z P(x,y | z, R_Y = 0)P(z)$. However, when $Z$ is not observed, the chain of unobserved variables $\epsilon, \tau, Z$ between $Y$ and $R_Y$ mean that $P(y | x)$ is not recoverable.
+
+One fact that comes up during the derivation is and is also clear in the graph is that when the edge between $\epsilon$ and $\tau$ is inactive, the sampling procedure will not affect the estimates since  $Y \dsep_G S | X$ and so $P(y| x) = P(y|x, R_Y = 1)$. Since $(\epsilon, \tau)$ is bivariate normal, this occurs exactly when $\epsilon$ and $\tau$ are uncorrelated. 
 
 
+\section{Weight Based Approaches}
 
-\subsection{Examples}
+Another family of techniques worth mentioning is the broad array of weight based estimators. Versions of the technique are old and have uses well outside of adjusting for selection bias a \citep{Horvitz_1952}, but we give an interpretation particularly suited to our definition of selection bias. Given a particular (non-representative) sample, the goal is to construct a 'new' sample which follows the population distribution by giving the rows different 'weights' depending on their probability of being included in the sample. 
 
-Heckman developed his technique in the context of economic research, and its implementation typically relies on further assumptions justified by economic theory. Particularly, $Z$ is often understood as an \emph{unmeasured} continuous random variable following the linear regression assumptions \citep{Winship_Mare_1992}. Sometimes,  this variable is not directly measurable - such as an individual propensity or ability - that is nonetheless assumed to exist. We quickly review a number of  fairly standard  examples used to introduce Heckman's method \citep{Heckman_1979}, \citep{Guo_2015}.
+Probability weighting techniques are associated with adjusting for confounding bias for causal inference, but methods have been developed that address selection bias as well \citep{Correa_2017}. They are  widely applied in survey statistics, where the goal is to generalize the results of the survey to some broad group such as likely voters, American adults, or members a a particular religious group. If costs and logistical concerns are ignored, the survey would be conducted using a "simple random sample" of the target population - that is - a sample in which every member of the target population is equally likely to be included in the sample. Unfortunately, this is only rarely possible. Often times, some members of the population are much hard to reach than others, which was (part of) the problem we saw earlier with the Literary Digest survey before the 1936 election. When this happens, some units in the population are more likely to be sampled than others, and it is helpful to notate this by assigning the $i^{th}$ member of the population of size $N$ has sampling probability $p_i$ \citep{Valliant_2018}.
 
-\begin{enumerate}
-\item Estimating the wages women not in the workforce would make if they entered the workforce using data for women currently in the workforce. Selection occurs because the women in the workforce differ from those who are not.
+For instance, in a simple random sample of size $n$, we have that $p_i = \frac{n}{N}$ for all $i \in \{1,...,N\}$. Notice that $\sum_i p_i  = n$ rather than $1$. Then, regardless of the sampling pattern, each unit is assigned a weight $w_i = \frac{1}{p_i}$ called, appropriately, the inverse probability of selection weight.
 
-\item Estimating the effect of unionization of worker wages - similar to the last example, unionized workers might have joined the union because they were unsatisfied with their wages pre-unionization.
+However, the question remains about how such weights might be calculated. Sometimes, the specifics of the survey design allow for weights to be calculated, and in others, models (such as logistic regression) are specified \citep{Valliant_2018}. In either case, formulating selection graphically makes clear exactly what quantity needs to be estimated to construct the weights. In general, $p_i$ could depend on almost any factor associated with the unit: income, age, name, location, primary language, etc. could all conceivably impact the likelihood  of a person being included in the sample. When a graphical model is specified, we simplify the problem to estimating $p_i = P(S = 1 | PA_S)$. 
 
-\item Estimating effects of schooling/training programs of worker productivity. Once again, the problem is that the people who choose to participate in such programs cannot be used to represent the workers who did not make that 
-\end{enumerate}
+External data is often used to help calculate this value. One such approach is outlined by Pew Research, one of the most well known American polling organizations. Pew uses a combination of census data and representative survey data to construct a "synthetic population" distribution over a carefully selection set of measures that mirrors the real demographic profile of the United States. Then, the sampled units are compared with the synthetic population and a random forest model is fit to estimate the probability of sample inclusion for each of the units. Regardless of how weights these calculated, many quantities can be estimated without bias as long as the weights are calculated correctly (often a challenge). If a variable $Y$ is measured in each of the $n$ units, we can estimate $E[Y]$ using the weights as:
 
-In the spirit of some of these examples, we describe a relevant variation in more detail. Suppose that we are working with Reed College academic services to measure the effect of tutoring on student homework grades in the introductory chemistry sequence. We have collected a collected a set of relevant covariates ($\mathbf{X}$) on all students in the course such as major, high school grades, basic demographics, etc. The response variable ($\text{Grade Change}$) is the difference between the student's average homework scores before their first tutoring appointment and the average score after. Since some students do not seek tutoring, their value of $Y$ is missing. We assume that the response variable follows the linear regression assumptions:
+$$\hat y = \frac{\sum_j^n }{\sum_j^n w_j}$$
 
-$$\text{Grade Change} =   \mathbf{X}\boldsymbol{\beta} + \epsilon$$
+Much more complex estimators can also be constructed such as for linear regression or generalized linear models \citep{Haneuse_2009}. Additionally, similar techniques can be applied for missing data. There, the weights are derived from probability of missingness, which can best estimated directly from the data (under the MAR assumption)  \citep{Seaman_2011}.
 
-For normally distributed $\epsilon$ with mean $0$. As students who participate in tutoring might differ from students who do not, it would be incorrect to use the model created using data for students that did seek tutoring to estimate the impact that tutoring would have on students who did not chose to be tutored. So, we must create a model for a student's probability of going to tutoring. To do this though Heckman's technique, we must further assume that a student seeks tutoring a when some unmeasured value crosses a threshold. There are multiple options here, and in practice this a stage that requires existing economic theory to be justified. In our case, these details are not important we assume that $\text{Tutoring Value}$ is, for each student, the perceived value of going to tutoring minus the students value of an equal amount of time for a different activity, such that a student goes to tutoring if  $\text{Tutoring Value}$ is positive. We have further collected from each student covariates capturing their motivation to do well in their courses, their perception of the usefulness of tutoring, and the amount of free time they have. Together with the covariates we measured for $X$, these variables constitute $\mathbf{\mathbf{W}}$,  and again we require linear regression assumptions are satisfied:
+\subsection{Probability Weighting for Distributions}
 
-$$\text{Tutoring Desire} = \mathbf{W}  \boldsymbol{\delta} + \tau$$
-
-With $\tau$ being normally distributed with mean $0$ such that $\epsilon$ and $\tau$ are jointly bivariate normal with correlation $\rho$. We can then implement the correction as follows:
-
-\begin{enumerate}
-\item Define the selection variable $S$ as $1$ for student with data for $\text{Grade Change}$ and $0$ for those who do not.
-
-\item Create a probit model $P(S=1 | W)$ which yields as estimate of $\frac{\boldsymbol{\delta}}{\sigma_\tau}$ as the coefficients on $\mathbf{W}$.
-
-\item We then estimate the inverse Mill's ratio $\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$ and include the term in the regression equation, giving consistent estimates of $E[\text{Grade Change} | \mathbf{X}]$.
-\end{enumerate}
-
-
-
-\section{Probability and Propensity Weighting}
-
-Another technique worth mentioning is a very general approach called inverse probability weighting (IPW) which has applications for both selection bias and missing data. Versions of the technique are old  and have uses well outside of adjusting for selection bias or missing data \citep{Horvitz_1952}, but we give an interpretation particularly suited for these tasks. Given a particular (non-representative or partially observed) sample, the goal is to construct a 'new' sample which follows the population distribution by weighting each element of the existing sample by its probability of having been sampled/missing. Doing this requires knowing something about the selection rule, particularly knowing the probability that any particular set of values is sampled \cite{Cortes_2008}. Like Heckman's method, IPW is for correcting the bias of an estimator rather than a distribution. However, as we will see, a related technique can be used to recover biased distributions. 
-
-Probability weighting techniques are associated with adjusting for confounding bias for causal inference, but methods have been developed that address selection bias as well \citep{Correa_2017}.
-
-To build intuition, consider the simple case of trying to estimate mean of a finite set of values  $x_1,x_2,...,x_n$ using a sample. We take a sample (i.i.d. with replacement) $X_1,...,X_n$ but the values are not sampled with equal probabilities, rather, $P(X_1 = x_i) = p_i > 0$ for all $j$ (with $\sum p_i = 1$). By the definition of expectation, $E[X_i] = \sum_{i=1}^n p_i x_i$ which in general is not equal to $\frac{1}{n}\sum_{i=1}^n x_i$. For our purposes, the uniform distribution $P(X_1 = x_i) = \frac{1}{n}$ for all $i$ is the \emph{target distribution} - or the distribution that we would like to be sampling from. However, if we know the values of $p_i$, we can re-weight each $x_i$ by multiplying by the product of the probabilities under the target distribution and the probabilities under the sampling distribution giving $x_i' = \frac{x_i}{np_i}$. Then, when we sample from $x_1', x_2', ..., x_n'$ according to $p_1,...,p_n$ as $X_1', X_2', ..., X_n'$ we get $E[X_i'] = \sum_{i=1}^n x_i' p_i = \sum_{i=1}^n  \frac{x_i}{n p_i} p_i = \frac{1}{n} \sum_{i=1}^n x_i$. 
-
-This method of estimating the mean from a biased sample is one of the earliest methods of adjusting for selection bias and is called the Horvitz-Thompsom estimator \citep{Little_1986}. Of course, inverse probability weighting can be applied in a more general context than estimating the mean of a population. When an estimator is
-
-
-\subsection{Propensity Scores}
-
-As with Heckman's two-step estimator, inverse probability weighting is can be used to address the "missing data" problem in which covariates are measured for some observations but the response is missing for some units. Inverse probability weighting is also sometimes used when treatments are assigned non-randomly \citep{Haneuse_2009}.  In both of these cases, a model (such as probit or logit) can be constructed to estimate probability of missingness or treatment for any particular entry, and thereby the weights may be estimated. The estimated probability of being sampled, $\hat\{P(S = 1 | \mathbf{x})\}$ is referred to as a \emph{propensity score}. In this case, the method is typically called propensity score weighting \citep{Bishop_2018}. 
-
-
-\subsection{Inverse Probability Weighting for Distributions}
-
-For most of this paper, our primary concern is recovering entire distributions affected by selection bias rather than making a particular estimator consistent. In this case, a similar technique which also relies on $P(S=1 | \mathbf{v})$ can be applied. 
+For most of this paper, our primary concern is recovering entire distributions affected by selection bias rather than making a particular estimator consistent. Less work exists on this question, but, a similar technique which also relies on $P(S=1 | \mathbf{v})$ can be applied. 
 
 When dealing with distributions affected by selection bias, our target distribution is $P(\mathbf{v})$ and we have access to $P(\mathbf{v} | S = 1)$. Then, Bayes rule gives that \citep{Cortes_2008}:
 
@@ -1044,34 +1017,7 @@ $$P(\mathbf{v}) = \frac{P(\mathbf{v}  | S = 1)P(S = 1)}{P(S=1 | \mathbf{v})} = P
 
 So, with knowledge of $P(S=1 | PA_S)$ and $P(S = 1)$ we can fully recover $P(\mathbf{v})$ by again multiplying by the target distribution. 
 
-
-So clearly knowing $P(S = 1)$ and $P(S = 1|x)$ is quite powerful. As with Heckman, this method requires information about the selection mechanism, but doesn't assume population level information about the other variables. This is a real difference between inverse probability weighting or the Heckman correction and the graphical approaches we examine next. However, unlike Heckman, inverse probability weighting does not require  assumptions about the parametric structure of the data and instead works with non-parametric values.   We give a brief example drawing on our previous discussion of the 1936 Literary Digest survey.
-
-\subsection{}
-
-Consider the first explanation of the Literary Digest's survey failure: that selection based on SES (via ownership of a telephone/car) was solely responsible for the non-representivity of the sample. We are interested in the mean of $C$, that is, the probability that a randomly selected voter will cast their ballot for Roosevelt. 
-
-
-\begin{figure}
-\begin{center}
-\begin{tikzpicture}[
-            > = stealth, % arrow head style
-            shorten > = 2pt, % don't touch arrow head to node
-            auto,
-            node distance = 3cm, % distance between nodes
-            semithick % line style
-        ]
-\node[shape=circle,draw=black] (C) at (0,0) {C};
-\node[shape=circle,draw=black] (W) at (4,0) {W};
-\node[shape=circle,draw=black] (S) at (2,-2) {S};
-
- \path [->] (W) edge node[left] {} (S);
- \path [->] (W) edge node[left] {} (C);
-
-\end{tikzpicture}
-\end{center}
-\caption{Graph corresponding to selection bias based on income} 
-\end{figure}
+So clearly knowing $P(S = 1)$ and $P(S = 1|x)$ is quite powerful. As with Heckman, this method requires information about the selection mechanism, but doesn't assume population level information about the other variables. This is a real difference between inverse probability weighting or the Heckman correction and the graphical approaches we examine next. However, unlike Heckman, inverse probability weighting does not require  assumptions about the parametric structure of the data and instead works with non-parametric values.   
 
 \section{Getting Graphical}
 
@@ -1115,11 +1061,11 @@ Although Hern\'an's work was important in categorizing selection bias through gr
 
 \subsection{Geneletti et. al}
 
-Following up on Hern\'an's work characterizing selection bias, another epidemiologist, Sara Geneletti and her co-authors give a method for correcting selection bias in retrospective case-control studies using DAGs and conditional independence \citep{Geneletti_2008}. In spirit this is very similar to Bareinboim's work but limited to a specific study design such that further assumptions can be leveraged.  We now briefly review the structure of a retrospective case-control study. 
+Following up on Hern\'an's work characterizing selection bias, another  group of epidemiologists,  Geneletti et. al give a method for correcting selection bias in retrospective case-control studies using DAGs and conditional independence \citep{Geneletti_2008}. In spirit this is very similar to Bareinboim's work but limited to a specific study design such that further assumptions can be leveraged.  We now briefly review the structure of a retrospective case-control study. 
 
 Unlike experiments where treatments are assigned randomly and outcomes measured after treatment, or cohort studies where individuals are tracked over a long period to see if they develop a disease, retrospective case-control studies (often just called case-control studies) select individuals for sample inclusion \emph{after} they have contracted a disease \citep{Woodward_1999}. Two groups are selected: one which has a particular disease/condition and one which does not. Then, covariates are gathered for both groups, with the hope of discovering some factors which are more common in one group that the other. So for instance, we could gather a sample of lung cancer patients and another of adults without lung cancer. We would likely discover that after adjusting for relevant demographic factors (age, sex, SES, etc.) smoking was more common in the lung cancer group and then construct an estimate of the risk ratio for smoking and lung cancer. However, this kind of study is particularly susceptible to selection bias \citep{Woodward_1999} \citep{Geneletti_2008}. This can happen for different reasons, but one of most prominent is that the treatment (smoking, in our example) might cause patients to be admitted to the hospital for a reason unrelated to lung cancer, but upon their admission be discovered to have lung cancer. In this way, we might see a dependence between lung cancer and smoking that is caused by smoker's greater likelihood to be diagnosed.  Similarly, when both cases and controls are selected from the hospital Berkson's bias could create a false negative association \citep{Hernan_2004}.  
 
-Much like the first theorem of \cite{Bareinboim_2014}, Geneletti goes about recovering a conditional distribution by constructing a "bias breaking" set that d-separates (though she does not use the term) the selection node from treatment. The paper uses nearly the same example as Hern\'an's but here an edge exists between $E$ and $D$, meaning e
+Much like the first theorem of \cite{Bareinboim_2014}, Geneletti goes about recovering a conditional distribution by constructing a "bias breaking" set that d-separates (though they do not use the term) the selection node from treatment. The paper uses a similar Hern\'an's, concerning the effect of estrogen use on an unspecified outcome $Y$ where vaginal bleeding $B$ is a symptom of estrogen use and a cause of selection.
 
 
 \begin{figure}[H]
@@ -1132,25 +1078,26 @@ Much like the first theorem of \cite{Bareinboim_2014}, Geneletti goes about reco
             semithick % line style
         ]
 \node[shape=circle,draw=black] (E) at (0,0) {E};
-\node[shape=circle,draw=black] (F) at (2,2) {F};
-\node[shape=circle,draw=black] (D) at (2,-2) {D};
+\node[shape=circle,draw=black] (Y) at (2,2) {Y};
+\node[shape=circle,draw=black] (B) at (2,-2) {B};
 \node[shape=circle,draw=black] (S) at (4,0) {S};
 
 
  \path [->] (E) edge node[left] {} (F);
- \path [->] (D) edge node[left] {} (S);
+ \path [->] (Y) edge node[left] {} (S);
    \path [->] (E) edge node[left] {} (D);
-  \path [->] (F) edge node[left] {} (S);
+  \path [->] (B) edge node[left] {} (S);
+    \path [-, dashed] (B) edge node[left] {} (Y);
 \end{tikzpicture}
 \end{center}
-\caption{Study design for the Geneletti's example}
+\caption{Study design for the Geneletti's example. The undirected dashed line indicates that the edge may or may not be present and could be oriented in either direction.}
 \end{figure}
 
+As is common in medical studies, the goal is to estimate the "odds ratio", $\frac{P(E = 1 | Y =1)P(E = 0 | Y = 0)}{P(E = 1 | Y = 0)P(E = 0 | Y = 1)}$, which can be derived directly from the conditional $P(e | y)$.  The authors write that when $E$ and $S$ are associated (i.e. $E \not{\dsep_G} Y$) bias can be introduced to the this odds ratio estimated using $p(y | e, S = 1)$. However, as we can see from the graph, $E \dsep_G S | (Y,B)$, or in the authors' words, $(Y,B)$ is a "bias breaking set". They further assume that $P(b | y)$ is known as additional data, and therefore, 
 
+$$P(e | y) = \sum_b P(e | y, b)P(b | y) =  \sum_b P(e | y, b, S = 1)P(b | y)$$
 
-\section{Set-up}
-
-
+Although they do not attempt to generalize their result to more general graphical structures, it is worth noting that this result is closely related to the external data recovery theorem in \citep{Bareinboim_2014}. 
 \chapter{Simultaneous Selection Bias and Missing Data}
 In Chapters 2 and 3 we discussed the contributions of two groups of researchers on the related topics of graphical characterizations of selection bias and  graphical characterizations of missing data. Although these literatures share terminology, approach, and even authors, there has been no effort to date to apply the machinery of graphical models to cases in which both selection bias and missing data are present. We feel that this is a gap in the research that should be filled. 
 
@@ -1173,8 +1120,23 @@ This set-up lends itself to a handful of obvious but nonetheless potentially use
 
 
 \begin{theorem}
-
+In an sm-graph $G$ with no edges between the $R$ variables and $S$,  no edges between a variable and its associated missingness node, and no collider paths, the necessary and sufficient condition for recovering $P(y | \mathbf{x})$ is that $Y \dsep_G S | \mathbf{X}$.
 \end{theorem}
+
+\emph{Proof} $\implies$ We first follow the proof of theorem $3$ from \cite{Mohan_2019} to show that $P(v | S = 1)$ is recoverable. We have that:
+
+\begin{align*}
+P(\mathbf{v},  \mathbf{R} = 0 | S = 1) &= P(\mathbf{v} | S = 1) P(\mathbf{R} = 0 | \mathbf{v}, S = 1) \\
+&= P(\mathbf{v} | S = 1) P(\mathbf{R} = 0 | \mathbf{v})
+&= P(\mathbf{v} | S = 1) \prod_i P(R_i = 0 | pa_{R_i})
+\end{align*}
+
+Giving $P(\mathbf{v} | S = 1) = \frac{P(\mathbf{v},  \mathbf{R} = 0 | S = 1)}{\prod_i P(R_i = 0 | pa_{R_i})} = \frac{P(\mathbf{v},  \mathbf{R} = 0 | S = 1)}{\prod_i P(R_i = 0 | pa_{R_i}, R_{PA_{R_i}})} $, much as in the original. The only difference comes in the second equality.  This is immediate from $\mathbf{R}  \dsep S | \mathbf{v}$, which is true by the assumption that there are no edges between $S$ and and $R$ node. So, since $P(\mathbf{v} | S= 1)$ is recoverable, we can ignore the missingness and directly apply the result from \citep{Bareinboim_2014}.
+
+
+
+
+
 
 A more useful idea comes from considering that we can essentially treat the missingness and selection mechanisms as separate. That is, if we can recover the joint from missing data when selection is not present, i.e. $P(v_m, v_o )$, then we can recover $P(v_m, v_o | S = 1)$ in the sm-graph. This means that in such cases we then look to the conditions for recovery in the selection graph while ignoring the missingness mechanisms.
 
@@ -1231,6 +1193,11 @@ With this result in mind, consider figure 5.1.
 
 The lemma gives that if $P(X)$ is not recoverable in the graph ($G$) displayed in figure 5.1, $P(X)$ is non-recoverable in \emph{any} missingness graph which contains $G$ as a subgraph. Then, it is sufficient to provide a direct counter-example. We construct two probability distributions, $P_1, P_2$ compatible with $G$ such that $P_1, P_2$ agree on the observed distributions but $P_1(x) \neq P_2(x)$. Since there is only one d-separation in $G$ ($X \dsep (R_X, R_Y) | Y$) the only condition that must hold for compatibility is that $P_i(x, y, r_x, r_y) = P(x | y)P(y, r_x, r_y)$.  
 
+Claim: A marginal distribution $P(\mathbf{X})$ can be recovered in m-graph $G$ if and only if $P(\mathbf{X})$ can be recovered in the m-graph $G'$ formed by deleting any self-censoring node $Y$ and its associated $R_Y$ and redrawing replacing every edge from $Y$ to a missingness node with an edge from each parent and child of $Y$ in $V_m \cup V_o$ to that missingness node.
+
+$\implies$ We prove the condition in three cases.
+
+Case 1: $Y$ has no parents and no children in $V_m \cup V_o$. In this case, $Y \dsep_G (V_m \cup V_o \backslash Y) | \emptyset$
 
 \section{External Data Recovery}
 
@@ -1310,6 +1277,66 @@ A conditional distribution $P(y | x)$ with $X, Y \in V_o \cup V_m$ is recoverabl
 \chapter{Appendix}
 
 \section{Heckman}
+
+\section{Deriving the Bias}
+
+Heckman is viewing selection bias as being the result of an omitted variable which we can obtain. Here we give the derivation of what this variable actually is, closely following the original paper but with some clarifications and changes to notation as in \citep{Jin}. We know that:
+
+$$E[Y | \mathbf{X}, S = 1] = E[ \mathbf{X} \boldsymbol{\beta} + \epsilon | \mathbf{X}, R_Y = 0] = \mathbf{X} \boldsymbol{\beta} + E[\epsilon |  \mathbf{X}, R_Y = 0].$$
+
+Our independence assumption gives that $ E[\epsilon |  \mathbf{X}, S = 1] =  E[\epsilon |  R_Y = 0]$ and so this is the quantity we wish to estimate. Now, $S=1 \implies  \mathbf{W} \boldsymbol{\delta} + \tau > 0$ and we write:  
+
+$$E[\epsilon |  \mathbf{X}, R_Y = 0 ] = E[\epsilon | \mathbf{W} \boldsymbol{\delta}+ \tau > 0] = E[\epsilon |  \tau > - \mathbf{W} \boldsymbol{\delta}].$$
+
+Since $(\epsilon, \tau)$ follows a bivariate normal distribution and each have a marginal mean of $0$, the conditional expectation $E[\epsilon | \tau] = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}} \tau$ where $\rho$ is the correlation between $\epsilon$ and $\tau$ and $\sigma^2_{\epsilon}$, $\sigma^2_{\tau}$ are the respective variances. Let $\gamma  = \rho \frac{\sigma_{\epsilon}}{\sigma_{\tau}}$ giving $E[\epsilon | \tau] = \gamma \tau$. Notice that when $\rho = 0$ (meaning $\epsilon$ and $\tau$ are independent), the $\gamma$ term is equal to $0$ and therefore the selection does not bias the estimate.  We may then apply the law of total expectation (sometimes call Adam's law):
+
+$$E[\epsilon | \tau] = E[E[\epsilon | \tau] | \tau] = E[\gamma \tau | \tau] = \gamma E[\tau | \tau]$$	
+
+So, when $\tau > - \mathbf{W} \boldsymbol{\delta}$, $E[\tau | \tau] = E[\tau | \tau > - \mathbf{W} \boldsymbol{\delta}]$ and we have that:
+
+$$E[\epsilon | \tau >  - \mathbf{W} \boldsymbol{\delta}]  = \gamma E[ \tau | \tau >   - \mathbf{W} \boldsymbol{\delta}]$$																																																												
+We recognize this as the expectation of a truncated normal, which is given by the inverse Mills ratio $E[X | X > x] = \sigma \frac{\phi(\frac{x- \mu}{\sigma})}{1 - \Phi(\frac{x - \mu}{\sigma})}$ for $X \sim N(\mu, \sigma^2)$. As usual, $\phi$ is the density function for the standard normal and $\Phi$ is the distribution function. By assumption, $\mu = 0$. Therefore,						
+
+$$E[\epsilon | \tau > -\mathbf{W} \boldsymbol{\delta}] = \gamma \sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}.$$				
+
+So the bias term  we want to estimate is $\gamma\sigma_{\tau}\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$. This is done in several parts \cite{Heckman_1979}.
+
+Something to note: unlike the approach we see in the more contemporary selection bias literature, Heckman's method asks for external information on the selection mechanism itself, not the variables being measured. In addition to this, Heckman makes very strong parametric assumptions. Sometimes when such assumptions are made, the method is still relatively robust to (mild) violations.  However, Heckman's correction's does not generally have this property, and violations of the set-up can cause seriously biased estimates \citep{Little_1986}. This lack of robustness has led to Heckman's method becoming less popular in recent years \citep{Bushway_2007}.
+
+
+
+\subsection{Examples}
+
+Heckman developed his technique in the context of economic research, and its implementation typically relies on further assumptions justified by economic theory. Particularly, $Z$ is often understood as an \emph{unmeasured} continuous random variable following the linear regression assumptions \citep{Winship_Mare_1992}. Sometimes,  this variable is not directly measurable - such as an individual propensity or ability - that is nonetheless assumed to exist. We quickly review a number of  fairly standard  examples used to introduce Heckman's method \citep{Heckman_1979}, \citep{Guo_2015}.
+
+\begin{enumerate}
+\item Estimating the wages women not in the workforce would make if they entered the workforce using data for women currently in the workforce. Selection occurs because the women in the workforce differ from those who are not.
+
+\item Estimating the effect of unionization of worker wages - similar to the last example, unionized workers might have joined the union because they were unsatisfied with their wages pre-unionization.
+
+\item Estimating effects of schooling/training programs of worker productivity. Once again, the problem is that the people who choose to participate in such programs cannot be used to represent the workers who did not make that 
+\end{enumerate}
+
+In the spirit of some of these examples, we describe a relevant variation in more detail. Suppose that we are working with Reed College academic services to measure the effect of tutoring on student homework grades in the introductory chemistry sequence. We have collected a collected a set of relevant covariates ($\mathbf{X}$) on all students in the course such as major, high school grades, basic demographics, etc. The response variable ($\text{Grade Change}$) is the difference between the student's average homework scores before their first tutoring appointment and the average score after. Since some students do not seek tutoring, their value of $Y$ is missing. We assume that the response variable follows the linear regression assumptions:
+
+$$\text{Grade Change} =   \mathbf{X}\boldsymbol{\beta} + \epsilon$$
+
+For normally distributed $\epsilon$ with mean $0$. As students who participate in tutoring might differ from students who do not, it would be incorrect to use the model created using data for students that did seek tutoring to estimate the impact that tutoring would have on students who did not chose to be tutored. So, we must create a model for a student's probability of going to tutoring. To do this though Heckman's technique, we must further assume that a student seeks tutoring a when some unmeasured value crosses a threshold. There are multiple options here, and in practice this a stage that requires existing economic theory to be justified. In our case, these details are not important we assume that $\text{Tutoring Value}$ is, for each student, the perceived value of going to tutoring minus the students value of an equal amount of time for a different activity, such that a student goes to tutoring if  $\text{Tutoring Value}$ is positive. We have further collected from each student covariates capturing their motivation to do well in their courses, their perception of the usefulness of tutoring, and the amount of free time they have. Together with the covariates we measured for $X$, these variables constitute $\mathbf{\mathbf{W}}$,  and again we require linear regression assumptions are satisfied:
+
+$$\text{Tutoring Desire} = \mathbf{W}  \boldsymbol{\delta} + \tau$$
+
+With $\tau$ being normally distributed with mean $0$ such that $\epsilon$ and $\tau$ are jointly bivariate normal with correlation $\rho$. We can then implement the correction as follows:
+
+\begin{enumerate}
+\item Define the selection variable $S$ as $1$ for student with data for $\text{Grade Change}$ and $0$ for those who do not.
+
+\item Create a probit model $P(S=1 | W)$ which yields as estimate of $\frac{\boldsymbol{\delta}}{\sigma_\tau}$ as the coefficients on $\mathbf{W}$.
+
+\item We then estimate the inverse Mill's ratio $\frac{\phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}{1 - \Phi(\frac{-\mathbf{W} \boldsymbol{\delta}}{\sigma_\tau})}$ and include the term in the regression equation, giving consistent estimates of $E[\text{Grade Change} | \mathbf{X}]$.
+\end{enumerate}
+
+
+ 
 \subsection{Conditional Expectation of Bivariate Normal Distribution}
 
 We want to show that for $(\epsilon, \tau) \sim N((0,0), \boldsymbol{\Sigma})$ (where $\boldsymbol{\Sigma} = \begin{pmatrix}

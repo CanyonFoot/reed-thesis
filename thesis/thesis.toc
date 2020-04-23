@@ -20,31 +20,28 @@
 \contentsline {section}{\numberline {3.3}Recovering Distributions Under MNAR}{22}{section.3.3}
 \contentsline {subsection}{\numberline {3.3.1}Conditions for Non-Recoverability}{24}{subsection.3.3.1}
 \contentsline {chapter}{Chapter 4: Earlier Approaches to Selection Bias and the Missing Data Problem}{27}{chapter.4}
-\contentsline {section}{\numberline {4.1}Case Analysis}{27}{section.4.1}
+\contentsline {section}{\numberline {4.1}Case Analysis}{28}{section.4.1}
 \contentsline {subsection}{\numberline {4.1.1}Complete-case Analysis}{28}{subsection.4.1.1}
 \contentsline {subsection}{\numberline {4.1.2}Available-case Analysis}{28}{subsection.4.1.2}
 \contentsline {section}{\numberline {4.2}Imputation based Techniques}{29}{section.4.2}
 \contentsline {subsection}{\numberline {4.2.1}Single Imputation}{29}{subsection.4.2.1}
 \contentsline {subsection}{\numberline {4.2.2}Multiple Imputation}{30}{subsection.4.2.2}
-\contentsline {section}{\numberline {4.3}The Heckman Correction}{30}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Premise}{30}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Implementing the Correction}{31}{subsection.4.3.2}
-\contentsline {subsection}{\numberline {4.3.3}Graphing Heckman}{32}{subsection.4.3.3}
-\contentsline {subsection}{\numberline {4.3.4}Examples}{33}{subsection.4.3.4}
-\contentsline {section}{\numberline {4.4}Probability and Propensity Weighting}{34}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}Propensity Scores}{35}{subsection.4.4.1}
-\contentsline {subsection}{\numberline {4.4.2}Inverse Probability Weighting for Distributions}{35}{subsection.4.4.2}
-\contentsline {subsection}{\numberline {4.4.3}}{35}{subsection.4.4.3}
+\contentsline {section}{\numberline {4.3}The Heckman Correction}{31}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Premise}{32}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Graphing Heckman}{32}{subsection.4.3.2}
+\contentsline {section}{\numberline {4.4}Weight Based Approaches}{33}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Probability Weighting for Distributions}{34}{subsection.4.4.1}
 \contentsline {section}{\numberline {4.5}Getting Graphical}{35}{section.4.5}
-\contentsline {subsection}{\numberline {4.5.1}Hern\'an et. al}{36}{subsection.4.5.1}
-\contentsline {subsection}{\numberline {4.5.2}Geneletti et. al}{37}{subsection.4.5.2}
-\contentsline {section}{\numberline {4.6}Set-up}{38}{section.4.6}
+\contentsline {subsection}{\numberline {4.5.1}Hern\'an et. al}{35}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.2}Geneletti et. al}{36}{subsection.4.5.2}
 \contentsline {chapter}{Chapter 5: Simultaneous Selection Bias and Missing Data}{39}{chapter.5}
 \contentsline {section}{\numberline {5.1}Basics}{39}{section.5.1}
 \contentsline {section}{\numberline {5.2}Easy Facts}{40}{section.5.2}
-\contentsline {section}{\numberline {5.3}External Data Recovery}{41}{section.5.3}
-\contentsline {chapter}{Bibliography}{43}{chapter*.10}
-\contentsline {chapter}{Appendix}{47}{appendix*.11}
-\contentsline {section}{\numberline {.1}Heckman}{47}{section.Alph0.1}
-\contentsline {subsection}{\numberline {.1.1}Conditional Expectation of Bivariate Normal Distribution}{47}{subsection.Alph0.1.1}
-\contentsline {subsection}{\numberline {.1.2}Truncated Normal and the Inverse Mills Ratio}{47}{subsection.Alph0.1.2}
+\contentsline {section}{\numberline {5.3}External Data Recovery}{42}{section.5.3}
+\contentsline {chapter}{Bibliography}{45}{chapter*.10}
+\contentsline {chapter}{Appendix}{49}{appendix*.11}
+\contentsline {section}{\numberline {.1}Heckman}{49}{section.Alph0.1}
+\contentsline {section}{\numberline {.2}Deriving the Bias}{49}{section.Alph0.2}
+\contentsline {subsection}{\numberline {.2.1}Examples}{50}{subsection.Alph0.2.1}
+\contentsline {subsection}{\numberline {.2.2}Conditional Expectation of Bivariate Normal Distribution}{51}{subsection.Alph0.2.2}
+\contentsline {subsection}{\numberline {.2.3}Truncated Normal and the Inverse Mills Ratio}{52}{subsection.Alph0.2.3}

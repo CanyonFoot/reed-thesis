@@ -27,23 +27,20 @@
 \BOOKMARK [2][-]{subsection.4.2.2}{Multiple Imputation}{section.4.2}% 27
 \BOOKMARK [1][-]{section.4.3}{The Heckman Correction}{chapter.4}% 28
 \BOOKMARK [2][-]{subsection.4.3.1}{Premise}{section.4.3}% 29
-\BOOKMARK [2][-]{subsection.4.3.2}{Implementing the Correction}{section.4.3}% 30
-\BOOKMARK [2][-]{subsection.4.3.3}{Graphing Heckman}{section.4.3}% 31
-\BOOKMARK [2][-]{subsection.4.3.4}{Examples}{section.4.3}% 32
-\BOOKMARK [1][-]{section.4.4}{Probability and Propensity Weighting}{chapter.4}% 33
-\BOOKMARK [2][-]{subsection.4.4.1}{Propensity Scores}{section.4.4}% 34
-\BOOKMARK [2][-]{subsection.4.4.2}{Inverse Probability Weighting for Distributions}{section.4.4}% 35
-\BOOKMARK [2][-]{subsection.4.4.3}{}{section.4.4}% 36
-\BOOKMARK [1][-]{section.4.5}{Getting Graphical}{chapter.4}% 37
-\BOOKMARK [2][-]{subsection.4.5.1}{Hern\341n et. al}{section.4.5}% 38
-\BOOKMARK [2][-]{subsection.4.5.2}{Geneletti et. al}{section.4.5}% 39
-\BOOKMARK [1][-]{section.4.6}{Set-up}{chapter.4}% 40
-\BOOKMARK [0][-]{chapter.5}{Chapter 5: Simultaneous Selection Bias and Missing Data}{}% 41
-\BOOKMARK [1][-]{section.5.1}{Basics}{chapter.5}% 42
-\BOOKMARK [1][-]{section.5.2}{Easy Facts}{chapter.5}% 43
-\BOOKMARK [1][-]{section.5.3}{External Data Recovery}{chapter.5}% 44
-\BOOKMARK [0][-]{chapter*.10}{Bibliography}{}% 45
-\BOOKMARK [0][-]{appendix*.11}{Appendix}{}% 46
-\BOOKMARK [1][-]{section.Alph0.1}{Heckman}{appendix*.11}% 47
-\BOOKMARK [2][-]{subsection.Alph0.1.1}{Conditional Expectation of Bivariate Normal Distribution}{section.Alph0.1}% 48
-\BOOKMARK [2][-]{subsection.Alph0.1.2}{Truncated Normal and the Inverse Mills Ratio}{section.Alph0.1}% 49
+\BOOKMARK [2][-]{subsection.4.3.2}{Graphing Heckman}{section.4.3}% 30
+\BOOKMARK [1][-]{section.4.4}{Weight Based Approaches}{chapter.4}% 31
+\BOOKMARK [2][-]{subsection.4.4.1}{Probability Weighting for Distributions}{section.4.4}% 32
+\BOOKMARK [1][-]{section.4.5}{Getting Graphical}{chapter.4}% 33
+\BOOKMARK [2][-]{subsection.4.5.1}{Hern\341n et. al}{section.4.5}% 34
+\BOOKMARK [2][-]{subsection.4.5.2}{Geneletti et. al}{section.4.5}% 35
+\BOOKMARK [0][-]{chapter.5}{Chapter 5: Simultaneous Selection Bias and Missing Data}{}% 36
+\BOOKMARK [1][-]{section.5.1}{Basics}{chapter.5}% 37
+\BOOKMARK [1][-]{section.5.2}{Easy Facts}{chapter.5}% 38
+\BOOKMARK [1][-]{section.5.3}{External Data Recovery}{chapter.5}% 39
+\BOOKMARK [0][-]{chapter*.10}{Bibliography}{}% 40
+\BOOKMARK [0][-]{appendix*.11}{Appendix}{}% 41
+\BOOKMARK [1][-]{section.Alph0.1}{Heckman}{appendix*.11}% 42
+\BOOKMARK [1][-]{section.Alph0.2}{Deriving the Bias}{appendix*.11}% 43
+\BOOKMARK [2][-]{subsection.Alph0.2.1}{Examples}{section.Alph0.2}% 44
+\BOOKMARK [2][-]{subsection.Alph0.2.2}{Conditional Expectation of Bivariate Normal Distribution}{section.Alph0.2}% 45
+\BOOKMARK [2][-]{subsection.Alph0.2.3}{Truncated Normal and the Inverse Mills Ratio}{section.Alph0.2}% 46
